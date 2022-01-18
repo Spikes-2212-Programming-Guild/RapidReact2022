@@ -1,6 +1,6 @@
-# Infinite Recharge 2020
+# Rapid React 2022
 
-This is the official code of team Spikes#2212 for the 2020 FRC season.
+This is the official code of team Spikes#2212 for the 2022 FRC season.
 
 ## Code Conventions
 
