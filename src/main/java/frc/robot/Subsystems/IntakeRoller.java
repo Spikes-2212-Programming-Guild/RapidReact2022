@@ -5,6 +5,12 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
+/**
+ * Controls the roller part of the intake subsystem.
+ *
+ * @author Ofri Rosenbaum
+ * @see MotoredGenericSubsystem
+ */
 public class IntakeRoller extends MotoredGenericSubsystem {
 
     private static final double MAX_SPEED = 0.5;

@@ -5,6 +5,12 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
+/**
+ * Controls the position of the {@code IntakeRoller}.
+ *
+ * @author Ofri Rosenbaum
+ * @see MotoredGenericSubsystem
+ */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double UP_SPEED = 0.5;
