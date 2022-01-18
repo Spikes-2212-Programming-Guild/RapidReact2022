@@ -14,12 +14,12 @@ import frc.robot.RobotMap;
 public class IntakePlacer extends MotoredGenericSubsystem {
 
     /**
-     * The speed in which this subsystem should up.
+     * The speed in which this subsystem should move up.
      */
     public static final double UP_SPEED = 0.5;
 
     /**
-     * The speed in which this subsystem should down.
+     * The speed in which this subsystem should move down.
      */
     public static final double DOWN_SPEED = -0.3;
 
