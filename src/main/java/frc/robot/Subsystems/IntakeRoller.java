@@ -17,6 +17,10 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.5;
 
     private static IntakeRoller instance;
+
+    /**
+     * The limit at the start of the transfer subsystem. When it is pressed, there is a cargo in the transfer subsystem.
+     */
     private DigitalInput limit;
 
     public static IntakeRoller getInstance() {
