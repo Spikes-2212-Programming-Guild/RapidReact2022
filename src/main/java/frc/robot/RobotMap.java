@@ -10,7 +10,7 @@ public class RobotMap {
 
     public interface DIO{
 
-        int INTAKE_UP_LIMIT = -1;
-        int INTAKE_DOWN_LIMIT = -1;
+        int INTAKE_UPPER_LIMIT = -1;
+        int INTAKE_LOWER_LIMIT = -1;
     }
 }

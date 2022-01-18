@@ -3,6 +3,7 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.GenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 public class Intake extends GenericSubsystem {
@@ -13,6 +14,8 @@ public class Intake extends GenericSubsystem {
     private static Intake instance;
     private WPI_VictorSPX placer;
     private WPI_VictorSPX roller;
+    private DigitalInput upperLimit;
+    private DigitalInput lowerLimit;
 
     public static final RootNamespace intakeNamespace = new RootNamespace("intake");
 
@@ -27,6 +30,8 @@ public class Intake extends GenericSubsystem {
         super(MIN_SPEED, MAX_SPEED);
         placer = new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER);
         roller = new WPI_VictorSPX(RobotMap.CAN.INTAKE_ROLLER);
+        upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_UPPER_LIMIT);
+        lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_LOWER_LIMIT);
     }
 
     @Override
