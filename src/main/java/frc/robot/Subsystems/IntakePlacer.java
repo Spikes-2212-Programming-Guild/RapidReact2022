@@ -22,8 +22,16 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     }
 
     private IntakePlacer() {
-        super(MIN_SPEED, MAX_SPEED, "intake", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER));
+        super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_LOWER_LIMIT);
+    }
+
+    public boolean isUp() {
+        return upperLimit.get();
+    }
+
+    public boolean isDown() {
+        return lowerLimit.get();
     }
 }
