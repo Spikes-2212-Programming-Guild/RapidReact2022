@@ -15,7 +15,7 @@ This is the official code of team Spikes#2212 for the 2022 FRC season.
 
 #### Code Conventions
 
-All code in this project should be written according to the following convention, code would not be merged in case it
+All code in this project should be written according to the following conventions, code would not be merged in case it
 doesn't.
 
 1. All classes should be written in the following order
@@ -28,8 +28,8 @@ doesn't.
 
 #### Component Naming Conventions
 
-1. All CANBus components should be named in `lower-case` according to the following convention
-    - `subsystem-side-controller \ index`
+1. All CANBus components should be named in `lowerCamelCase` according to the following convention -
+   `sideController \ index`
 2. All ports in RobotMap should be named in `ALL_CAPS` according to the following convention `SUBSYSTEM_COMPONENT_INDEX`
 
 ##### Feature Branches
