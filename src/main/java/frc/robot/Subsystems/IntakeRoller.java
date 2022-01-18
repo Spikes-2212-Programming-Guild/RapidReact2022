@@ -2,6 +2,7 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 public class IntakeRoller extends MotoredGenericSubsystem {
@@ -10,6 +11,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.5;
 
     private static IntakeRoller instance;
+    private DigitalInput limit;
 
     public static IntakeRoller getInstance() {
         if (instance == null) {
@@ -20,5 +22,16 @@ public class IntakeRoller extends MotoredGenericSubsystem {
 
     private IntakeRoller() {
         super(MIN_SPEED, MAX_SPEED, "intake roller", new WPI_VictorSPX(RobotMap.CAN.INTAKE_ROLLER));
+        limit = new DigitalInput(RobotMap.DIO.INTAKE_ROLLER_LIMIT);
+    }
+
+    /**
+     * Returns whether the intake subsystem can intake cargo.
+     *
+     * @return whether the intake subsystem can move up/down.
+     */
+    @Override
+    public boolean canMove(double speed) {
+        return !limit.get();
     }
 }
