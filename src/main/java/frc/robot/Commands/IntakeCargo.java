@@ -12,9 +12,9 @@ public class IntakeCargo extends SequentialCommandGroup {
 
     public IntakeCargo() {
         addCommands(
-                new MoveGenericSubsystem(intakePlacer, intakePlacer.DOWN_SPEED),
+                new MoveGenericSubsystem(intakePlacer, IntakePlacer.DOWN_SPEED),
                 new MoveGenericSubsystem(intakeRoller, 0.4),
-                new MoveGenericSubsystem(intakePlacer, intakePlacer.UP_SPEED)
+                new MoveGenericSubsystem(intakePlacer, IntakePlacer.UP_SPEED)
         );
     }
 }

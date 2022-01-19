@@ -2,6 +2,7 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
@@ -43,5 +44,10 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     @Override
     public boolean canMove(double speed) {
         return !limit.get();
+    }
+
+    @Override
+    public void configureDashboard() {
+        rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, 0.4));
     }
 }

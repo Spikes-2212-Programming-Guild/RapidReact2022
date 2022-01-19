@@ -2,6 +2,7 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
@@ -64,6 +65,12 @@ public class IntakePlacer extends MotoredGenericSubsystem {
             return !lowerLimit.get();
         }
         return false;
+    }
+
+    @Override
+    public void configureDashboard() {
+        rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, DOWN_SPEED));
+        rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, UP_SPEED));
     }
 
     public boolean isUp() {
