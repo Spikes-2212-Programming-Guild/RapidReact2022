@@ -11,6 +11,7 @@ public class IntakeCargo extends SequentialCommandGroup {
     private IntakePlacer intakePlacer = IntakePlacer.getInstance();
 
     public IntakeCargo() {
+        addRequirements(intakeRoller, intakePlacer);
         addCommands(
                 new MoveGenericSubsystem(intakePlacer, IntakePlacer.DOWN_SPEED),
                 new MoveGenericSubsystem(intakeRoller, 0.4),
