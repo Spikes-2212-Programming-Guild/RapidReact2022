@@ -36,7 +36,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     }
 
     /**
-     * Returns whether the intake subsystem can intake cargo.
+     * Whether the intake subsystem can intake a cargo.
      *
      * @return whether the intake subsystem can move up/down.
      */

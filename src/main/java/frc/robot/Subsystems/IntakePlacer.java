@@ -49,9 +49,9 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     }
 
     /**
-     * Returns whether the intake subsystem can move up/down.
-     * <p>For positive values it will check if the subsystem can move up, while for negative values
-     * it will check if it can move down.</p>
+     * Whether the intake subsystem can move up/down.
+     * <p>For positive values it checks if the subsystem can move up, while for negative values
+     * it checks if it can move down.</p>
      *
      * @return whether the intake subsystem can move up/down.
      */
