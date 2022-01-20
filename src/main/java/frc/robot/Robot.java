@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
     private IntakePlacer intakePlacer = IntakePlacer.getInstance();
     private IntakeRoller intakeRoller = IntakeRoller.getInstance();
 
-    public static OI oi;
+    private OI oi;
 
     @Override
     public void robotInit() {
