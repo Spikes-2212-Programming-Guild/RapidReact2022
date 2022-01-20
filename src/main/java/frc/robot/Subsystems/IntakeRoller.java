@@ -21,7 +21,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     private static IntakeRoller instance;
 
     /**
-     * The limit at the start of the transfer subsystem. When it is pressed, there is a cargo in the transfer subsystem.
+     * The limit at the start of the {@code Transfer} subsystem. When it is pressed, there is a cargo in the transfer subsystem.
      */
     private DigitalInput limit;
 
