@@ -14,7 +14,7 @@ public class IntakeCargo extends SequentialCommandGroup {
         addRequirements(intakeRoller, intakePlacer);
         addCommands(
                 new MoveGenericSubsystem(intakePlacer, IntakePlacer.DOWN_SPEED),
-                new MoveGenericSubsystem(intakeRoller, 0.4),
+                new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED),
                 new MoveGenericSubsystem(intakePlacer, IntakePlacer.UP_SPEED)
         );
     }

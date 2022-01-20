@@ -16,6 +16,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
 
     private static final double MAX_SPEED = 0.5;
     private static final double MIN_SPEED = -0.5;
+    public static final double SPEED = 0.4;
 
     private static IntakeRoller instance;
 
@@ -48,6 +49,6 @@ public class IntakeRoller extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, 0.4));
+        rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, SPEED));
     }
 }
