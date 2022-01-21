@@ -6,6 +6,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.Dispenser;
 import frc.robot.Subsystems.Transfer;
 
+
+/**
+ * @author Yoel Perman Brilliant
+ */
 public class ReleaseCargo extends SequentialCommandGroup {
 
     public static final double DISPENSER_WARM_UP_TIME = 3;
