@@ -23,6 +23,7 @@ public class ReleaseCargo extends SequentialCommandGroup {
                         new MoveGenericSubsystem(transfer, Transfer.SPEED)
                 ).withTimeout(Dispenser.TRANSFER_PLUS_DISPENSE_TIME)
         );
+        addRequirements(dispenser, transfer);
     }
 }
 
