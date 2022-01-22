@@ -4,7 +4,6 @@ package frc.robot.Subsystems;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends TankDrivetrain {
     private PIDSettings aimToHubPID;

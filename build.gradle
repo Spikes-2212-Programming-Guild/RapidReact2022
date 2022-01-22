@@ -1,5 +1,3 @@
-import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
-
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2022.2.1"
@@ -75,7 +73,7 @@ dependencies {
     simulationRelease wpi.sim.enableRelease()
 
     testImplementation 'junit:junit:4.13.2'
-    implementation 'com.github.Spikes-2212-Programming-Guild:SpikesLib2:aaaaaaaah-SNAPSHOT'
+    implementation 'com.github.Spikes-2212-Programming-Guild:SpikesLib2:master-SNAPSHOT'
 
 }
 
