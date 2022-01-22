@@ -23,6 +23,8 @@ public class ReturnByGyro extends CommandBase {
     private Drivetrain drivetrain;
     private Dispenser dispenser;
 
+    private int currentPipeline;
+
     public ReturnByGyro() {
         this.drivetrain = Drivetrain.getInstance();
         this.dispenser = Dispenser.getInstance();
@@ -30,6 +32,7 @@ public class ReturnByGyro extends CommandBase {
 
     @Override
     public void initialize() {
+        currentPipeline = dispenser.getLimelightPipeline();
         dispenser.setLimelightPipeline(LIMELIGHT_PIPELINE);
     }
 
@@ -45,6 +48,7 @@ public class ReturnByGyro extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drivetrain.stop();
+        dispenser.setLimelightPipeline(currentPipeline);
     }
 
     @Override

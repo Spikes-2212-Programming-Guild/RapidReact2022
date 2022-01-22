@@ -6,7 +6,7 @@ public class Dispenser {
 
     private Limelight limelight;
 
-    private Dispenser(){
+    private Dispenser() {
         this.limelight = new Limelight();
     }
 
@@ -14,11 +14,16 @@ public class Dispenser {
         return null;
     }
 
-    public boolean isOnTarget(){
+    public boolean isOnTarget() {
         return limelight.isOnTarget();
     }
 
-    public void setLimelightPipeline(int pipeline){
+    // TODO: 1/22/2022
+    public int getLimelightPipeline() {
+        return 0;
+    }
+
+    public void setLimelightPipeline(int pipeline) {
         limelight.setPipeline(pipeline);
     }
 }
