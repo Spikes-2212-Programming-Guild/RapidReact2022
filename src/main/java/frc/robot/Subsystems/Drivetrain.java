@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 public class Drivetrain extends TankDrivetrain {
 
-    public Drivetrain(MotorController left, MotorController right) {
+    private Drivetrain(MotorController left, MotorController right) {
         super(left, right);
     }
 
