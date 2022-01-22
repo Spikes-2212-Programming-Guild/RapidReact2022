@@ -46,13 +46,13 @@ public class ReturnByGyro extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {
-        drivetrain.stop();
-        dispenser.setLimelightPipeline(previousPipeline);
+    public boolean isFinished() {
+        return dispenser.isOnTarget() || Math.abs(drivetrain.getGyroAngle()) <= TOLERANCE;
     }
 
     @Override
-    public boolean isFinished() {
-        return dispenser.isOnTarget() || Math.abs(drivetrain.getGyroAngle()) <= TOLERANCE;
+    public void end(boolean interrupted) {
+        drivetrain.stop();
+        dispenser.setLimelightPipeline(previousPipeline);
     }
 }
