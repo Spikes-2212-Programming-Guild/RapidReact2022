@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public class Transfer extends MotoredGenericSubsystem {
 
     public static final double SPEED = 0.6;
-    public static final double RESET_TIME = 1;
+    public static final double RETURN_CARGO_TIME = 1;
 
     /**
      * The limit at the bottom of this subsystem. When it is pressed, there is a cargo at the start of the subsystem.

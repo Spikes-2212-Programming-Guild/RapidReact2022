@@ -15,7 +15,7 @@ public class IntakeCargo extends SequentialCommandGroup {
         Transfer transfer = Transfer.getInstance();
         addRequirements(intakeRoller, intakePlacer, transfer);
         if (transfer.isTopPressed()) {
-            addCommands(new MoveGenericSubsystem(transfer, -Transfer.SPEED).withTimeout(Transfer.RESET_TIME));
+            addCommands(new MoveGenericSubsystem(transfer, -Transfer.SPEED).withTimeout(Transfer.RETURN_CARGO_TIME));
         }
         addCommands(
                 new MoveGenericSubsystem(intakePlacer, IntakePlacer.DOWN_SPEED),
