@@ -8,7 +8,7 @@ public class Drivetrain extends TankDrivetrain {
 
     private static Drivetrain instance;
 
-    public Drivetrain(MotorController left, MotorController right) {
+    private Drivetrain(MotorController left, MotorController right) {
         super(left, right);
     }
 
