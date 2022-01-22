@@ -23,10 +23,8 @@ public class SettleOnLine extends CommandBase {
 
     @Override
     public void execute() {
-        double leftSpeed = 0;
-        double rightSpeed = 0;
-        if (!isLeftOnColor()) leftSpeed = SPEED;
-        if (!isRightOnColor()) rightSpeed = SPEED;
+        double leftSpeed = !isLeftOnColor()?SPEED:0;
+        double rightSpeed = !isRightOnColor()?SPEED:0;
         drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
 
