@@ -6,10 +6,11 @@ import com.spikes2212.control.PIDSettings;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Dispenser;
 import frc.robot.Subsystems.Drivetrain;
+import com.spikes2212.util.Limelight;
 
 /**
- * This command moves the {@code Drivetrain} till either its {@code Gyro} angle is zero or the
- * {@code Limelight} has a valid target.
+ * This command moves the {@link Drivetrain} till either its gyro angle is zero or the
+ * {@link Limelight} has a valid target.
  *
  * @author Ofri Rosenbaum
  */
@@ -19,7 +20,7 @@ public class ReturnByGyro extends CommandBase {
     public static final int LIMELIGHT_PIPELINE = 1;
 
     /**
-     * The Gyro's tolerance.
+     * The gyro's tolerance.
      */
     public static final double TOLERANCE = 2;
 
