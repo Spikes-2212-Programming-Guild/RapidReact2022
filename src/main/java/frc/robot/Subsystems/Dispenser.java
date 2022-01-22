@@ -8,20 +8,20 @@ public class Dispenser extends MotoredGenericSubsystem {
     public static final double TARGET_SPEED;
     public static final double TRANSFER_PLUS_DISPENSE_TIME;
 
-    private PIDSettings releaseCargoPID;
-    private FeedForwardSettings releaseCargoFeedForward;
+    private PIDSettings pidSettings;
+    private FeedForwardSettings feedForwardSettings;
 
     public static Dispenser getInstance(){}
 
     @Override
     public double getSpeed(){}
 
-    public PIDSettings getReleaseCargoPID() {
-        return releaseCargoPID;
+    public PIDSettings getPIDSettings() {
+        return pidSettings;
     }
 
-    public FeedForwardSettings getReleaseCargoFeedForward() {
-        return releaseCargoFeedForward;
+    public FeedForwardSettings getFeedForwardSettings() {
+        return feedForwardSettings;
     }
 
 }
