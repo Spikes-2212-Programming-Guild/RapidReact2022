@@ -20,10 +20,11 @@ public class Dispenser {
 
     //@todo
     public int getLimelightPipeline() {
-        return 0;
+        return limelight.getPipeline();
     }
 
     public void setLimelightPipeline(int pipeline) {
         limelight.setPipeline(pipeline);
     }
+
 }
