@@ -1,13 +1,12 @@
 package frc.robot.Commands;
 
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Drivetrain;
 
 /**
- * This command moves the {@code Drivetrain} till both its {@code ColorSensorV3} are on the tarmac's line correct color.
+ * This command moves the {@link Drivetrain} till both its color sensors are on the tarmac's line correct color.
  *
  * @author Ofri Rosenbaum
  */
