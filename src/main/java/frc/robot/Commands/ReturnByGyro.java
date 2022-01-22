@@ -1,5 +1,8 @@
 package frc.robot.Commands;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import com.spikes2212.control.FeedForwardSettings;
+import com.spikes2212.control.PIDSettings;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Dispenser;
 import frc.robot.Subsystems.Drivetrain;
@@ -20,14 +23,19 @@ public class ReturnByGyro extends CommandBase {
      */
     public static final double TOLERANCE = 2;
 
+    public PIDSettings gyroPIDSettings;
+    public FeedForwardSettings gyroFFSettings;
+
     private Drivetrain drivetrain;
     private Dispenser dispenser;
 
     private int previousPipeline;
 
-    public ReturnByGyro() {
+    public ReturnByGyro(PIDSettings pidSettings, FeedForwardSettings feedForwardSettings) {
         this.drivetrain = Drivetrain.getInstance();
         this.dispenser = Dispenser.getInstance();
+        this.gyroPIDSettings = pidSettings;
+        this.gyroFFSettings = feedForwardSettings;
     }
 
     @Override
@@ -38,11 +46,7 @@ public class ReturnByGyro extends CommandBase {
 
     @Override
     public void execute() {
-        if (drivetrain.getGyroAngle() > 0) {
-            drivetrain.arcadeDrive(SPEED, SPEED);
-        } else {
-            drivetrain.arcadeDrive(SPEED, -SPEED);
-        }
+        new DriveArcadeWithPID(drivetrain, drivetrain::getGyroAngle, 0.0, SPEED, gyroPIDSettings, gyroFFSettings);
     }
 
     @Override
