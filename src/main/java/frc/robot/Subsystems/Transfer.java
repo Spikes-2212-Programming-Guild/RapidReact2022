@@ -39,4 +39,9 @@ public class Transfer extends MotoredGenericSubsystem {
     public boolean isTopPressed(){
         return topLimit.get();
     }
+
+    @Override
+    public boolean canMove(double speed) {
+        return !isTopPressed();
+    }
 }
