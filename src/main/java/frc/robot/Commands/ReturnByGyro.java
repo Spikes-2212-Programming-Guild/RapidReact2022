@@ -16,11 +16,6 @@ public class ReturnByGyro extends CommandBase {
     public static final int LIMELIGHT_PIPELINE = 1;
 
     /**
-     * The speed difference between the two sides of the {@code Drivetrain}.
-     */
-    public static final double DIFFERENCE = 0.2;
-
-    /**
      * The {@code ADXRS450_Gyro}'s tolerance.
      */
     public static final double TOLERANCE = 2;
@@ -41,9 +36,9 @@ public class ReturnByGyro extends CommandBase {
     @Override
     public void execute() {
         if (drivetrain.getGyroAngle() > 0) {
-            drivetrain.tankDrive(SPEED, SPEED - DIFFERENCE);
+            drivetrain.arcadeDrive(SPEED, SPEED);
         } else {
-            drivetrain.tankDrive(SPEED - DIFFERENCE, SPEED);
+            drivetrain.arcadeDrive(SPEED, -SPEED);
         }
     }
 
