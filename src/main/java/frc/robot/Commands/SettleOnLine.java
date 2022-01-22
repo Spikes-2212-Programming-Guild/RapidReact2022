@@ -6,6 +6,8 @@ import frc.robot.Subsystems.Drivetrain;
 
 /**
  * This command moves the {@code Drivetrain} till both its {@code ColorSensorV3} are on the tarmac's line correct color.
+ *
+ * @author Ofri Rosenbaum
  */
 public class SettleOnLine extends CommandBase {
 
