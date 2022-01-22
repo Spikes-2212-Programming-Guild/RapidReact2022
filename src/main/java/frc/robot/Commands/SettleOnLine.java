@@ -10,7 +10,7 @@ import frc.robot.Subsystems.Drivetrain;
 public class SettleOnLine extends CommandBase {
 
     public static final double SPEED = 0.7;
-    private Drivetrain drivetrain = Drivetrain.getInstance();
+    private Drivetrain drivetrain;
 
     /**
      * The alliance's color.
@@ -19,12 +19,13 @@ public class SettleOnLine extends CommandBase {
 
     public SettleOnLine(Color color) {
         this.color = color;
+        this.drivetrain = Drivetrain.getInstance();
     }
 
     @Override
     public void execute() {
-        double leftSpeed = !isLeftOnColor()?SPEED:0;
-        double rightSpeed = !isRightOnColor()?SPEED:0;
+        double leftSpeed = !isLeftOnColor() ? SPEED : 0;
+        double rightSpeed = !isRightOnColor() ? SPEED : 0;
         drivetrain.tankDrive(leftSpeed, rightSpeed);
     }
 
