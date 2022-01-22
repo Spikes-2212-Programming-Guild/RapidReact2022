@@ -8,8 +8,7 @@ import frc.robot.Subsystems.Drivetrain;
 
 /**
  * <p>
- * A command which makes the robot rotate in place until it centers on one of the
- * reflective sprites that are on the hub.
+ * A command which centers the robot on one of the reflective sprites that are on the hub.
  * </p>
  *
  * @author Yoel Perman Brilliant
@@ -17,13 +16,15 @@ import frc.robot.Subsystems.Drivetrain;
 public class AimToHub extends SequentialCommandGroup {
     private static final int LIMELIGHT_PIPELINE = 1;
 
-    public AimToHub() {
+    public AimToHub {
         Dispenser dispenser = Dispenser.getInstance();
         Drivetrain drivetrain = Drivetrain.getInstance();
+        int initialPipeline = dispenser.limelight.getPipeline();
         dispenser.limelight.setPipeline(LIMELIGHT_PIPELINE);
         addCommands(
                 new DriveArcadeWithPID(drivetrain, dispenser.limelight::getHorizontalOffsetFromTarget,
                         () -> 0.0, () -> 0.0, drivetrain.getAimToHubPID(), drivetrain.getAimToHubFeedForward())
         );
+        dispenser.limelight.setPipeline(initialPipeline);
     }
 }
