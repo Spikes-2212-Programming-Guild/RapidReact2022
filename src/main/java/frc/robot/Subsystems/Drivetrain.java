@@ -10,9 +10,6 @@ public class Drivetrain extends TankDrivetrain {
     public PIDSettings aimToHubPID;
     public FeedForwardSettings aimToHubFeedForward;
 
-    // With eager singleton initialization, any static variables/fields used in the 
-    // constructor must appear before the "INSTANCE" variable so that they are initialized 
-    // before the constructor is called when the "INSTANCE" variable initializes.
 
     private final static Drivetrain INSTANCE = new Drivetrain();
 
@@ -21,10 +18,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     private Drivetrain() {
-        // TODO: Set the default command, if any, for this subsystem by calling setDefaultCommand(command)
-        //       in the constructor or in the robot coordination class, such as RobotContainer.
-        //       Also, you can call addChild(name, sendableChild) to associate sendables with the subsystem
-        //       such as SpeedControllers, Encoders, DigitalInputs, etc.
+
     }
 }
 
