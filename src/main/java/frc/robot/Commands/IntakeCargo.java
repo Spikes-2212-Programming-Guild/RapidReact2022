@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.IntakePlacer;
 import frc.robot.Subsystems.IntakeRoller;
@@ -12,10 +13,15 @@ public class IntakeCargo extends SequentialCommandGroup {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         IntakePlacer intakePlacer = IntakePlacer.getInstance();
         Transfer transfer = Transfer.getInstance();
-        addRequirements(intakeRoller, intakePlacer, transfer);
+        addRequirements(intakeRoller, intakePlacer);
+        if (transfer.isTopPressed()) {
+            addRequirements(transfer);
+            addCommands(new MoveGenericSubsystem(transfer, -Transfer.SPEED).withTimeout(Transfer.RESET_TIME));
+        }
         addCommands(
                 new MoveGenericSubsystem(intakePlacer, IntakePlacer.DOWN_SPEED),
-                new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED),
+                new ParallelCommandGroup(new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED),
+                        new MoveGenericSubsystem(transfer, Transfer.SPEED)),
                 new MoveGenericSubsystem(intakePlacer, IntakePlacer.UP_SPEED)
         );
     }
