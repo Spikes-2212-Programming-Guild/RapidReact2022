@@ -6,7 +6,9 @@ import frc.robot.Subsystems.Drivetrain;
 
 /**
  * This command moves the {@code Drivetrain} till either its {@code ADXRS450_Gyro} angle is zero or the
- * {@code Limelight} has a target.
+ * {@code Limelight} has a valid target.
+ *
+ * @author Ofri Rosenbaum
  */
 public class ReturnByGyro extends CommandBase {
 
@@ -28,6 +30,11 @@ public class ReturnByGyro extends CommandBase {
     public ReturnByGyro() {
         this.drivetrain = Drivetrain.getInstance();
         this.dispenser = Dispenser.getInstance();
+    }
+
+    @Override
+    public void initialize() {
+        dispenser.setLimelightPipeline(1);
     }
 
     @Override

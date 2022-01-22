@@ -17,4 +17,8 @@ public class Dispenser {
     public boolean isOnTarget(){
         return limelight.isOnTarget();
     }
+
+    public void setLimelightPipeline(int pipeline){
+        limelight.setPipeline(pipeline);
+    }
 }
