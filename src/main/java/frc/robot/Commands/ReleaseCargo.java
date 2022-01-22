@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Transfer;
 
 /**
  * A command which releases the cargo into the lower hub using the {@link Transfer} and {@link  Dispenser} subsystems.
+ * @author Yoel Perman Brilliant
  */
 public class ReleaseCargo extends SequentialCommandGroup {
 
