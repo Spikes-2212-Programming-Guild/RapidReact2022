@@ -5,7 +5,7 @@ import frc.robot.Subsystems.Dispenser;
 import frc.robot.Subsystems.Drivetrain;
 
 /**
- * This command moves the {@code Drivetrain} till either its {@code ADXRS450_Gyro} angle is zero or the
+ * This command moves the {@code Drivetrain} till either its {@code Gyro} angle is zero or the
  * {@code Limelight} has a valid target.
  *
  * @author Ofri Rosenbaum
@@ -16,7 +16,7 @@ public class ReturnByGyro extends CommandBase {
     public static final int LIMELIGHT_PIPELINE = 1;
 
     /**
-     * The {@code ADXRS450_Gyro}'s tolerance.
+     * The {@code Gyro}'s tolerance.
      */
     public static final double TOLERANCE = 2;
 
