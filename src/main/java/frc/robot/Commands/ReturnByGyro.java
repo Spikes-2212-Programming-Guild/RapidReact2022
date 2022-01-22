@@ -13,6 +13,7 @@ import frc.robot.Subsystems.Drivetrain;
 public class ReturnByGyro extends CommandBase {
 
     public static final double SPEED = 0.7;
+    public static final int LIMELIGHT_PIPELINE = 1;
 
     /**
      * The speed difference between the two sides of the {@code Drivetrain}.
@@ -34,7 +35,7 @@ public class ReturnByGyro extends CommandBase {
 
     @Override
     public void initialize() {
-        dispenser.setLimelightPipeline(1);
+        dispenser.setLimelightPipeline(LIMELIGHT_PIPELINE);
     }
 
     @Override
