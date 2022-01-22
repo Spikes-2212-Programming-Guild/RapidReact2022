@@ -16,11 +16,11 @@ public class Drivetrain extends TankDrivetrain {
         return instance;
     }
 
-    public Color getLeftColor(){
-        return Color.kWhite;
+    public Color getLeftColor() {
+        return null;
     }
 
-    public Color getRightColor(){
-        return Color.kWhite;
+    public Color getRightColor() {
+        return null;
     }
 }

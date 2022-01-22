@@ -4,10 +4,17 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Drivetrain;
 
+/**
+ * This command moves the {@code Drivetrain} till both its {@code ColorSensorV3} are on the tarmac's line correct color.
+ */
 public class SettleOnLine extends CommandBase {
 
     public static final double SPEED = 0.7;
     private Drivetrain drivetrain = Drivetrain.getInstance();
+
+    /**
+     * The alliance's color.
+     */
     private Color color;
 
     public SettleOnLine(Color color) {
