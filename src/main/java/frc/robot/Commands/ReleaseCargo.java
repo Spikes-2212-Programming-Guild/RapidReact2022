@@ -12,19 +12,15 @@ import frc.robot.Subsystems.Transfer;
  */
 public class ReleaseCargo extends SequentialCommandGroup {
 
-    public static final double DISPENSER_WARM_UP_TIME = 3;
-    public static final double TRANSFER_PLUS_DISPENSE_TIME = 5;
-
-
     public ReleaseCargo() {
         Dispenser dispenser = Dispenser.getInstance();
         Transfer transfer = Transfer.getInstance();
         addCommands(
-                new MoveGenericSubsystem(dispenser, Dispenser.SPEED).withTimeout(DISPENSER_WARM_UP_TIME),
+                new MoveGenericSubsystem(dispenser, Dispenser.SPEED).withTimeout(Dispenser.DISPENSER_WARM_UP_TIME),
                 new ParallelCommandGroup(
                         new MoveGenericSubsystem(dispenser, Dispenser.SPEED),
                         new MoveGenericSubsystem(transfer, Transfer.SPEED)
-                ).withTimeout(TRANSFER_PLUS_DISPENSE_TIME)
+                ).withTimeout(Dispenser.TRANSFER_PLUS_DISPENSE_TIME)
         );
     }
 }
