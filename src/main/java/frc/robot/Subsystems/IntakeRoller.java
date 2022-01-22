@@ -18,12 +18,9 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.5;
     public static final double SPEED = 0.4;
 
-    private static IntakeRoller instance;
+    private static Transfer transfer = Transfer.getInstance();
 
-    /**
-     * The limit at the start of the {@code Transfer} subsystem. When it is pressed, there is a cargo in the transfer subsystem.
-     */
-    private DigitalInput limit;
+    private static IntakeRoller instance;
 
     public static IntakeRoller getInstance() {
         if (instance == null) {
@@ -34,7 +31,6 @@ public class IntakeRoller extends MotoredGenericSubsystem {
 
     private IntakeRoller() {
         super(MIN_SPEED, MAX_SPEED, "intake roller", new WPI_VictorSPX(RobotMap.CAN.INTAKE_ROLLER));
-        limit = new DigitalInput(RobotMap.DIO.INTAKE_ROLLER_LIMIT);
     }
 
     /**
@@ -44,7 +40,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        return !limit.get();
+        return !transfer.isStartPressed();
     }
 
     @Override
