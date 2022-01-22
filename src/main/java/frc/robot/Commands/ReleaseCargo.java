@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystemWithPID;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.Dispenser;
@@ -17,10 +18,16 @@ public class ReleaseCargo extends SequentialCommandGroup {
         Dispenser dispenser = Dispenser.getInstance();
         Transfer transfer = Transfer.getInstance();
         addCommands(
-                new MoveGenericSubsystem(dispenser, Dispenser.SPEED).withTimeout(Dispenser.DISPENSER_WARM_UP_TIME),
+                new MoveGenericSubsystemWithPID(dispenser, ()->Dispenser.TARGET_SPEED, dispenser::getSpeed,
+                        dispenser.getReleaseCargoPID(), dispenser.getReleaseCargoFeedForward()) {
+                    @Override
+                    public void end(boolean interrupted) {}
+                },
                 new ParallelCommandGroup(
-                        new MoveGenericSubsystem(dispenser, Dispenser.SPEED),
-                        new MoveGenericSubsystem(transfer, Transfer.SPEED)
+                        new MoveGenericSubsystemWithPID(dispenser, ()->Dispenser.TARGET_SPEED, dispenser::getSpeed,
+                                dispenser.getReleaseCargoPID(), dispenser.getReleaseCargoFeedForward()),
+                        new MoveGenericSubsystemWithPID(transfer, () -> Transfer.TARGET_SPEED, transfer::getSpeed,
+                                transfer.getReleaseCargoPID(), transfer.getReleaseCargoFeedForward())
                 ).withTimeout(Dispenser.TRANSFER_PLUS_DISPENSE_TIME)
         );
         addRequirements(dispenser, transfer);
