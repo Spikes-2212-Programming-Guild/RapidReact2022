@@ -16,7 +16,7 @@ public class ReturnByGyro extends CommandBase {
     public static final int LIMELIGHT_PIPELINE = 1;
 
     /**
-     * The {@code Gyro}'s tolerance.
+     * The Gyro's tolerance.
      */
     public static final double TOLERANCE = 2;
 
