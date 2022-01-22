@@ -1,5 +1,7 @@
 package frc.robot.Commands;
 
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Drivetrain;
@@ -19,9 +21,20 @@ public class SettleOnLine extends CommandBase {
      */
     private Color color;
 
+    //@todo
+    /**
+     * The carpet's color.
+     */
+    private Color carpetColor;
+
+    private ColorMatch colorMatch;
+
     public SettleOnLine(Color color) {
         this.color = color;
         this.drivetrain = Drivetrain.getInstance();
+        this.colorMatch = new ColorMatch();
+        colorMatch.addColorMatch(carpetColor);
+        colorMatch.addColorMatch(color);
     }
 
     @Override
@@ -42,10 +55,10 @@ public class SettleOnLine extends CommandBase {
     }
 
     private boolean isRightOnColor() {
-        return drivetrain.getRightColor().equals(color);
+        return colorMatch.matchClosestColor(drivetrain.getRightColor()).color.equals(color);
     }
 
     private boolean isLeftOnColor() {
-        return drivetrain.getLeftColor().equals(color);
+        return colorMatch.matchClosestColor(drivetrain.getLeftColor()).color.equals(color);
     }
 }
