@@ -24,8 +24,8 @@ public class ReturnByGyro extends CommandBase {
      */
     public static final double TOLERANCE = 2;
 
-    public PIDSettings gyroPIDSettings;
-    public FeedForwardSettings gyroFFSettings;
+    public PIDSettings pidSettings;
+    public FeedForwardSettings feedForwardSettings;
 
     private Drivetrain drivetrain;
     private Dispenser dispenser;
@@ -35,8 +35,8 @@ public class ReturnByGyro extends CommandBase {
     public ReturnByGyro(PIDSettings pidSettings, FeedForwardSettings feedForwardSettings) {
         this.drivetrain = Drivetrain.getInstance();
         this.dispenser = Dispenser.getInstance();
-        this.gyroPIDSettings = pidSettings;
-        this.gyroFFSettings = feedForwardSettings;
+        this.pidSettings = pidSettings;
+        this.feedForwardSettings = feedForwardSettings;
     }
 
     @Override
@@ -47,7 +47,8 @@ public class ReturnByGyro extends CommandBase {
 
     @Override
     public void execute() {
-        new DriveArcadeWithPID(drivetrain, drivetrain::getGyroAngle, 0.0, SPEED, gyroPIDSettings, gyroFFSettings);
+        new DriveArcadeWithPID(drivetrain, drivetrain::getGyroAngle, 0.0, SPEED, pidSettings,
+                feedForwardSettings);
     }
 
     @Override

@@ -18,7 +18,6 @@ public class Dispenser {
         return limelight.isOnTarget();
     }
 
-    //@todo
     public int getLimelightPipeline() {
         return limelight.getPipeline();
     }
