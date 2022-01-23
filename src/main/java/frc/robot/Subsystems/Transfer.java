@@ -10,7 +10,8 @@ import java.util.function.Supplier;
 public class Transfer extends MotoredGenericSubsystem {
 
     public static final double SPEED = 0.6;
-    public static final double RETURN_CARGO_TIME = 1;
+    public static final double CARGO_RETURN_TIME = 1;
+    public static final double TRANSFER_TIME = 3;
 
     /**
      * The limit at the bottom of this subsystem. When it is pressed, there is a cargo at the start of the subsystem.
@@ -28,20 +29,15 @@ public class Transfer extends MotoredGenericSubsystem {
         topLimit = new DigitalInput(RobotMap.DIO.TRANSFER_TOP_LIMIT);
     }
 
-    public static Transfer getInstance(){
+    public static Transfer getInstance() {
         return null;
     }
 
-    public boolean isStartPressed(){
+    public boolean isStartPressed() {
         return startLimit.get();
     }
 
-    public boolean isTopPressed(){
+    public boolean isTopPressed() {
         return topLimit.get();
-    }
-
-    @Override
-    public boolean canMove(double speed) {
-        return !isTopPressed();
     }
 }

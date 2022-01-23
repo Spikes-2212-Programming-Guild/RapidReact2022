@@ -3,10 +3,15 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.control.FeedForwardSettings;
+import com.spikes2212.control.PIDSettings;
+import com.spikes2212.dashboard.Namespace;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
+
+import java.util.function.Supplier;
 
 /**
  * Controls the position of the {@code IntakeRoller}.
@@ -16,26 +21,26 @@ import frc.robot.RobotMap;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
-    /**
-     * The speed in which this subsystem should move up.
-     */
-    public static final double UP_SPEED = 0.5;
-
-    /**
-     * The speed in which this subsystem should move down.
-     */
-    public static final double DOWN_SPEED = -0.3;
+    private static final double MAX_SPEED = 0.5;
+    private static final double MIN_SPEED = -0.3;
 
     /**
      * The potentiometer's starting value.
      */
-    public static final int POTENTIOMETER_STARTING_POINT = 0;
+    private static final int POTENTIOMETER_STARTING_POINT = 0;
 
     /**
      * The potentiometer's full range of motion in degrees.
      */
-    public static final int POTENTIOMETER_RANGE_VALUE = 90;
+    private static final int POTENTIOMETER_RANGE_VALUE = 90;
 
+    private Namespace PID = rootNamespace.addChild("PID");
+    private Supplier<Double> waitTime = PID.addConstantDouble("wait time", 0);
+    private Supplier<Double> tolerance = PID.addConstantDouble("tolerance", 0);
+    public PIDSettings pidSettings = new PIDSettings(() -> 0.0, tolerance, waitTime);
+    private Supplier<Double> kS = PID.addConstantDouble("kS", 0);
+    private Supplier<Double> kV = PID.addConstantDouble("kV", 0);
+    public FeedForwardSettings feedForwardSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
 
     private static IntakePlacer instance;
 
@@ -62,7 +67,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     }
 
     private IntakePlacer() {
-        super(DOWN_SPEED, UP_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER));
+        super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
         potentiometer = new AnalogPotentiometer(RobotMap.ANALOG_IN.INTAKE_POTENTIOMETER, POTENTIOMETER_RANGE_VALUE,
@@ -89,8 +94,12 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, DOWN_SPEED));
-        rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, UP_SPEED));
+        rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
+        rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
+    }
+
+    public double getPotentiometerAngle() {
+        return potentiometer.get();
     }
 
     public boolean isUp() {
