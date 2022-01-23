@@ -16,16 +16,16 @@ import com.spikes2212.util.Limelight;
  */
 public class ReturnByGyro extends CommandBase {
 
-    public static final double SPEED = 0.7;
-    public static final int LIMELIGHT_PIPELINE = 1;
+    private static final double SPEED = 0.7;
+    private static final int LIMELIGHT_PIPELINE = 1;
 
     /**
      * The gyro's tolerance.
      */
-    public static final double TOLERANCE = 2;
+    private static final double TOLERANCE = 2;
 
-    public PIDSettings pidSettings;
-    public FeedForwardSettings feedForwardSettings;
+    private PIDSettings pidSettings;
+    private FeedForwardSettings feedForwardSettings;
 
     private Drivetrain drivetrain;
     private Dispenser dispenser;
