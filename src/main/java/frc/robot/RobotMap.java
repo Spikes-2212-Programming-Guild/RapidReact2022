@@ -15,4 +15,9 @@ public class RobotMap {
         int TRANSFER_START_LIMIT = -1;
         int TRANSFER_TOP_LIMIT = -1;
     }
+
+    public interface ANALOG_IN {
+
+        int INTAKE_POTENTIOMETER = -1;
+    }
 }

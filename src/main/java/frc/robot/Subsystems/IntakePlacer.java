@@ -3,6 +3,8 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
@@ -24,6 +26,17 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     public static final double DOWN_SPEED = -0.3;
 
+    /**
+     * The potentiometer's starting value.
+     */
+    public static final int POTENTIOMETER_STARTING_POINT = 0;
+
+    /**
+     * The potentiometer's full range of motion in degrees.
+     */
+    public static final int POTENTIOMETER_RANGE_VALUE = 90;
+
+
     private static IntakePlacer instance;
 
     /**
@@ -36,6 +49,11 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     private DigitalInput lowerLimit;
 
+    /**
+     * The subsystem's potentiometer. Used to measure in what angle the subsystem is.
+     */
+    private AnalogPotentiometer potentiometer;
+
     public static IntakePlacer getInstance() {
         if (instance == null) {
             instance = new IntakePlacer();
@@ -47,6 +65,8 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         super(DOWN_SPEED, UP_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
+        potentiometer = new AnalogPotentiometer(RobotMap.ANALOG_IN.INTAKE_POTENTIOMETER, POTENTIOMETER_RANGE_VALUE,
+                POTENTIOMETER_STARTING_POINT);
     }
 
     /**
