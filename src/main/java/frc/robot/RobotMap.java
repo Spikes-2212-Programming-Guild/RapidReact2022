@@ -2,7 +2,7 @@ package frc.robot;
 
 public class RobotMap {
     public interface CAN {
-        int TRANSFER_TIMING_BELT_TALON = -1;
+        int TRANSFER_TALON = -1;
     }
 
     public interface DIO {

@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
-    Transfer transfer;
+    private Transfer transfer;
     @Override
     public void robotInit() {
         transfer = Transfer.getInstance();
