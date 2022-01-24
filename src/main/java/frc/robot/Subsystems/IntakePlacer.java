@@ -21,20 +21,20 @@ import java.util.function.Supplier;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
-    public static final double POTENTIOMETER_DOWN_SETPOINT = 90;
-    public static final double POTENTIOMETER_UP_SETPOINT = 0;
     private static final double MAX_SPEED = 0.5;
     private static final double MIN_SPEED = -0.3;
 
     /**
-     * The potentiometer's starting value.
+     * The potentiometer's starting value. This is also the value of the angle in which the potentiometer is
+     * when the subsystem is vertical.</p>
      */
-    private static final int POTENTIOMETER_STARTING_POINT = 0;
+    public static final double POTENTIOMETER_STARTING_POINT = 0;
 
     /**
-     * The potentiometer's full range of motion in degrees.
+     * The potentiometer's full range of motion in degrees. This is also the value of the angle in which the
+     * potentiometer is when the subsystem is horizontal.</p>
      */
-    private static final int POTENTIOMETER_RANGE_VALUE = 90;
+    public static final double POTENTIOMETER_RANGE_VALUE = 90;
 
     private Namespace PID = rootNamespace.addChild("PID");
     private Supplier<Double> waitTime = PID.addConstantDouble("wait time", 0);

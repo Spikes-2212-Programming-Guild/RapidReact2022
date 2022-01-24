@@ -19,11 +19,11 @@ public class IntakeCargo extends SequentialCommandGroup {
         }
         addCommands(
                 new MoveGenericSubsystemWithPID(intakePlacer,
-                        () -> IntakePlacer.POTENTIOMETER_DOWN_SETPOINT,
+                        () -> IntakePlacer.POTENTIOMETER_RANGE_VALUE,
                         intakePlacer::getPotentiometerAngle, intakePlacer.pidSettings, intakePlacer.feedForwardSettings),
                 new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED),
                 new MoveGenericSubsystem(transfer, Transfer.SPEED).withTimeout(Transfer.TRANSFER_TIME),
-                new MoveGenericSubsystemWithPID(intakePlacer, () -> IntakePlacer.POTENTIOMETER_UP_SETPOINT,
+                new MoveGenericSubsystemWithPID(intakePlacer, () -> IntakePlacer.POTENTIOMETER_STARTING_POINT,
                         intakePlacer::getPotentiometerAngle, intakePlacer.pidSettings, intakePlacer.feedForwardSettings)
         );
     }
