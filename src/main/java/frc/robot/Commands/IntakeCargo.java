@@ -2,6 +2,8 @@ package frc.robot.Commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystemWithPID;
+import com.spikes2212.control.FeedForwardSettings;
+import com.spikes2212.control.PIDSettings;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.IntakePlacer;
 import frc.robot.Subsystems.IntakeRoller;
@@ -13,6 +15,8 @@ public class IntakeCargo extends SequentialCommandGroup {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         IntakePlacer intakePlacer = IntakePlacer.getInstance();
         Transfer transfer = Transfer.getInstance();
+        PIDSettings pidSettings = intakePlacer.getPIDSettings();
+        FeedForwardSettings feedForwardSettings = intakePlacer.getFeedForwardSettings();
         addRequirements(intakeRoller, intakePlacer, transfer);
         if (transfer.isTopPressed()) {
             addCommands(new MoveGenericSubsystem(transfer, -Transfer.SPEED).withTimeout(Transfer.CARGO_RETURN_TIME));
@@ -20,11 +24,11 @@ public class IntakeCargo extends SequentialCommandGroup {
         addCommands(
                 new MoveGenericSubsystemWithPID(intakePlacer,
                         () -> IntakePlacer.POTENTIOMETER_RANGE_VALUE,
-                        intakePlacer::getPotentiometerAngle, intakePlacer.pidSettings, intakePlacer.feedForwardSettings),
+                        intakePlacer::getPotentiometerAngle, pidSettings, feedForwardSettings),
                 new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED),
                 new MoveGenericSubsystem(transfer, Transfer.SPEED).withTimeout(Transfer.TRANSFER_TIME),
                 new MoveGenericSubsystemWithPID(intakePlacer, () -> IntakePlacer.POTENTIOMETER_STARTING_POINT,
-                        intakePlacer::getPotentiometerAngle, intakePlacer.pidSettings, intakePlacer.feedForwardSettings)
+                        intakePlacer::getPotentiometerAngle, pidSettings, feedForwardSettings)
         );
     }
 }

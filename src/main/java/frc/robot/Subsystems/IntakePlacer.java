@@ -39,10 +39,10 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     private Namespace PID = rootNamespace.addChild("PID");
     private Supplier<Double> waitTime = PID.addConstantDouble("wait time", 0);
     private Supplier<Double> tolerance = PID.addConstantDouble("tolerance", 0);
-    public PIDSettings pidSettings = new PIDSettings(() -> 0.0, tolerance, waitTime);
     private Supplier<Double> kS = PID.addConstantDouble("kS", 0);
     private Supplier<Double> kV = PID.addConstantDouble("kV", 0);
-    public FeedForwardSettings feedForwardSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
+    private PIDSettings pidSettings = new PIDSettings(() -> 0.0, tolerance, waitTime);
+    private FeedForwardSettings feedForwardSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
 
     private static IntakePlacer instance;
 
@@ -98,6 +98,14 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
+    }
+
+    public PIDSettings getPIDSettings() {
+        return pidSettings;
+    }
+
+    public FeedForwardSettings getFeedForwardSettings() {
+        return feedForwardSettings;
     }
 
     public double getPotentiometerAngle() {
