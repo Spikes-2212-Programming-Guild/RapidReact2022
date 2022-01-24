@@ -3,7 +3,6 @@ package frc.robot.Commands;
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.Dispenser;
 import frc.robot.Subsystems.Drivetrain;
 import com.spikes2212.util.Limelight;
@@ -14,7 +13,7 @@ import com.spikes2212.util.Limelight;
  *
  * @author Ofri Rosenbaum
  */
-public class ReturnByGyro extends CommandBase {
+public class ReturnByGyro extends DriveArcadeWithPID {
 
     private static final double SPEED = 0.7;
     private static final int LIMELIGHT_PIPELINE = 1;
@@ -27,16 +26,13 @@ public class ReturnByGyro extends CommandBase {
     private PIDSettings pidSettings;
     private FeedForwardSettings feedForwardSettings;
 
-    private Drivetrain drivetrain;
     private Dispenser dispenser;
 
     private int previousPipeline;
 
-    public ReturnByGyro(PIDSettings pidSettings, FeedForwardSettings feedForwardSettings) {
-        this.drivetrain = Drivetrain.getInstance();
+    public ReturnByGyro(Drivetrain drivetrain, PIDSettings pidSettings, FeedForwardSettings feedForwardSettings) {
+        super(drivetrain, drivetrain::getGyroAngle, 0, SPEED, pidSettings, feedForwardSettings);
         this.dispenser = Dispenser.getInstance();
-        this.pidSettings = pidSettings;
-        this.feedForwardSettings = feedForwardSettings;
     }
 
     @Override
@@ -46,19 +42,13 @@ public class ReturnByGyro extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        new DriveArcadeWithPID(drivetrain, drivetrain::getGyroAngle, 0.0, SPEED, pidSettings,
-                feedForwardSettings);
-    }
-
-    @Override
     public boolean isFinished() {
-        return dispenser.isOnTarget() || Math.abs(drivetrain.getGyroAngle()) <= TOLERANCE;
+        return dispenser.isOnTarget() || super.isFinished();
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.stop();
+        super.end(interrupted);
         dispenser.setLimelightPipeline(previousPipeline);
     }
 }
