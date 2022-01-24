@@ -14,7 +14,7 @@ public class Transfer extends MotoredGenericSubsystem {
     private static Transfer instance;
 
     private Transfer(WPI_TalonSRX talon) {
-        super("Transfer", talon);
+        super("transfer", talon);
         this.talon = talon;
         this.entranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_ENTRANCE_LIGHT_SENSOR);
         this.exitSensor = new DigitalInput(RobotMap.DIO.TRANSFER_EXIT_LIMIT_SWITCH);
@@ -25,20 +25,5 @@ public class Transfer extends MotoredGenericSubsystem {
             instance = new Transfer(new WPI_TalonSRX(RobotMap.CAN.TRANSFER_TALON));
         }
         return instance;
-    }
-
-    @Override
-    protected void apply(double speed) {
-        talon.set(speed);
-    }
-
-    @Override
-    public boolean canMove(double speed) {
-        return true;
-    }
-
-    @Override
-    public void stop() {
-        talon.stopMotor();
     }
 }
