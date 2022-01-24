@@ -21,6 +21,8 @@ import java.util.function.Supplier;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
+    public static final double POTENTIOMETER_DOWN_SETPOINT = 90;
+    public static final double POTENTIOMETER_UP_SETPOINT = 0;
     private static final double MAX_SPEED = 0.5;
     private static final double MIN_SPEED = -0.3;
 

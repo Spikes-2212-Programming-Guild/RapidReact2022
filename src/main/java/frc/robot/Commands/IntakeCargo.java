@@ -9,9 +9,6 @@ import frc.robot.Subsystems.Transfer;
 
 public class IntakeCargo extends SequentialCommandGroup {
 
-    private final double POTENTIOMETER_DOWN_SETPOINT = 90;
-    private final double POTENTIOMETER_UP_SETPOINT = 0;
-
     public IntakeCargo() {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         IntakePlacer intakePlacer = IntakePlacer.getInstance();
@@ -21,11 +18,12 @@ public class IntakeCargo extends SequentialCommandGroup {
             addCommands(new MoveGenericSubsystem(transfer, -Transfer.SPEED).withTimeout(Transfer.CARGO_RETURN_TIME));
         }
         addCommands(
-                new MoveGenericSubsystemWithPID(intakePlacer, () -> POTENTIOMETER_DOWN_SETPOINT,
+                new MoveGenericSubsystemWithPID(intakePlacer,
+                        () -> IntakePlacer.POTENTIOMETER_DOWN_SETPOINT,
                         intakePlacer::getPotentiometerAngle, intakePlacer.pidSettings, intakePlacer.feedForwardSettings),
                 new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED),
                 new MoveGenericSubsystem(transfer, Transfer.SPEED).withTimeout(Transfer.TRANSFER_TIME),
-                new MoveGenericSubsystemWithPID(intakePlacer, () -> POTENTIOMETER_UP_SETPOINT,
+                new MoveGenericSubsystemWithPID(intakePlacer, () -> IntakePlacer.POTENTIOMETER_UP_SETPOINT,
                         intakePlacer::getPotentiometerAngle, intakePlacer.pidSettings, intakePlacer.feedForwardSettings)
         );
     }
