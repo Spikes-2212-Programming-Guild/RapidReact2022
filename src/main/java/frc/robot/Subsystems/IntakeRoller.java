@@ -33,16 +33,6 @@ public class IntakeRoller extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "intake roller", new WPI_VictorSPX(RobotMap.CAN.INTAKE_ROLLER));
     }
 
-    /**
-     * Whether the intake subsystem can intake a cargo.
-     *
-     * @return whether the intake subsystem can move up/down.
-     */
-    @Override
-    public boolean canMove(double speed) {
-        return !transfer.isStartPressed();
-    }
-
     @Override
     public void configureDashboard() {
         rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, SPEED));
