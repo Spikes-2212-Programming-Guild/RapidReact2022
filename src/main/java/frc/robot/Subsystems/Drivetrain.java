@@ -21,8 +21,8 @@ public class Drivetrain extends TankDrivetrain {
                 new MotorControllerGroup(new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_1), new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_2)));
 
         this.pigeon = new PigeonWrapper(RobotMap.CAN.DRIVETRAIN_PIGEON);
-        this.leftEncoder = new Encoder(RobotMap.CAN.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.CAN.DRIVETRAIN_LEFT_ENCODER_NEG);
-        this.rightEncoder = new Encoder(RobotMap.CAN.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.CAN.DRIVETRAIN_RIGHT_ENCODER_NEG);
+        this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
+        this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.rightColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
         this.leftColorSensor = new ColorSensorV3(I2C.Port.kMXP);
     }
