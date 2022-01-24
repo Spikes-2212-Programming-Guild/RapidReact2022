@@ -10,5 +10,6 @@ public class RobotMap {
         int DRIVETRAIN_LEFT_ENCODER_NEG = -1;
         int DRIVETRAIN_RIGHT_ENCODER_POS = -1;
         int DRIVETRAIN_RIGHT_ENCODER_NEG = -1;
+        int DRIVETRAIN_PIGEON = -1;
     }
 }
