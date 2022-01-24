@@ -26,13 +26,13 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     /**
      * The potentiometer's starting value. This is also the value of the angle in which the potentiometer is
-     * when the subsystem is vertical.</p>
+     * when the subsystem is vertical.
      */
     public static final double POTENTIOMETER_STARTING_POINT = 0;
 
     /**
      * The potentiometer's full range of motion in degrees. This is also the value of the angle in which the
-     * potentiometer is when the subsystem is horizontal.</p>
+     * potentiometer is when the subsystem is horizontal.
      */
     public static final double POTENTIOMETER_RANGE_VALUE = 90;
 
