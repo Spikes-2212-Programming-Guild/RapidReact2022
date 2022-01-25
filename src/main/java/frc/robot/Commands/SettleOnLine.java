@@ -12,16 +12,16 @@ import frc.robot.Subsystems.Drivetrain;
  */
 public class SettleOnLine extends CommandBase {
 
-    public static final double SPEED = 0.7;
+    private static final double SPEED = 0.7;
     private Drivetrain drivetrain;
 
     /**
-     * The alliance tarmac's color as it is seen by the left color sensor.
+     * The alliance's tarmac as it is seen by the left color sensor.
      */
     private final Color allianceLeftLine;
 
     /**
-     * The alliance's tarmac's color as it is seen by the right color sensor.
+     * The alliance's tarmac as it is seen by the right color sensor.
      */
     private final Color allianceRightLine;
 
@@ -61,7 +61,7 @@ public class SettleOnLine extends CommandBase {
     private ColorMatch rightColorMatch;
 
     /**
-     * provide {@code Color.kRed} if the robot is in the red alliance,
+     * Please provide {@code Color.kRed} if the robot is in the red alliance,
      * or {@code Color.kBlue} if the robot is in the blue alliance.
      *
      * @param color the alliance's color
