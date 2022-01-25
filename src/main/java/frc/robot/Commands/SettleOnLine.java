@@ -15,16 +15,48 @@ public class SettleOnLine extends CommandBase {
     public static final double SPEED = 0.7;
     private Drivetrain drivetrain;
 
+    /**
+     * The alliance tarmac's color as it is seen by the left color sensor.
+     */
     private final Color allianceLeftLine;
+
+    /**
+     * The alliance's tarmac's color as it is seen by the right color sensor.
+     */
     private final Color allianceRightLine;
 
     //@todo calibrate final values to each of the below
+
+    /**
+     * The blue tarmac line as it is seen by the left color sensor.
+     */
     private Color leftBlueLine;
+
+    /**
+     * The blue tarmac line as it is seen by the right color sensor.
+     */
     private Color rightBlueLine;
+
+    /**
+     * The red tarmac line as it is seen by the left color sensor.
+     */
     private Color leftRedLine;
+
+    /**
+     * The red tarmac line as it is seen by the right color sensor.
+     */
     private Color rightRedLine;
+
+    /**
+     * The carpet color as it is seen by the left color sensor.
+     */
     private Color leftCarpetColor;
+
+    /**
+     * The carpet color as it is seen by the right color sensor.
+     */
     private Color rightCarpetColor;
+
     private ColorMatch leftColorMatch;
     private ColorMatch rightColorMatch;
 
