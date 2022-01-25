@@ -25,7 +25,13 @@ public class IntakeCargo extends SequentialCommandGroup {
                 new MoveGenericSubsystemWithPID(intakePlacer,
                         () -> IntakePlacer.POTENTIOMETER_RANGE_VALUE,
                         intakePlacer::getPotentiometerAngle, pidSettings, feedForwardSettings),
-                new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED),
+                new MoveGenericSubsystem
+                        (intakeRoller, IntakeRoller.SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return !transfer.isStartPressed();
+                    }
+                },
                 new MoveGenericSubsystem(transfer, Transfer.SPEED).withTimeout(Transfer.TRANSFER_TIME),
                 new MoveGenericSubsystemWithPID(intakePlacer, () -> IntakePlacer.POTENTIOMETER_STARTING_POINT,
                         intakePlacer::getPotentiometerAngle, pidSettings, feedForwardSettings)
