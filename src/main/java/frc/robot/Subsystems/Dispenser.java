@@ -26,6 +26,9 @@ public class Dispenser extends MotoredGenericSubsystem {
         this.limelight = new Limelight();
     }
 
+    /**
+     * initialize sensor data on dashboard
+     */
     @Override
     public void configureDashboard() {
         rootNamespace.putNumber("encoder", encoder::get);
