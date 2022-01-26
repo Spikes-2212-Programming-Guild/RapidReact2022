@@ -27,7 +27,7 @@ public class Dispenser extends MotoredGenericSubsystem {
     }
 
     /**
-     * initialize sensor data on dashboard
+     * add sensor data to dashboard
      */
     @Override
     public void configureDashboard() {
