@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 public class Transfer extends MotoredGenericSubsystem {
+    // a limit switch that is pressed when a cargo piece enters the system
     private DigitalInput entranceSensor;
+    // a light sensor that sends a signal when a cargo piece exits the system
     private DigitalInput exitSensor;
 
     private static Transfer instance;
@@ -25,6 +27,9 @@ public class Transfer extends MotoredGenericSubsystem {
         this.exitSensor = new DigitalInput(RobotMap.DIO.TRANSFER_EXIT_LIMIT_SWITCH);
     }
 
+    /**
+     * add sensor data to dashboard
+     */
     @Override
     public void configureDashboard() {
         rootNamespace.putBoolean("entrance sensor", entranceSensor.get());
