@@ -3,6 +3,8 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.ColorSensorV3;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
+import com.spikes2212.control.FeedForwardSettings;
+import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.PigeonWrapper;
@@ -30,10 +32,17 @@ public class Drivetrain extends TankDrivetrain {
     private Namespace encoderNamespace;
     private Namespace leftColorSensorNamespace;
     private Namespace rightColorSensorNamespace;
+    private Namespace PIDNamespace;
+    private Namespace FeedForwardNamespace;
 
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
     private final ColorSensorV3 rightColorSensor, leftColorSensor;
+
+    private PIDSettings pidSettings;
+    private Supplier<Double> kP, kI, kD;
+    private FeedForwardSettings ffSettings;
+    private Supplier<Double> kV, kS, kA;
 
     public static Drivetrain getInstance() {
         if (drivetrain == null) {
@@ -61,6 +70,8 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
         this.leftColorSensor = new ColorSensorV3(I2C.Port.kMXP);
+        this.pidSettings = new PIDSettings(kP, kI, kD);
+        this.ffSettings = new FeedForwardSettings(kS, kV, kA);
     }
 
     private void resetEncoders() {
@@ -110,5 +121,13 @@ public class Drivetrain extends TankDrivetrain {
         rightColorSensorNamespace.putNumber("right color sensor red", () -> this.getRightColor().red);
         rightColorSensorNamespace.putNumber("right color sensor blue", () -> this.getRightColor().blue);
         rightColorSensorNamespace.putNumber("right color sensor green", () -> this.getRightColor().green);
+
+        kP = PIDNamespace.addConstantDouble("kP", 0);
+        kI = PIDNamespace.addConstantDouble("kI", 0);
+        kD = PIDNamespace.addConstantDouble("kD", 0);
+
+        kV = FeedForwardNamespace.addConstantDouble("kV", 0);
+        kS = FeedForwardNamespace.addConstantDouble("kS", 0);
+        kA = FeedForwardNamespace.addConstantDouble("kA", 0);
     }
 }

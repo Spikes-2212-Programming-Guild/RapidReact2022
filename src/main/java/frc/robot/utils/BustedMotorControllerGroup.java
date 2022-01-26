@@ -1,5 +1,7 @@
 package frc.robot.utils;
 
+import com.spikes2212.control.FeedForwardSettings;
+import com.spikes2212.control.PIDSettings;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
