@@ -33,6 +33,6 @@ public class Transfer extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putBoolean("entrance sensor", entranceSensor.get());
-        rootNamespace.putBoolean("exit sensor", entranceSensor.get());
+        rootNamespace.putBoolean("exit sensor", exitSensor.get());
     }
 }
