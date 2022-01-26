@@ -6,6 +6,9 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
+/**
+ * uses timing straps to transport cargo pieces from the intake to the dispenser.
+ */
 public class Transfer extends MotoredGenericSubsystem {
     // a limit switch that is pressed when a cargo piece enters the system
     private DigitalInput entranceSensor;
