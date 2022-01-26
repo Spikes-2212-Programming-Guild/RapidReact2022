@@ -13,6 +13,13 @@ public class Transfer extends MotoredGenericSubsystem {
 
     private static Transfer instance;
 
+    public static Transfer getInstance() {
+        if (instance == null) {
+            instance = new Transfer(new WPI_TalonSRX(RobotMap.CAN.TRANSFER_TALON));
+        }
+        return instance;
+    }
+
     private Transfer(WPI_TalonSRX talon) {
         super("transfer", talon);
         this.talon = talon;
@@ -20,10 +27,9 @@ public class Transfer extends MotoredGenericSubsystem {
         this.exitSensor = new DigitalInput(RobotMap.DIO.TRANSFER_EXIT_LIMIT_SWITCH);
     }
 
-    public static Transfer getInstance() {
-        if (instance == null) {
-            instance = new Transfer(new WPI_TalonSRX(RobotMap.CAN.TRANSFER_TALON));
-        }
-        return instance;
+    @Override
+    public void configureDashboard() {
+        rootNamespace.putBoolean("entrance sensor", entranceSensor.get());
+        rootNamespace.putBoolean("exit sensor", entranceSensor.get());
     }
 }
