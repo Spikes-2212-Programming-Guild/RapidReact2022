@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
- * uses timing straps to transport cargo pieces from the intake to the dispenser.
+ * transports cargo from the bottom to the top of the robot
  */
 public class Transfer extends MotoredGenericSubsystem {
     // a limit switch that is pressed when a cargo piece enters the system
