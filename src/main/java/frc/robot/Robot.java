@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.IntakePlacer;
+import frc.robot.Subsystems.IntakeRoller;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,14 +17,16 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
+    private IntakePlacer intakePlacer = IntakePlacer.getInstance();
+    private IntakeRoller intakeRoller = IntakeRoller.getInstance();
+
+    private OI oi;
+
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
+        oi = new OI();
+        intakePlacer.configureDashboard();
+        intakeRoller.configureDashboard();
     }
 
     /**
@@ -34,10 +38,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        intakePlacer.periodic();
+        intakeRoller.periodic();
         CommandScheduler.getInstance().run();
     }
 
