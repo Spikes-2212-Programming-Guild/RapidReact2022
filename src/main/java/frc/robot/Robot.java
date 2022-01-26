@@ -17,17 +17,15 @@ import frc.robot.Subsystems.Drivetrain;
  */
 public class Robot extends TimedRobot {
 
-    OI oi;
-    Drivetrain drivetrain;
-    DriveArcade driveArcade;
+    private OI oi;
+    private Drivetrain drivetrain;
+    private DriveArcade driveArcade;
 
     @Override
     public void robotInit() {
         oi = new OI();
         drivetrain = Drivetrain.getInstance();
         driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
-
-        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**
@@ -70,10 +68,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**
