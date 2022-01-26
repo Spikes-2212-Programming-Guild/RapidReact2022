@@ -82,7 +82,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     /**
-     *  initialise namespaces and sensor data
+     *  initialise namespaces and add sensor data to dashboard
      */
     public void configureDashboard() {
         root = new RootNamespace("drivetrain");
