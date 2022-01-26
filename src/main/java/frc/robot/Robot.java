@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         oi = new OI();
         drivetrain = Drivetrain.getInstance();
+        drivetrain.configureDashboard();
         driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
     }
 
@@ -37,10 +38,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        drivetrain.periodic();
         CommandScheduler.getInstance().run();
     }
 

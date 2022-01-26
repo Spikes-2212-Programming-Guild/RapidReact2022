@@ -49,7 +49,22 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder.setDistancePerPulse(20.32 / 4096.0);
         this.rightColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
         this.leftColorSensor = new ColorSensorV3(I2C.Port.kMXP);
+    }
 
+    @Override
+    public void periodic() {
+        root.update();
+    }
+
+    public Color getLeftColor() {
+        return leftColorSensor.getColor();
+    }
+
+    public Color getRightColor() {
+        return rightColorSensor.getColor();
+    }
+
+    public void configureDashboard() {
         root.putNumber("left encoder ticks", this.leftEncoder::get);
         root.putNumber("right encoder ticks", this.rightEncoder::get);
         root.putNumber("left encoder distance", this.leftEncoder::getDistance);
@@ -62,13 +77,5 @@ public class Drivetrain extends TankDrivetrain {
         root.putNumber("right color sensor red", () -> this.getRightColor().red);
         root.putNumber("right color sensor blue", () -> this.getRightColor().blue);
         root.putNumber("right color sensor green", () -> this.getRightColor().green);
-    }
-
-    public Color getLeftColor() {
-        return leftColorSensor.getColor();
-    }
-
-    public Color getRightColor() {
-        return rightColorSensor.getColor();
     }
 }
