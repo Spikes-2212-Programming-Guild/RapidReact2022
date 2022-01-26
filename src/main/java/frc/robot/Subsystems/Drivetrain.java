@@ -96,7 +96,7 @@ public class Drivetrain extends TankDrivetrain {
         encoderNamespace.putNumber("right ticks", this.rightEncoder::get);
         encoderNamespace.putNumber("left distance", this.leftEncoder::getDistance);
         encoderNamespace.putNumber("right distance", this.rightEncoder::getDistance);
-        encoderNamespace.putData("Reset encoders", new InstantCommand(this::resetEncoders) {
+        encoderNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
