@@ -6,6 +6,9 @@ import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.RobotMap;
 
+/**
+ * drops cargo pieces fed to the dispenser from the transfer system into the lower hub.
+ */
 public class Dispenser extends MotoredGenericSubsystem {
 
     private Encoder encoder;
