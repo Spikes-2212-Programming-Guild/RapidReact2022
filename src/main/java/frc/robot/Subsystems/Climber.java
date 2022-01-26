@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Climber extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.6;
-    private static final double MAX_SPEED = -0.6;
+    private static final double MAX_SPEED = 0.6;
 
     private static Climber instance;
     private static boolean counted = false;
