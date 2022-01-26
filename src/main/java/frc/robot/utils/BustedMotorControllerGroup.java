@@ -11,6 +11,7 @@ import java.util.function.Supplier;
  */
 public class BustedMotorControllerGroup extends MotorControllerGroup {
 
+    // The amount you want to correct the MotorControllerGroup (range 0.1-1)
     private Supplier<Double> correction;
 
     public BustedMotorControllerGroup(double correction, MotorController motorController, MotorController... motorControllers) {
