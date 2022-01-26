@@ -16,6 +16,13 @@ public class Drivetrain extends TankDrivetrain {
     private Encoder leftEncoder, rightEncoder;
     private ColorSensorV3 rightColorSensor, leftColorSensor;
 
+    public static Drivetrain getInstance() {
+        if (drivetrain == null) {
+            drivetrain = new Drivetrain();
+        }
+        return drivetrain;
+    }
+
     private Drivetrain() {
         super(new MotorControllerGroup(new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_1), new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_2)),
                 new MotorControllerGroup(new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_1), new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_2)));
@@ -25,13 +32,5 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.rightColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
         this.leftColorSensor = new ColorSensorV3(I2C.Port.kMXP);
-    }
-
-    public static Drivetrain getInstance() {
-        if (drivetrain == null) {
-            drivetrain = new Drivetrain();
-        }
-
-        return drivetrain;
     }
 }
