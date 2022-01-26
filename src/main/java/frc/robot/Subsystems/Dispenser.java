@@ -2,12 +2,14 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
+import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.RobotMap;
 
 public class Dispenser extends MotoredGenericSubsystem {
 
     private Encoder encoder;
+    private Limelight limelight;
 
     private static Dispenser instance;
 
@@ -21,6 +23,7 @@ public class Dispenser extends MotoredGenericSubsystem {
     private Dispenser(WPI_TalonSRX talon) {
         super("dispenser", talon);
         this.encoder = new Encoder(RobotMap.DIO.DISPENSER_ENCODER_POS, RobotMap.DIO.DISPENSER_ENCODER_NEG);
+        this.limelight = new Limelight();
     }
 
     @Override
