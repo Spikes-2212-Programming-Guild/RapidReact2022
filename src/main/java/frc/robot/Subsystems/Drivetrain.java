@@ -17,8 +17,11 @@ import frc.robot.utils.BustedMotorControllerGroup;
 import java.util.function.Supplier;
 
 public class Drivetrain extends TankDrivetrain {
-    private static final double DISTANCE_PER_PULSE = 20.32 / 4096;
 
+    // The wheel moves 20.32 * PI (it's circumference) each 4096 ticks.
+    private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 4096;
+
+    // One side of the robot is faster than the other. To solve this we slow down one of the sides.
     private static Supplier<Double> rightCorrection;
 
     private static Drivetrain drivetrain;
@@ -78,6 +81,9 @@ public class Drivetrain extends TankDrivetrain {
         return rightColorSensor.getColor();
     }
 
+    /**
+     *  initialise namespaces and sensor data
+     */
     public void configureDashboard() {
         root = new RootNamespace("drivetrain");
         leftColorSensorNamespace = root.addChild("left color sensor");
