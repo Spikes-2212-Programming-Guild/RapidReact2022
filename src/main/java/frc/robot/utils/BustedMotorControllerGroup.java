@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import java.util.function.Supplier;
 
+/**
+ * An extension of the MotorControllerGroup class that has the ability to add a correction to its speed.
+ * Best used to correct deviation in the drivetrain
+ */
 public class BustedMotorControllerGroup extends MotorControllerGroup {
 
     private Supplier<Double> correction;
