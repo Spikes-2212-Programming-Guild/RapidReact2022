@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 public class Transfer extends MotoredGenericSubsystem {
-    private WPI_TalonSRX talon;
     private DigitalInput entranceSensor;
     private DigitalInput exitSensor;
 
@@ -22,7 +21,6 @@ public class Transfer extends MotoredGenericSubsystem {
 
     private Transfer(WPI_TalonSRX talon) {
         super("transfer", talon);
-        this.talon = talon;
         this.entranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_ENTRANCE_LIGHT_SENSOR);
         this.exitSensor = new DigitalInput(RobotMap.DIO.TRANSFER_EXIT_LIMIT_SWITCH);
     }
