@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.RobotMap;
 
 /**
- * drops cargo pieces fed to the dispenser from the transfer system into the lower hub.
+ * drops cargo into the lower hub
  */
 public class Dispenser extends MotoredGenericSubsystem {
 
