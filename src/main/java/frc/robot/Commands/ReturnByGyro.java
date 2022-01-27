@@ -1,11 +1,9 @@
 package frc.robot.Commands;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
-import com.spikes2212.control.FeedForwardSettings;
-import com.spikes2212.control.PIDSettings;
-import frc.robot.Subsystems.Dispenser;
 import frc.robot.Subsystems.Drivetrain;
 import com.spikes2212.util.Limelight;
+import frc.robot.Subsystems.Transfer;
 
 /**
  * This command moves the {@link Drivetrain} till either its gyro angle is zero or the
@@ -18,38 +16,30 @@ public class ReturnByGyro extends DriveArcadeWithPID {
     private static final double SPEED = 0.7;
     private static final int LIMELIGHT_PIPELINE = 1;
 
-    /**
-     * The gyro's tolerance.
-     */
-    private static final double TOLERANCE = 2;
-
-    private PIDSettings pidSettings;
-    private FeedForwardSettings feedForwardSettings;
-
-    private Dispenser dispenser;
-
     private int previousPipeline;
+
+    private Limelight limelight;
 
     public ReturnByGyro(Drivetrain drivetrain) {
         super(drivetrain, drivetrain::getGyroAngle, 0, SPEED, drivetrain.getPIDSettings(),
                 drivetrain.getFeedForwardSettings());
-        this.dispenser = Dispenser.getInstance();
+        this.limelight = Transfer.getInstance().getLimelight();
     }
 
     @Override
     public void initialize() {
-        previousPipeline = dispenser.getLimelightPipeline();
-        dispenser.setLimelightPipeline(LIMELIGHT_PIPELINE);
+        previousPipeline = limelight.getPipeline();
+        limelight.setPipeline(LIMELIGHT_PIPELINE);
     }
 
     @Override
     public boolean isFinished() {
-        return dispenser.isOnTarget() || super.isFinished();
+        return limelight.isOnTarget() || super.isFinished();
     }
 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        dispenser.setLimelightPipeline(previousPipeline);
+        limelight.setPipeline(previousPipeline);
     }
 }
