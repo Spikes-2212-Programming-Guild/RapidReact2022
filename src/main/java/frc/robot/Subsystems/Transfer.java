@@ -8,7 +8,6 @@ import com.spikes2212.control.PIDSettings;
 public class Transfer extends MotoredGenericSubsystem {
     public static final double SPEED;
 
-
     public static Transfer getInstance() {
     }
 
