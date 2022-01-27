@@ -30,8 +30,9 @@ public class ReturnByGyro extends DriveArcadeWithPID {
 
     private int previousPipeline;
 
-    public ReturnByGyro(Drivetrain drivetrain, PIDSettings pidSettings, FeedForwardSettings feedForwardSettings) {
-        super(drivetrain, drivetrain::getGyroAngle, 0, SPEED, pidSettings, feedForwardSettings);
+    public ReturnByGyro(Drivetrain drivetrain) {
+        super(drivetrain, drivetrain::getGyroAngle, 0, SPEED, drivetrain.getPIDSettings(),
+                drivetrain.getFeedForwardSettings());
         this.dispenser = Dispenser.getInstance();
     }
 
