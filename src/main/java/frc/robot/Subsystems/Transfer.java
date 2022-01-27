@@ -9,14 +9,7 @@ public class Transfer extends MotoredGenericSubsystem {
     public static final double SPEED;
 
 
-
-
-    public static Transfer getInstance(){}
-
-    @Override
-    public double getSpeed(){}
-
-    public PIDSettings getReleaseCargoPID(){}
-    public FeedForwardSettings getReleaseCargoFeedForward(){}
+    public static Transfer getInstance() {
+    }
 
 }
