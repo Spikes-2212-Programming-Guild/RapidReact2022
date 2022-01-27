@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class Drivetrain extends TankDrivetrain {
 
     // The wheel moves 20.32 * PI (it's perimeter) each 4096 ticks.
-    private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 4096;
+    private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 360.0;
 
     // One side of the robot is faster than the other. To solve this we slow down one of the sides.
     private static Supplier<Double> rightCorrection;
