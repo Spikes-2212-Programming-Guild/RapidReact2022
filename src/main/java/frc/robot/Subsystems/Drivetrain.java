@@ -6,8 +6,8 @@ import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 
 public class Drivetrain extends TankDrivetrain {
-    private PIDSettings aimToHubPID;
-    private FeedForwardSettings aimToHubFeedForward;
+    private PIDSettings pidSettings;
+    private FeedForwardSettings ffSettings;
 
 
     private static Drivetrain instance;
@@ -22,12 +22,12 @@ public class Drivetrain extends TankDrivetrain {
 
     }
 
-    public PIDSettings getAimToHubPID() {
-        return aimToHubPID;
+    public PIDSettings getPIDSettings() {
+        return pidSettings;
     }
 
-    public FeedForwardSettings getAimToHubFeedForward() {
-        return aimToHubFeedForward;
+    public FeedForwardSettings getFFSettings() {
+        return ffSettings;
     }
 }
 

@@ -23,7 +23,7 @@ public class AimToHub extends SequentialCommandGroup {
     public AimToHub() {
         addCommands(
                 new DriveArcadeWithPID(drivetrain, transfer.getLimelight()::getHorizontalOffsetFromTarget,
-                        () -> 0.0, () -> 0.0, drivetrain.getAimToHubPID(), drivetrain.getAimToHubFeedForward())
+                        () -> 0.0, () -> 0.0, drivetrain.getPIDSettings(), drivetrain.getFFSettings())
         );
     }
 
