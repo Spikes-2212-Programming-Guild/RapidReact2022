@@ -2,6 +2,7 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
+import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
@@ -13,6 +14,7 @@ public class Transfer extends MotoredGenericSubsystem {
     private final DigitalInput entranceSensor;
     // a light sensor that sends a signal when a cargo piece exits the system
     private final DigitalInput exitSensor;
+    private final Limelight limelight;
 
     private static Transfer instance;
 
@@ -27,6 +29,11 @@ public class Transfer extends MotoredGenericSubsystem {
         super("transfer", talon1, talon2);
         this.entranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_ENTRANCE_LIGHT_SENSOR);
         this.exitSensor = new DigitalInput(RobotMap.DIO.TRANSFER_EXIT_LIMIT_SWITCH);
+        this.limelight = new Limelight();
+    }
+
+    public Limelight getLimelight() {
+        return limelight;
     }
 
     /**
