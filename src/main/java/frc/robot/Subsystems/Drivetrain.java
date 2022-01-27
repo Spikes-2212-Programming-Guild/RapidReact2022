@@ -16,7 +16,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     //@todo
-    public double getGyroAngle() {
+    public double getYaw() {
         return 0;
     }
 

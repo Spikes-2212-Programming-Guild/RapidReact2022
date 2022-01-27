@@ -22,7 +22,7 @@ public class ReturnByGyro extends DriveArcadeWithPID {
     private Limelight limelight;
 
     public ReturnByGyro(Drivetrain drivetrain, double setpoint) {
-        super(drivetrain, drivetrain::getGyroAngle, setpoint, SPEED, drivetrain.getPIDSettings(),
+        super(drivetrain, drivetrain::getYaw, setpoint, SPEED, drivetrain.getPIDSettings(),
                 drivetrain.getFFSettings());
         this.limelight = Transfer.getInstance().getLimelight();
     }
