@@ -6,7 +6,7 @@ import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 
 public class Transfer extends MotoredGenericSubsystem {
-    public static final double TARGET_SPEED;
+    public static final double SPEED;
 
 
 
