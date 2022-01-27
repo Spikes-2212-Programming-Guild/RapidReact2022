@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import frc.robot.Robot;
 import frc.robot.Subsystems.Drivetrain;
 import com.spikes2212.util.Limelight;
 import frc.robot.Subsystems.Transfer;
@@ -20,8 +21,8 @@ public class ReturnByGyro extends DriveArcadeWithPID {
 
     private Limelight limelight;
 
-    public ReturnByGyro(Drivetrain drivetrain) {
-        super(drivetrain, drivetrain::getGyroAngle, 0, SPEED, drivetrain.getPIDSettings(),
+    public ReturnByGyro(Drivetrain drivetrain, double setpoint) {
+        super(drivetrain, drivetrain::getGyroAngle, setpoint, SPEED, drivetrain.getPIDSettings(),
                 drivetrain.getFeedForwardSettings());
         this.limelight = Transfer.getInstance().getLimelight();
     }
