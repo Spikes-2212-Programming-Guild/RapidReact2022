@@ -26,7 +26,7 @@ public class Drivetrain extends TankDrivetrain {
     // One side of the robot is faster than the other. To solve this we slow down one of the sides.
     private static Supplier<Double> rightCorrection;
 
-    private static Drivetrain drivetrain;
+    private static Drivetrain instance;
 
     private RootNamespace root;
     private Namespace encoderNamespace;
@@ -45,8 +45,8 @@ public class Drivetrain extends TankDrivetrain {
     private Supplier<Double> kV, kS, kA;
 
     public static Drivetrain getInstance() {
-        if (drivetrain == null) {
-            drivetrain = new Drivetrain(new MotorControllerGroup(
+        if (instance == null) {
+            instance = new Drivetrain(new MotorControllerGroup(
                             new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_1),
                             new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_2)
                     ),
@@ -57,7 +57,7 @@ public class Drivetrain extends TankDrivetrain {
                     )
             );
         }
-        return drivetrain;
+        return instance;
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors) {
