@@ -92,6 +92,10 @@ public class Drivetrain extends TankDrivetrain {
         return rightColorSensor.getColor();
     }
 
+    public double getYaw() {
+        return pigeon.getYaw();
+    }
+
     /**
      *  initialise namespaces and add sensor data to dashboard
      */
