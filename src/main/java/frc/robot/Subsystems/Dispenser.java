@@ -5,7 +5,7 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.util.Limelight;
 
 public class Dispenser extends MotoredGenericSubsystem {
-    public Limelight limelight;
+    private Limelight limelight;
 
     private static Dispenser instance;
 
@@ -17,5 +17,7 @@ public class Dispenser extends MotoredGenericSubsystem {
 
     private Dispenser() {
     }
+
+    public Limelight getLimelight() {}
 }
 
