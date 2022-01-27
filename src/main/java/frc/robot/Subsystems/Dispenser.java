@@ -11,10 +11,4 @@ public class Dispenser extends MotoredGenericSubsystem {
 
     public static Dispenser getInstance() {
     }
-
-
-
-
-
-
 }
