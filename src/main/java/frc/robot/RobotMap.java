@@ -2,7 +2,8 @@ package frc.robot;
 
 public class RobotMap {
     public interface CAN {
-        int TRANSFER_TALON = -1;
+        int TRANSFER_TALON_1 = -1;
+        int TRANSFER_TALON_2 = -1;
     }
 
     public interface DIO {
