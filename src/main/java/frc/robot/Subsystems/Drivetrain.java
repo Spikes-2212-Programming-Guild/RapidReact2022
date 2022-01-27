@@ -4,11 +4,13 @@ package frc.robot.Subsystems;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
+import com.spikes2212.util.PigeonWrapper;
 
 public class Drivetrain extends TankDrivetrain {
     private PIDSettings pidSettings;
     private FeedForwardSettings ffSettings;
 
+    private PigeonWrapper gyro;
 
     private static Drivetrain instance;
 
@@ -20,6 +22,10 @@ public class Drivetrain extends TankDrivetrain {
 
     private Drivetrain() {
 
+    }
+
+    public PigeonWrapper getGyro() {
+        return gyro;
     }
 
     public PIDSettings getPIDSettings() {

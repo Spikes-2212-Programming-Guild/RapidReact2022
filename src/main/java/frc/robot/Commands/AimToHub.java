@@ -1,7 +1,6 @@
 package frc.robot.Commands;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.Drivetrain;
 import frc.robot.Subsystems.Transfer;
 
@@ -12,23 +11,23 @@ import frc.robot.Subsystems.Transfer;
  *
  * @author Yoel Perman Brilliant
  */
-public class AimToHub extends SequentialCommandGroup {
+public class AimToHub extends DriveArcadeWithPID {
     private static final int LIMELIGHT_PIPELINE = 1;
 
-    private final Transfer transfer = Transfer.getInstance();
-    private final Drivetrain drivetrain = Drivetrain.getInstance();
-    private final int INITIAL_PIPE_LINE = transfer.getLimelight().getPipeline();
+    private final Transfer transfer;
+    private int initialPipeline;
 
 
-    public AimToHub() {
-        addCommands(
-                new DriveArcadeWithPID(drivetrain, transfer.getLimelight()::getHorizontalOffsetFromTarget,
-                        () -> 0.0, () -> 0.0, drivetrain.getPIDSettings(), drivetrain.getFFSettings())
-        );
+    public AimToHub(Drivetrain drivetrain, Transfer transfer) {
+       super(drivetrain, transfer.getLimelight()::getHorizontalOffsetFromTarget, 0, 0,
+               drivetrain.getPIDSettings(), drivetrain.getFFSettings());
+       this.transfer = transfer;
     }
+
 
     @Override
     public void initialize() {
+        initialPipeline = transfer.getLimelight().getPipeline();
         transfer.getLimelight().setPipeline(LIMELIGHT_PIPELINE);
         super.initialize();
     }
@@ -36,6 +35,6 @@ public class AimToHub extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        transfer.getLimelight().setPipeline(INITIAL_PIPE_LINE);
+        transfer.getLimelight().setPipeline(initialPipeline);
     }
 }

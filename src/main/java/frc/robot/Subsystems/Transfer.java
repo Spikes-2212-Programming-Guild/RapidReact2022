@@ -5,9 +5,10 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.util.Limelight;
 
 public class Transfer extends MotoredGenericSubsystem {
-    private Limelight limelight;
+    public Limelight limelight;
 
     private static Transfer instance;
+
 
     public static Transfer getInstance() {
         if (instance == null)
@@ -18,6 +19,6 @@ public class Transfer extends MotoredGenericSubsystem {
     private Transfer() {
     }
 
-    public Limelight getLimelight() {}
+    public Limelight getLimelight() {return limelight;}
 }
 
