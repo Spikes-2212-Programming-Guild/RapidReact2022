@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,14 +17,16 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
+    private OI oi;
+    private Drivetrain drivetrain;
+    private DriveArcade driveArcade;
+
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
+        oi = new OI();
+        drivetrain = Drivetrain.getInstance();
+        drivetrain.configureDashboard();
+        driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
     }
 
     /**
@@ -34,10 +38,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        drivetrain.periodic();
         CommandScheduler.getInstance().run();
     }
 
@@ -65,10 +66,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**
