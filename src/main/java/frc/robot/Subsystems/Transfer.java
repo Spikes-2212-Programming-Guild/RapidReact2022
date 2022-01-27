@@ -27,6 +27,7 @@ public class Transfer extends MotoredGenericSubsystem {
 
     private Transfer(WPI_TalonSRX talon1, WPI_TalonSRX talon2) {
         super("transfer", talon1, talon2);
+        talon2.setInverted(true);
         this.entranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_ENTRANCE_LIGHT_SENSOR);
         this.exitSensor = new DigitalInput(RobotMap.DIO.TRANSFER_EXIT_LIMIT_SWITCH);
         this.limelight = new Limelight();
