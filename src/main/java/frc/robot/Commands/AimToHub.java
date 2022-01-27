@@ -17,12 +17,12 @@ public class AimToHub extends SequentialCommandGroup {
     public AimToHub() {
         Dispenser dispenser = Dispenser.getInstance();
         Drivetrain drivetrain = Drivetrain.getInstance();
-        int initialPipeline = dispenser.getLimelight().getPipeline();
+        final int INITIAL_PIPE_LINE = dispenser.getLimelight().getPipeline();
         dispenser.getLimelight().setPipeline(LIMELIGHT_PIPELINE);
         addCommands(
                 new DriveArcadeWithPID(drivetrain, dispenser.getLimelight()::getHorizontalOffsetFromTarget,
                         () -> 0.0, () -> 0.0, drivetrain.getAimToHubPID(), drivetrain.getAimToHubFeedForward())
         );
-        dispenser.getLimelight().setPipeline(initialPipeline);
+        dispenser.getLimelight().setPipeline(INITIAL_PIPE_LINE);
     }
 }
