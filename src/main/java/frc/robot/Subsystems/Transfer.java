@@ -9,7 +9,6 @@ public class Transfer extends MotoredGenericSubsystem {
 
     private static Transfer instance;
 
-
     public static Transfer getInstance() {
         if (instance == null)
             instance = new Transfer();
