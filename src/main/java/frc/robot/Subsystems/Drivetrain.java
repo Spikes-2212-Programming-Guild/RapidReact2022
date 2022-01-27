@@ -24,7 +24,7 @@ public class Drivetrain extends TankDrivetrain {
         return null;
     }
 
-    public FeedForwardSettings getFeedForwardSettings() {
+    public FeedForwardSettings getFFSettings() {
         return null;
     }
 }
