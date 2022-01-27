@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.ColorSensorV3;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
@@ -28,7 +29,7 @@ public class Drivetrain extends TankDrivetrain {
 
     private static Drivetrain instance;
 
-    private RootNamespace root;
+    public RootNamespace rootNamespace;
     private Namespace encoderNamespace;
     private Namespace leftColorSensorNamespace;
     private Namespace rightColorSensorNamespace;
@@ -38,6 +39,7 @@ public class Drivetrain extends TankDrivetrain {
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
     private final ColorSensorV3 rightColorSensor, leftColorSensor;
+    private final WPI_TalonSRX leftTalon1, leftTalon2, rightTalon1, rightTalon2;
 
     private PIDSettings pidSettings;
     private Supplier<Double> kP, kI, kD;
@@ -46,28 +48,28 @@ public class Drivetrain extends TankDrivetrain {
 
     public static Drivetrain getInstance() {
         if (instance == null) {
-            instance = new Drivetrain(new MotorControllerGroup(
-                            new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_1),
-                            new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_2)
-                    ),
-                    new BustedMotorControllerGroup(
-                            rightCorrection,
-                            new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_1),
-                            new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_2)
-                    )
+            instance = new Drivetrain(
+                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_1),
+                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_2),
+                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_1),
+                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_2)
             );
         }
         return instance;
     }
 
-    private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors) {
-        super(leftMotors, rightMotors);
+    private Drivetrain(WPI_TalonSRX leftTalon1, WPI_TalonSRX leftTalon2, WPI_TalonSRX rightTalon1, WPI_TalonSRX rightTalon2) {
+        super(new MotorControllerGroup(leftTalon1, leftTalon2), new BustedMotorControllerGroup(rightCorrection, rightTalon1, rightTalon2));
 
         this.pigeon = new PigeonWrapper(RobotMap.CAN.DRIVETRAIN_PIGEON);
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+        this.leftTalon1 = leftTalon1;
+        this.leftTalon2 = leftTalon2;
+        this.rightTalon1 = rightTalon1;
+        this.rightTalon2 = rightTalon2;
         this.rightColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
         this.leftColorSensor = new ColorSensorV3(I2C.Port.kMXP);
         this.pidSettings = new PIDSettings(kP, kI, kD);
@@ -81,7 +83,7 @@ public class Drivetrain extends TankDrivetrain {
 
     @Override
     public void periodic() {
-        root.update();
+        rootNamespace.update();
     }
 
     public Color getLeftColor() {
@@ -96,16 +98,24 @@ public class Drivetrain extends TankDrivetrain {
         return pigeon.getYaw();
     }
 
+    public double getRightTalon1Current() {
+        return rightTalon1.getStatorCurrent();
+    }
+
+    public double getLeftTalon1Current() {
+        return leftTalon1.getStatorCurrent();
+    }
+
     /**
-     *  initialise namespaces and add sensor data to dashboard
+     * initialise namespaces and add sensor data to dashboard
      */
     public void configureDashboard() {
-        root = new RootNamespace("drivetrain");
-        leftColorSensorNamespace = root.addChild("left color sensor");
-        rightColorSensorNamespace = root.addChild("right color sensor");
-        encoderNamespace = root.addChild("encoders");
+        rootNamespace = new RootNamespace("drivetrain");
+        leftColorSensorNamespace = rootNamespace.addChild("left color sensor");
+        rightColorSensorNamespace = rootNamespace.addChild("right color sensor");
+        encoderNamespace = rootNamespace.addChild("encoders");
 
-        rightCorrection = root.addConstantDouble("right correction", 0);
+        rightCorrection = rootNamespace.addConstantDouble("right correction", 0);
 
         encoderNamespace.putNumber("left ticks", this.leftEncoder::get);
         encoderNamespace.putNumber("right ticks", this.rightEncoder::get);
