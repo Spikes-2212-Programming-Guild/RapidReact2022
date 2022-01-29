@@ -31,6 +31,6 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        return !transfer.getStrapEntranceSensor() || !limit.get();
+        return !(transfer.getStrapEntranceSensor() && limit.get());
     }
 }
