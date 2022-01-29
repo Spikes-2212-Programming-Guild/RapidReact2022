@@ -95,7 +95,10 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     public double getYaw() {
-        return pigeon.getYaw() % 360;
+        double yaw = pigeon.getYaw() % 360;
+        if (yaw > 180) yaw -= 360;
+        if (yaw < -180) yaw += 360;
+        return yaw;
     }
 
     public double getRightDistance() {
