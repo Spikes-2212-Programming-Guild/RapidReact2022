@@ -95,7 +95,6 @@ public class Drivetrain extends TankDrivetrain {
      * initialise namespaces and add sensor data to dashboard
      */
     public void configureDashboard() {
-
         encoderNamespace.putNumber("left ticks", leftEncoder::get);
         encoderNamespace.putNumber("right ticks", rightEncoder::get);
         encoderNamespace.putNumber("left distance", leftEncoder::getDistance);
