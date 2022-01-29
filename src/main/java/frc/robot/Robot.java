@@ -16,7 +16,7 @@ import frc.robot.Subsystems.IntakeToTransfer;
  */
 public class Robot extends TimedRobot {
 
-    IntakeToTransfer intakeToTransfer;
+    private IntakeToTransfer intakeToTransfer;
     @Override
     public void robotInit() {
         intakeToTransfer = IntakeToTransfer.getInstance();
