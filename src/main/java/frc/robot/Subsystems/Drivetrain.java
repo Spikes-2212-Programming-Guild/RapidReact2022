@@ -20,15 +20,16 @@ public class Drivetrain extends TankDrivetrain {
     // The wheel moves 20.32 * PI (it's perimeter) each 360 ticks.
     private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 360.0;
 
-    // One side of the robot is faster than the other. To solve this we slow down one of the sides.
-    private static Supplier<Double> rightCorrection;
-
     private static Drivetrain instance;
 
-    private RootNamespace rootNamespace = new RootNamespace("drivetrain");
-    private Namespace encoderNamespace = rootNamespace.addChild("encoders");
-    private Namespace PIDNamespace = rootNamespace.addChild("PID");
-    private Namespace FeedForwardNamespace = rootNamespace.addChild("Feed Forward");
+    private static final RootNamespace rootNamespace = new RootNamespace("drivetrain");
+    private static final Namespace encoderNamespace = rootNamespace.addChild("encoders");
+    private static final Namespace PIDNamespace = rootNamespace.addChild("PID");
+    private static final Namespace FeedForwardNamespace = rootNamespace.addChild("Feed Forward");
+
+    // One side of the robot is faster than the other. To solve this we slow down one of the sides.
+    private static final Supplier<Double> rightCorrection = rootNamespace.addConstantDouble("right correction", 1);
+    private static final Supplier<Double> leftCorrection = rootNamespace.addConstantDouble("left correction", 1);
 
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
@@ -45,7 +46,8 @@ public class Drivetrain extends TankDrivetrain {
 
     public static Drivetrain getInstance() {
         if (instance == null) {
-            instance = new Drivetrain(new MotorControllerGroup(
+            instance = new Drivetrain(new BustedMotorControllerGroup(
+                            leftCorrection,
                             new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_1),
                             new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_2)
                     ),
@@ -89,8 +91,6 @@ public class Drivetrain extends TankDrivetrain {
      *  initialise namespaces and add sensor data to dashboard
      */
     public void configureDashboard() {
-
-        rightCorrection = rootNamespace.addConstantDouble("right correction", 0);
 
         encoderNamespace.putNumber("left ticks", leftEncoder::get);
         encoderNamespace.putNumber("right ticks", rightEncoder::get);
