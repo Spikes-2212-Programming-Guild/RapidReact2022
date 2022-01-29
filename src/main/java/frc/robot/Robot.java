@@ -24,7 +24,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         transfer = Transfer.getInstance();
-        transfer.configureDashboard();
     }
 
     /**
@@ -36,7 +35,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        transfer.periodic();
         CommandScheduler.getInstance().run();
     }
 
