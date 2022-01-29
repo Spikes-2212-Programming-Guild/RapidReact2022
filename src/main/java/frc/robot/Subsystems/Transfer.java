@@ -82,6 +82,8 @@ public class Transfer extends GenericSubsystem {
         return entranceMotorSensor.get();
     }
 
+    public boolean getStrapEntranceLimit() { return strapEntranceSensor.get(); }
+
     /**
      * add sensor data to dashboard
      */
