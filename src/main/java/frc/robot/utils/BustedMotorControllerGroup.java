@@ -9,11 +9,13 @@ import java.util.function.Supplier;
 
 /**
  * An extension of the MotorControllerGroup class that has the ability to add a correction to its speed.
- * Best used to correct deviation in the drivetrain
+ * Best used to correct deviation in the drivetrain.
  */
 public class BustedMotorControllerGroup extends MotorControllerGroup {
 
-    // The amount you want to correct the MotorControllerGroup (range 0.1-1)
+    /**
+     * The amount you want to correct the MotorControllerGroup (range 0.1-1).
+     */
     private Supplier<Double> correction;
 
     public BustedMotorControllerGroup(double correction, MotorController motorController, MotorController... motorControllers) {

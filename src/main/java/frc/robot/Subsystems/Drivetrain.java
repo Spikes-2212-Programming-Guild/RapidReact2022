@@ -19,7 +19,9 @@ import java.util.function.Supplier;
 
 public class Drivetrain extends TankDrivetrain {
 
-    // The wheel moves 20.32 * PI (it's perimeter) each 360 ticks.
+    /**
+     * The wheel moves 20.32 * PI (it's perimeter) each 360 ticks.
+     */
     private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 360.0;
 
     private static Drivetrain instance;
@@ -29,7 +31,9 @@ public class Drivetrain extends TankDrivetrain {
     private static final Namespace PIDNamespace = rootNamespace.addChild("PID");
     private static final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
-    // One side of the robot is faster than the other. To solve this we slow down one of the sides.
+    /**
+     * One side of the robot is faster than the other. To solve this we slow down one of the sides.
+     */
     private static final Supplier<Double> rightCorrection = rootNamespace.addConstantDouble("right correction", 1);
     private static final Supplier<Double> leftCorrection = rootNamespace.addConstantDouble("left correction", 1);
 
@@ -44,7 +48,6 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
     private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
     private final FeedForwardSettings ffSettings;
-
 
     public static Drivetrain getInstance() {
         if (instance == null) {
@@ -67,7 +70,6 @@ public class Drivetrain extends TankDrivetrain {
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon) {
         super(leftMotors, rightMotors);
-
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
@@ -92,7 +94,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     /**
-     * initialise namespaces and add sensor data to dashboard
+     * Initializes namespaces and adds sensor data to dashboard.
      */
     public void configureDashboard() {
         encoderNamespace.putNumber("left ticks", leftEncoder::get);
