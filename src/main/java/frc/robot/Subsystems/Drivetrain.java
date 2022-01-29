@@ -36,14 +36,14 @@ public class Drivetrain extends TankDrivetrain {
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
 
-    private PIDSettings pidSettings;
     private final Supplier<Double> kP = PIDNamespace.addConstantDouble("kP", 0);
     private final Supplier<Double> kI = PIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kD = PIDNamespace.addConstantDouble("kD", 0);
-    private FeedForwardSettings ffSettings;
+    private final PIDSettings pidSettings;
     private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
     private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
+    private final FeedForwardSettings ffSettings;
 
 
     public static Drivetrain getInstance() {
