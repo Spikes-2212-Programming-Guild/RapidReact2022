@@ -18,9 +18,6 @@ public class IntakeCargo extends SequentialCommandGroup {
         PIDSettings pidSettings = intakePlacer.getPIDSettings();
         FeedForwardSettings feedForwardSettings = intakePlacer.getFeedForwardSettings();
         addRequirements(intakeRoller, intakePlacer, transfer);
-        if (transfer.isTopPressed()) {
-            addCommands(new MoveGenericSubsystem(transfer, -Transfer.SPEED).withTimeout(Transfer.CARGO_RETURN_TIME));
-        }
         addCommands(
                 new MoveGenericSubsystemWithPID(intakePlacer,
                         () -> IntakePlacer.POTENTIOMETER_RANGE_VALUE,
@@ -32,7 +29,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                         return !transfer.isStartPressed();
                     }
                 },
-                new MoveGenericSubsystem(transfer, Transfer.SPEED).withTimeout(Transfer.TRANSFER_TIME),
+                new MoveGenericSubsystem(transfer, 0).withTimeout(Transfer.TRANSFER_TIME),
                 new MoveGenericSubsystemWithPID(intakePlacer, () -> IntakePlacer.POTENTIOMETER_STARTING_POINT,
                         intakePlacer::getPotentiometerAngle, pidSettings, feedForwardSettings)
         );
