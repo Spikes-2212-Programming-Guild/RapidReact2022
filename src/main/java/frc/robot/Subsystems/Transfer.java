@@ -7,10 +7,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
- * transports cargo from the bottom to the top of the robot
+ * Transports cargo from the bottom to the top of the robot
  */
 public class Transfer extends MotoredGenericSubsystem {
-    // a light sensor that sends a signal while a cargo is held at the bottom of the timing straps
+
+    /**
+     * A light sensor that sends a signal while a cargo is held at the bottom of the timing straps
+     */
     private final DigitalInput entranceSensor;
 
     private final Limelight limelight;
@@ -26,8 +29,7 @@ public class Transfer extends MotoredGenericSubsystem {
         return instance;
     }
 
-
-    public Transfer(WPI_TalonSRX talon1, WPI_TalonSRX talon2) {
+    private Transfer(WPI_TalonSRX talon1, WPI_TalonSRX talon2) {
         super("transfer", talon1, talon2);
         this.entranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_ENTRANCE_LIGHT_SENSOR);
         this.limelight = new Limelight();

@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
      * initialization code.
      */
     private Transfer transfer;
+
     @Override
     public void robotInit() {
         transfer = Transfer.getInstance();
