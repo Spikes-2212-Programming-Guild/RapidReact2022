@@ -80,7 +80,7 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        this.pidSettings = new PIDSettings(this.kP, this.kI, this.kD, tolerance, waitTime);
+        this.pidSettings = new PIDSettings(this.kP, this.kI, this.kD, this.tolerance, this.waitTime);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
 
