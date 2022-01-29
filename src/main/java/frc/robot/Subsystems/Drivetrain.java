@@ -27,7 +27,7 @@ public class Drivetrain extends TankDrivetrain {
     private static final RootNamespace rootNamespace = new RootNamespace("drivetrain");
     private static final Namespace encoderNamespace = rootNamespace.addChild("encoders");
     private static final Namespace PIDNamespace = rootNamespace.addChild("PID");
-    private static final Namespace FeedForwardNamespace = rootNamespace.addChild("Feed Forward");
+    private static final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
     // One side of the robot is faster than the other. To solve this we slow down one of the sides.
     private static final Supplier<Double> rightCorrection = rootNamespace.addConstantDouble("right correction", 1);
@@ -77,7 +77,7 @@ public class Drivetrain extends TankDrivetrain {
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
 
-    private void resetEncoders() {
+    public void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
     }
