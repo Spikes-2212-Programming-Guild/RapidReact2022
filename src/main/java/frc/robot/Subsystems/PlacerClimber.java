@@ -8,9 +8,9 @@ public class PlacerClimber extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
     private static PlacerClimber instance;
-    private DigitalInput upLimit;
-    private DigitalInput downLimit;
-    public DigitalInput Hook;
+    private final DigitalInput upLimit;
+    private final DigitalInput downLimit;
+    public final DigitalInput Hook;
 
 
     public PlacerClimber(WPI_TalonSRX rightPlacer, WPI_TalonSRX leftPlacer, DigitalInput upLimit, DigitalInput downLimit,
@@ -28,7 +28,7 @@ public class PlacerClimber extends MotoredGenericSubsystem {
         return instance;
 
     }
-    
+
     @Override
     public boolean canMove(double speed) {
         if (Hook.get())
