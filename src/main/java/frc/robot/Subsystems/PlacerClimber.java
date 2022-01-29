@@ -10,25 +10,19 @@ public class PlacerClimber extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
     private static PlacerClimber instance;
-    private DigitalInput upRightLimit;
-    private DigitalInput downRightLimit;
-    private DigitalInput upLeftLimit;
-    private DigitalInput downLeftLimit;
-    public DigitalInput rightHook;
-    public DigitalInput leftHook;
+    private DigitalInput upLimit;
+    private DigitalInput downLimit;
+    public DigitalInput Hook;
 
-    public PlacerClimber(WPI_TalonSRX rightPlacer, WPI_TalonSRX leftPlacer, DigitalInput upRightLimit,
-                         DigitalInput downRightLimit, DigitalInput downLeftLimit, DigitalInput upLeftLimit,
-                         DigitalInput rightHook, DigitalInput leftHook) {
+
+    public PlacerClimber(WPI_TalonSRX rightPlacer, WPI_TalonSRX leftPlacer, DigitalInput upLimit, DigitalInput downLimit,
+                         DigitalInput Hook) {
         super(MIN_SPEED, MAX_SPEED, "placerClimber", rightPlacer, leftPlacer);
         this.leftPlacer = leftPlacer;
         this.rightPlacer = rightPlacer;
-        this.upRightLimit = upRightLimit;
-        this.downRightLimit = downRightLimit;
-        this.rightHook = rightHook;
-        this.upLeftLimit = upLeftLimit;
-        this.downLeftLimit = downLeftLimit;
-        this.leftHook = leftHook;
+        this.upLimit = upLimit;
+        this.downLimit = downLimit;
+        this.Hook = Hook;
         leftPlacer.follow(rightPlacer);
         rightPlacer.setInverted(true);
 
@@ -37,7 +31,6 @@ public class PlacerClimber extends MotoredGenericSubsystem {
     public static PlacerClimber getInstance() {
         if (instance == null)
             instance = new PlacerClimber(new WPI_TalonSRX(-1), new WPI_TalonSRX(-1),
-                    new DigitalInput(-1), new DigitalInput(-1), new DigitalInput(-1),
                     new DigitalInput(-1), new DigitalInput(-1), new DigitalInput(-1));
         return instance;
 
@@ -50,11 +43,11 @@ public class PlacerClimber extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        if (leftHook.get() || rightHook.get())
+        if (Hook.get())
             return false;
-        if (speed > 0 && (upRightLimit.get() || upLeftLimit.get()))
+        if (speed > 0 && upLimit.get())
             return false;
-        if (speed < 0 && (downRightLimit.get() || downLeftLimit.get()))
+        if (speed < 0 && downLimit.get())
             return false;
         return true;
     }

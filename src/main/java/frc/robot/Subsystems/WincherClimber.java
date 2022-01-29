@@ -14,16 +14,13 @@ public class WincherClimber extends MotoredGenericSubsystem {
     private static int magnets = 0;
     private static boolean counted = false;
     private static WincherClimber instance;
-    private static DigitalInput rightHallEffect;
-    private static DigitalInput leftHallEffect;
+    private static DigitalInput HallEffect;
 
-    public WincherClimber(WPI_VictorSPX rightWinch, WPI_VictorSPX leftWinch, DigitalInput rightHallEffect,
-                          DigitalInput leftHallEffect) {
+    public WincherClimber(WPI_VictorSPX rightWinch, WPI_VictorSPX leftWinch, DigitalInput HallEffect) {
         super(MIN_SPEED, MAX_SPEED, "wincherClimber", rightWinch, leftWinch);
         this.rightWinch = rightWinch;
         this.leftWinch = leftWinch;
-        this.rightHallEffect = rightHallEffect;
-        this.leftHallEffect = leftHallEffect;
+        this.HallEffect = HallEffect;
         leftWinch.follow(rightWinch);
         rightWinch.setInverted(true);
 
@@ -32,7 +29,7 @@ public class WincherClimber extends MotoredGenericSubsystem {
     public static WincherClimber getInstance() {
         if (instance == null) {
             instance = new WincherClimber(new WPI_VictorSPX(-1), new WPI_VictorSPX(-1),
-                    new DigitalInput(-1), new DigitalInput(-1));
+                    new DigitalInput(-1));
         }
         return instance;
     }
@@ -40,15 +37,13 @@ public class WincherClimber extends MotoredGenericSubsystem {
     @Override
     public void apply(double speed) {
         super.apply(speed);
-        if (counted && rightHallEffect.get())
-            counted = false;
-        if (counted && leftHallEffect.get())
-            counted = false;
+        if (counted && HallEffect.get())
+            counted = false;;
     }
 
     @Override
     public boolean canMove(double speed) {
-        if (!counted && rightHallEffect.get() && leftHallEffect.get()) {
+        if (!counted && HallEffect.get()) {
             if (speed > 0)
                 magnets++;
             else {

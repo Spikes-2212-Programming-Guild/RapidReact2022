@@ -9,13 +9,9 @@ public class RobotMap {
     }
 
     public interface DIO{
-        int WINCHER_HALL_EFFECT_LEFT=-1;
-        int WINCHER_HALL_EFFECT_RIGHT=-1;
-        int PLACER_LIMIT_RIGHT_UP=-1;
-        int PLACER_LIMIT_RIGHT_DOWN=-1;
-        int PLACER_LIMIT_LEFT_UP=-1;
-        int PLACER_LIMIT_LEFT_DOWN=-1;
-        int PLACER_LIMIT_HOOK_LEFT=-1;
-        int PLACER_LIMIT_HOOK_RIGHT=-1;
+        int WINCHER_HALL_EFFECT=-1;
+        int PLACER_LIMIT_UP=-1;
+        int PLACER_LIMIT_DOWN=-1;
+        int PLACER_LIMIT_HOOK=-1;
     }
 }
