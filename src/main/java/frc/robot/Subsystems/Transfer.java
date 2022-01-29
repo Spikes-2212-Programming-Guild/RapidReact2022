@@ -75,6 +75,11 @@ public class Transfer extends GenericSubsystem {
         strapMotors.stopMotor();
     }
 
+    @Override
+    public void periodic() {
+        rootNamespace.update();
+    }
+
     public Limelight getLimelight() {
         return limelight;
     }
