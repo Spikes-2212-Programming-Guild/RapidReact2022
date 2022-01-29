@@ -57,7 +57,7 @@ public class Drivetrain extends TankDrivetrain {
             WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(RobotMap.CAN.PIGEON_TALON);
             instance = new Drivetrain(new BustedMotorControllerGroup(
                     leftCorrection,
-                    pigeonTalon, // TODO: If you change the pigeon talon change this as well
+                    pigeonTalon, // @TODO: If you change the pigeon talon change this as well
                     new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_2)
             ),
                     new BustedMotorControllerGroup(
