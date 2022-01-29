@@ -8,7 +8,7 @@ public class OI /* GEVALD */ {
     private final Joystick right = new Joystick(1);
 
     public double getRightY() {
-        return right.getY();
+        return -right.getY();
     }
 
     public double getLeftX() {

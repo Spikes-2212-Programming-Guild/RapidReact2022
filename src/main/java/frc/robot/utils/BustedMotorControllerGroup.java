@@ -18,14 +18,14 @@ public class BustedMotorControllerGroup extends MotorControllerGroup {
      */
     private Supplier<Double> correction;
 
-    public BustedMotorControllerGroup(double correction, MotorController motorController, MotorController... motorControllers) {
-        this(() -> correction, motorController, motorControllers);
-    }
-
     public BustedMotorControllerGroup(Supplier<Double> correction, MotorController motorController, MotorController... motorControllers) {
         super(motorController, motorControllers);
 
         this.correction = correction;
+    }
+
+    public BustedMotorControllerGroup(double correction, MotorController motorController, MotorController... motorControllers) {
+        this(() -> correction, motorController, motorControllers);
     }
 
     @Override

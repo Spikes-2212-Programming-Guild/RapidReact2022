@@ -21,13 +21,15 @@ public class Drivetrain extends TankDrivetrain {
 
     /**
      * The wheel moves 20.32 * PI (it's perimeter) each 360 ticks.
+     * In meters.
      */
-    private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 360.0;
+    private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 360.0 / 100;
 
     private static Drivetrain instance;
 
     private static final RootNamespace rootNamespace = new RootNamespace("drivetrain");
     private static final Namespace encoderNamespace = rootNamespace.addChild("encoders");
+    private static final Namespace pigeonNamespace = rootNamespace.addChild("pigeon");
     private static final Namespace PIDNamespace = rootNamespace.addChild("PID");
     private static final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
@@ -93,7 +95,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     public double getYaw() {
-        return pigeon.getYaw();
+        return pigeon.getYaw() % 360;
     }
 
     public double getRightDistance() {
@@ -121,6 +123,14 @@ public class Drivetrain extends TankDrivetrain {
         encoderNamespace.putNumber("left distance", leftEncoder::getDistance);
         encoderNamespace.putNumber("right distance", rightEncoder::getDistance);
         encoderNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders) {
+            @Override
+            public boolean runsWhenDisabled() {
+                return true;
+            }
+        });
+
+        pigeonNamespace.putNumber("yaw", this::getYaw);
+        pigeonNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
