@@ -47,10 +47,10 @@ public class Drivetrain extends TankDrivetrain {
     public static Drivetrain getInstance() {
         if (instance == null) {
             instance = new Drivetrain(new BustedMotorControllerGroup(
-                            leftCorrection,
-                            new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_1),
-                            new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_2)
-                    ),
+                    leftCorrection,
+                    new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_1),
+                    new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_LEFT_VICTOR_2)
+            ),
                     new BustedMotorControllerGroup(
                             rightCorrection,
                             new WPI_VictorSPX(RobotMap.CAN.DRIVETRAIN_RIGHT_VICTOR_1),
@@ -88,7 +88,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     /**
-     *  initialise namespaces and add sensor data to dashboard
+     * initialise namespaces and add sensor data to dashboard
      */
     public void configureDashboard() {
 
