@@ -19,14 +19,12 @@ public class Robot extends TimedRobot {
 
     private OI oi;
     private Drivetrain drivetrain;
-    private DriveArcade driveArcade;
 
     @Override
     public void robotInit() {
         oi = new OI();
         drivetrain = Drivetrain.getInstance();
         drivetrain.configureDashboard();
-        driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
     }
 
     /**
@@ -66,6 +64,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
     }
 
