@@ -43,6 +43,8 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kP = PIDNamespace.addConstantDouble("kP", 0);
     private final Supplier<Double> kI = PIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kD = PIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> tolerance = PIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> waitTime = PIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettings;
     private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
@@ -75,7 +77,7 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        this.pidSettings = new PIDSettings(this.kP, this.kI, this.kD);
+        this.pidSettings = new PIDSettings(this.kP, this.kI, this.kD, tolerance, waitTime);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
 
