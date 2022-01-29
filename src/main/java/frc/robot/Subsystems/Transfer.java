@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
- * Transports cargo from the bottom to the top of the robot
+ * Transports cargo from the bottom to the top of the robot.
  */
 public class Transfer extends MotoredGenericSubsystem {
 
     /**
-     * A light sensor that sends a signal while a cargo is held at the bottom of the timing straps
+     * A light sensor that sends a signal while a cargo is held at the bottom of the timing straps.
      */
     private final DigitalInput entranceSensor;
 
