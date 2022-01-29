@@ -1,7 +1,6 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.ColorSensorV3;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
@@ -9,9 +8,7 @@ import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.PigeonWrapper;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 import frc.robot.utils.BustedMotorControllerGroup;
@@ -30,8 +27,6 @@ public class Drivetrain extends TankDrivetrain {
 
     private RootNamespace rootNamespace = new RootNamespace("drivetrain");
     private Namespace encoderNamespace = rootNamespace.addChild("encoders");
-    private Namespace leftColorSensorNamespace = rootNamespace.addChild("left color sensor");
-    private Namespace rightColorSensorNamespace = rootNamespace.addChild("right color sensor");
     private Namespace PIDNamespace = rootNamespace.addChild("PID");
     private Namespace FeedForwardNamespace = rootNamespace.addChild("Feed Forward");
 
