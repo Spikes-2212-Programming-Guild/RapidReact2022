@@ -37,7 +37,6 @@ public class Drivetrain extends TankDrivetrain {
 
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
-    private final ColorSensorV3 rightColorSensor, leftColorSensor;
 
     private PIDSettings pidSettings;
     private final Supplier<Double> kP = PIDNamespace.addConstantDouble("kP", 0);
@@ -73,8 +72,6 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        this.rightColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-        this.leftColorSensor = new ColorSensorV3(I2C.Port.kMXP);
         this.pidSettings = new PIDSettings(this.kP, this.kI, this.kD);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
@@ -89,14 +86,6 @@ public class Drivetrain extends TankDrivetrain {
         rootNamespace.update();
     }
 
-    public Color getLeftColor() {
-        return leftColorSensor.getColor();
-    }
-
-    public Color getRightColor() {
-        return rightColorSensor.getColor();
-    }
-
     public double getYaw() {
         return pigeon.getYaw();
     }
@@ -108,23 +97,15 @@ public class Drivetrain extends TankDrivetrain {
 
         rightCorrection = rootNamespace.addConstantDouble("right correction", 0);
 
-        encoderNamespace.putNumber("left ticks", this.leftEncoder::get);
-        encoderNamespace.putNumber("right ticks", this.rightEncoder::get);
-        encoderNamespace.putNumber("left distance", this.leftEncoder::getDistance);
-        encoderNamespace.putNumber("right distance", this.rightEncoder::getDistance);
+        encoderNamespace.putNumber("left ticks", leftEncoder::get);
+        encoderNamespace.putNumber("right ticks", rightEncoder::get);
+        encoderNamespace.putNumber("left distance", leftEncoder::getDistance);
+        encoderNamespace.putNumber("right distance", rightEncoder::getDistance);
         encoderNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
             }
         });
-
-        leftColorSensorNamespace.putNumber("left color sensor red", () -> this.getLeftColor().red);
-        leftColorSensorNamespace.putNumber("left color sensor blue", () -> this.getLeftColor().blue);
-        leftColorSensorNamespace.putNumber("left color sensor green", () -> this.getLeftColor().green);
-
-        rightColorSensorNamespace.putNumber("right color sensor red", () -> this.getRightColor().red);
-        rightColorSensorNamespace.putNumber("right color sensor blue", () -> this.getRightColor().blue);
-        rightColorSensorNamespace.putNumber("right color sensor green", () -> this.getRightColor().green);
     }
 }
