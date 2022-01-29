@@ -17,6 +17,10 @@ import frc.robot.Subsystems.Drivetrain;
  */
 public class Robot extends TimedRobot {
 
+    /**
+     * This function is run when the robot is first started up and should be used for any
+     * initialization code.
+     */
     private OI oi;
     private Drivetrain drivetrain;
 
@@ -70,6 +74,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        // This makes sure that the autonomous stops running when
+        // teleop starts running. If you want the autonomous to
+        // continue until interrupted by another command, remove
+        // this line or comment it out.
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
     }
