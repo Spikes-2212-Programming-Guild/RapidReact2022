@@ -20,7 +20,7 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
 
     private IntakeToTransfer(WPI_TalonSRX talon) {
         super("intake to transfer", talon);
-        this.limit = new DigitalInput(RobotMap.CAN.INTAKE_TO_TRANSFER_LIMIT);
+        this.limit = new DigitalInput(RobotMap.DIO.INTAKE_TO_TRANSFER_LIMIT);
     }
 
     public boolean getLimit() {
