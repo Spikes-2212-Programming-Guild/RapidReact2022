@@ -5,8 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class PlacerClimber extends MotoredGenericSubsystem {
-    private WPI_TalonSRX rightPlacer;
-    private WPI_TalonSRX leftPlacer;
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
     private static PlacerClimber instance;
@@ -18,14 +16,9 @@ public class PlacerClimber extends MotoredGenericSubsystem {
     public PlacerClimber(WPI_TalonSRX rightPlacer, WPI_TalonSRX leftPlacer, DigitalInput upLimit, DigitalInput downLimit,
                          DigitalInput Hook) {
         super(MIN_SPEED, MAX_SPEED, "placerClimber", rightPlacer, leftPlacer);
-        this.leftPlacer = leftPlacer;
-        this.rightPlacer = rightPlacer;
         this.upLimit = upLimit;
         this.downLimit = downLimit;
         this.Hook = Hook;
-        leftPlacer.follow(rightPlacer);
-        rightPlacer.setInverted(true);
-
     }
 
     public static PlacerClimber getInstance() {
@@ -35,12 +28,7 @@ public class PlacerClimber extends MotoredGenericSubsystem {
         return instance;
 
     }
-
-    @Override
-    public void apply(double speed) {
-        super.apply(speed);
-    }
-
+    
     @Override
     public boolean canMove(double speed) {
         if (Hook.get())
@@ -52,10 +40,5 @@ public class PlacerClimber extends MotoredGenericSubsystem {
         return true;
     }
 
-    @Override
-    public void stop() {
-        rightPlacer.stopMotor();
-
-    }
 
 }
