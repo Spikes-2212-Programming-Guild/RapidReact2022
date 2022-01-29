@@ -93,6 +93,22 @@ public class Drivetrain extends TankDrivetrain {
         return pigeon.getYaw();
     }
 
+    public double getRightDistance() {
+        return rightEncoder.getDistance();
+    }
+
+    public double getRightTicks() {
+        return rightEncoder.get();
+    }
+
+    public double getLeftDistance() {
+        return leftEncoder.getDistance();
+    }
+
+    public double getLeftTicks() {
+        return leftEncoder.get();
+    }
+
     /**
      * Initializes namespaces and adds sensor data to dashboard.
      */
