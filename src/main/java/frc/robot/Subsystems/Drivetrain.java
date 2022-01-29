@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 public class Drivetrain extends TankDrivetrain {
 
-    // The wheel moves 20.32 * PI (it's perimeter) each 4096 ticks.
+    // The wheel moves 20.32 * PI (it's perimeter) each 360 ticks.
     private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 360.0;
 
     // One side of the robot is faster than the other. To solve this we slow down one of the sides.
@@ -28,21 +28,26 @@ public class Drivetrain extends TankDrivetrain {
 
     private static Drivetrain instance;
 
-    private RootNamespace root;
-    private Namespace encoderNamespace;
-    private Namespace leftColorSensorNamespace;
-    private Namespace rightColorSensorNamespace;
-    private Namespace PIDNamespace;
-    private Namespace FeedForwardNamespace;
+    private RootNamespace rootNamespace = new RootNamespace("drivetrain");
+    private Namespace encoderNamespace = rootNamespace.addChild("encoders");
+    private Namespace leftColorSensorNamespace = rootNamespace.addChild("left color sensor");
+    private Namespace rightColorSensorNamespace = rootNamespace.addChild("right color sensor");
+    private Namespace PIDNamespace = rootNamespace.addChild("PID");
+    private Namespace FeedForwardNamespace = rootNamespace.addChild("Feed Forward");
 
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
     private final ColorSensorV3 rightColorSensor, leftColorSensor;
 
     private PIDSettings pidSettings;
-    private Supplier<Double> kP, kI, kD;
+    private final Supplier<Double> kP = PIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kI = PIDNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kD = PIDNamespace.addConstantDouble("kD", 0);
     private FeedForwardSettings ffSettings;
-    private Supplier<Double> kV, kS, kA;
+    private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
+    private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
+
 
     public static Drivetrain getInstance() {
         if (instance == null) {
@@ -70,8 +75,8 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightColorSensor = new ColorSensorV3(I2C.Port.kOnboard);
         this.leftColorSensor = new ColorSensorV3(I2C.Port.kMXP);
-        this.pidSettings = new PIDSettings(kP, kI, kD);
-        this.ffSettings = new FeedForwardSettings(kS, kV, kA);
+        this.pidSettings = new PIDSettings(this.kP, this.kI, this.kD);
+        this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
 
     private void resetEncoders() {
@@ -81,7 +86,7 @@ public class Drivetrain extends TankDrivetrain {
 
     @Override
     public void periodic() {
-        root.update();
+        rootNamespace.update();
     }
 
     public Color getLeftColor() {
@@ -100,12 +105,8 @@ public class Drivetrain extends TankDrivetrain {
      *  initialise namespaces and add sensor data to dashboard
      */
     public void configureDashboard() {
-        root = new RootNamespace("drivetrain");
-        leftColorSensorNamespace = root.addChild("left color sensor");
-        rightColorSensorNamespace = root.addChild("right color sensor");
-        encoderNamespace = root.addChild("encoders");
 
-        rightCorrection = root.addConstantDouble("right correction", 0);
+        rightCorrection = rootNamespace.addConstantDouble("right correction", 0);
 
         encoderNamespace.putNumber("left ticks", this.leftEncoder::get);
         encoderNamespace.putNumber("right ticks", this.rightEncoder::get);
@@ -125,13 +126,5 @@ public class Drivetrain extends TankDrivetrain {
         rightColorSensorNamespace.putNumber("right color sensor red", () -> this.getRightColor().red);
         rightColorSensorNamespace.putNumber("right color sensor blue", () -> this.getRightColor().blue);
         rightColorSensorNamespace.putNumber("right color sensor green", () -> this.getRightColor().green);
-
-        kP = PIDNamespace.addConstantDouble("kP", 0);
-        kI = PIDNamespace.addConstantDouble("kI", 0);
-        kD = PIDNamespace.addConstantDouble("kD", 0);
-
-        kV = FeedForwardNamespace.addConstantDouble("kV", 0);
-        kS = FeedForwardNamespace.addConstantDouble("kS", 0);
-        kA = FeedForwardNamespace.addConstantDouble("kA", 0);
     }
 }
