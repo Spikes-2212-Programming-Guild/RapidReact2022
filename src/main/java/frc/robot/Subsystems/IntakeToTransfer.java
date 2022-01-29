@@ -6,7 +6,11 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
+/**
+ * Uses a wheel located between the transfer and intake subsystem to hold/move cargo pieces.
+ */
 public class IntakeToTransfer extends MotoredGenericSubsystem {
+
     private static IntakeToTransfer instance;
 
     private DigitalInput limit;
