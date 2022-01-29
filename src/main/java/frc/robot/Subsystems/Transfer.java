@@ -40,19 +40,13 @@ public class Transfer extends GenericSubsystem {
     }
 
     private Transfer(WPI_TalonSRX entranceTalon, WPI_TalonSRX strapTalon1, WPI_TalonSRX strapTalon2) {
+        strapTalon1.setInverted(true);
+        this.strapMotors = new MotorControllerGroup(strapTalon1, strapTalon2);
+        this.entranceTalon = entranceTalon;
         this.entranceMotorSensor = new DigitalInput(RobotMap.DIO.TRANSFER_WHEEL_ENTRANCE_LIMIT_SWITCH);
         this.strapEntranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_STRAP_LIGHT_SENSOR);
         this.limelight = new Limelight();
-        this.strapMotors = new MotorControllerGroup(strapTalon1, strapTalon2);
-        this.entranceTalon = entranceTalon;
     }
-//    private Transfer(WPI_TalonSRX talon1, WPI_TalonSRX talon2) {
-//        super("transfer", talon1, talon2);
-//        talon2.setInverted(true);
-//        this.motorEntranceLimitSwitch = new DigitalInput(RobotMap.DIO.TRANSFER_MOTOR_LIMIT_SWITCH);
-//        this.strapEntranceLimitSwitch = new DigitalInput(RobotMap.DIO.TRANSFER_STRAP_LIMIT_SWITCH);
-//        this.limelight = new Limelight();
-//    }
 
     @Override
     protected void apply(double speed) {
@@ -84,7 +78,7 @@ public class Transfer extends GenericSubsystem {
         return limelight;
     }
 
-    public boolean getEntranceMotorLimitPressed() {
+    public boolean getEntranceMotorLimit() {
         return entranceMotorSensor.get();
     }
 
