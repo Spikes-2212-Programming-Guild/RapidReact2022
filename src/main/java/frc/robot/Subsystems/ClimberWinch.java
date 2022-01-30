@@ -17,8 +17,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private static ClimberWinch instance;
 
     /**
-     * Determine whether the hook is lashed onto the bar.
-     * */
+     * Whether the hook is lashed onto the bar.
+     */
     private final DigitalInput hookLimit;
 
     /**
