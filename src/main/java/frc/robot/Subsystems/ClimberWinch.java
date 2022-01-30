@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
- * Controls the climber winch which controls the height of the telescopic arm.
+ * Controls the climber winch which controls the height of the telescopic arms.
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 

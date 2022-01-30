@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
- * Controls the position of the climber's.
+ * Controls the position of the climber.
  */
 public class ClimberPlacer extends MotoredGenericSubsystem {
 
