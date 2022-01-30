@@ -66,7 +66,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
             magnetLevel = Level.MIDDLE;
     }
 
-    public boolean getHookLimit() {
+    public boolean isHooked() {
         return hookLimit.get();
     }
 }
