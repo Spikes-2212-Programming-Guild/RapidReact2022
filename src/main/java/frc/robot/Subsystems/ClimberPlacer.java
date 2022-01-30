@@ -19,13 +19,15 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
     public final DigitalInput hookLimit;
-    private WPI_TalonSRX leftPlacer;
-    private WPI_TalonSRX rightPlacer;
+    private static WPI_TalonSRX leftPlacer;
+    private static WPI_TalonSRX rightPlacer;
 
     public static ClimberPlacer getInstance() {
-        if (instance == null)
-            instance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_LEFT),
-                    new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_RIGHT));
+        if (instance == null) {
+            leftPlacer = new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_LEFT);
+            rightPlacer = new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_RIGHT);
+            instance = new ClimberPlacer(leftPlacer, rightPlacer);
+        }
         return instance;
     }
 
@@ -41,11 +43,11 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         return !(hookLimit.get() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get());
     }
 
-    public WPI_TalonSRX getLeftTalon(){
+    public WPI_TalonSRX getLeftTalon() {
         return leftPlacer;
     }
 
-    public WPI_TalonSRX getRightTalon(){
+    public WPI_TalonSRX getRightTalon() {
         return rightPlacer;
     }
 }
