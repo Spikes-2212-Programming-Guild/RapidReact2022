@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -12,10 +13,14 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
+
     private static ClimberPlacer instance;
+
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
     public final DigitalInput hookLimit;
+    private WPI_TalonSRX leftPlacer;
+    private WPI_TalonSRX rightPlacer;
 
     public static ClimberPlacer getInstance() {
         if (instance == null)
@@ -34,5 +39,13 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     @Override
     public boolean canMove(double speed) {
         return !(hookLimit.get() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get());
+    }
+
+    public WPI_TalonSRX getLeftTalon(){
+        return leftPlacer;
+    }
+
+    public WPI_TalonSRX getRightTalon(){
+        return rightPlacer;
     }
 }
