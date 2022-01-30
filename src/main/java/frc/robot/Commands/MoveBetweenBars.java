@@ -24,10 +24,35 @@ public class MoveBetweenBars extends MoveGenericSubsystem {
     private final WPI_TalonSRX leftTalon;
     private final WPI_TalonSRX rightTalon;
 
+    private boolean leftPassedFirstStall = false;
+    private boolean rightPassedFirstStall = false;
+    private boolean leftStalled = false;
+    private boolean rightStalled = false;
+
     public MoveBetweenBars(ClimberPlacer dynamicClimber) {
         super(dynamicClimber, MOVEMENT_SPEED);
         this.leftTalon = dynamicClimber.getLeftTalon();
         this.rightTalon = dynamicClimber.getRightTalon();
+    }
+
+    @Override
+    public void execute() {
+        if (leftTalon.getStatorCurrent() < STALL_CURRENT.get() && !leftPassedFirstStall) {
+            leftTalon.set(MOVEMENT_SPEED.get());
+            leftPassedFirstStall = true;
+        } else if (leftTalon.getStatorCurrent() < STALL_CURRENT.get()){
+            leftTalon.set(MOVEMENT_SPEED.get());
+        } else {
+            leftStalled = true;
+        }
+        if (rightTalon.getStatorCurrent() < STALL_CURRENT.get() && !rightPassedFirstStall) {
+            rightTalon.set(MOVEMENT_SPEED.get());
+            rightPassedFirstStall = true;
+        } else if (rightTalon.get() < STALL_CURRENT.get()) {
+            rightTalon.set(MOVEMENT_SPEED.get());
+        } else {
+            rightStalled = true;
+        }
     }
 
     /**
@@ -35,6 +60,6 @@ public class MoveBetweenBars extends MoveGenericSubsystem {
      */
     @Override
     public boolean isFinished() {
-        return leftTalon.getStatorCurrent() > STALL_CURRENT.get() && rightTalon.getStatorCurrent() > STALL_CURRENT.get();
+        return leftStalled && rightStalled;
     }
 }
