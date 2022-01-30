@@ -29,7 +29,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         return instance;
     }
 
-    public ClimberPlacer(WPI_TalonSRX leftPlacer, WPI_TalonSRX rightPlacer) {
+    private ClimberPlacer(WPI_TalonSRX leftPlacer, WPI_TalonSRX rightPlacer) {
         super(MIN_SPEED, MAX_SPEED, "climber placer", leftPlacer, rightPlacer);
         this.frontLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_FRONT);
         this.backLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_BACK);
