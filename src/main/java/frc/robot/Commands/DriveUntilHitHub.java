@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 public class DriveUntilHitHub extends DriveArcade {
 
     RootNamespace rootNamespace = new RootNamespace("drive until hit hub");
+
     /**
      * A value between the stall current and running current of the motors
      */
