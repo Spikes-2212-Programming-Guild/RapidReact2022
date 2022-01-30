@@ -18,7 +18,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
-    public final DigitalInput hookLimit;
     private static WPI_TalonSRX leftPlacer;
     private static WPI_TalonSRX rightPlacer;
 
@@ -35,12 +34,11 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "climber placer", leftPlacer, rightPlacer);
         this.frontLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_FRONT);
         this.backLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_BACK);
-        this.hookLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_HOOK);
     }
 
     @Override
     public boolean canMove(double speed) {
-        return !(hookLimit.get() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get());
+        return !(ClimberWinch.getInstance().getHookLimit() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get());
     }
 
     public WPI_TalonSRX getLeftTalon() {

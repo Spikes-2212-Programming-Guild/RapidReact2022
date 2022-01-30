@@ -1,11 +1,10 @@
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
-import com.revrobotics.CANSparkMax;
 
 /**
  * Controls the climber winch which controls the height of the telescopic arm.
@@ -15,18 +14,24 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
 
-    /**
-     * Which magnet the hall effect sensor is attached to.
-     */
-    private Level magnetLevel;
     private static ClimberWinch instance;
+
+    /**
+     * Determine whether the hook is lashed onto the bar.
+     * */
+    private final DigitalInput hookLimit;
 
     /**
      * Whether the arm reached its max height or minimum height.
      */
     private final DigitalInput hallEffect;
 
-    enum Level {UPPER, LOWER, MIDDLE}
+    /**
+     * Which magnet the hall effect sensor is attached to.
+     */
+    private Level magnetLevel;
+
+    private enum Level {UPPER, LOWER, MIDDLE}
 
     public static ClimberWinch getInstance() {
         if (instance == null) {
@@ -40,6 +45,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "climber winch", leftWinch, rightWinch);
         this.magnetLevel = Level.LOWER;
         this.hallEffect = new DigitalInput(RobotMap.DIO.WINCH_HALL_EFFECT);
+        this.hookLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_HOOK);
     }
 
     @Override
@@ -59,4 +65,9 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         } else
             magnetLevel = Level.MIDDLE;
     }
+
+    public boolean getHookLimit() {
+        return hookLimit.get();
+    }
 }
+
