@@ -70,4 +70,3 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         return hookLimit.get();
     }
 }
-
