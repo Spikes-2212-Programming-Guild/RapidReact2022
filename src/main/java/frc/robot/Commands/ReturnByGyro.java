@@ -9,8 +9,6 @@ import frc.robot.Subsystems.Transfer;
 /**
  * This command moves the {@link Drivetrain} till either its gyro angle is zero or the
  * {@link Limelight} has a valid target.
- *
- * @author Ofri Rosenbaum
  */
 public class ReturnByGyro extends DriveArcadeWithPID {
 
