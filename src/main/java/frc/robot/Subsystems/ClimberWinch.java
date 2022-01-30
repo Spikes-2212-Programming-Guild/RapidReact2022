@@ -1,13 +1,14 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
-
+import com.revrobotics.CANSparkMax;
 
 /**
- * Controls the climber winch which controls the height of telescopic arm.
+ * Controls the climber winch which controls the height of the telescopic arm.
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
@@ -21,7 +22,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private static ClimberWinch instance;
 
     /**
-     * Whether the arm reached her max height or minimum height.
+     * Whether the arm reached its max height or minimum height.
      */
     private final DigitalInput hallEffect;
 
@@ -29,13 +30,13 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     public static ClimberWinch getInstance() {
         if (instance == null) {
-            instance = new ClimberWinch(new WPI_VictorSPX(RobotMap.CAN.WINCH_VICTOR_LEFT),
-                    new WPI_VictorSPX(RobotMap.CAN.WINCH_VICTOR_RIGHT));
+            instance = new ClimberWinch(new CANSparkMax(RobotMap.CAN.WINCH_SPARKMAX_1, CANSparkMaxLowLevel.MotorType.kBrushless),
+                    new CANSparkMax(RobotMap.CAN.WINCH_SPARKMAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return instance;
     }
 
-    private ClimberWinch(WPI_VictorSPX leftWinch, WPI_VictorSPX rightWinch) {
+    private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super(MIN_SPEED, MAX_SPEED, "climber winch", leftWinch, rightWinch);
         this.magnetLevel = Level.LOWER;
         this.hallEffect = new DigitalInput(RobotMap.DIO.WINCH_HALL_EFFECT);
