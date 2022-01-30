@@ -16,7 +16,6 @@ import java.util.function.Supplier;
 /**
  * Controls the position of the {@code IntakeRoller}.
  *
- * @author Ofri Rosenbaum
  * @see MotoredGenericSubsystem
  */
 public class IntakePlacer extends MotoredGenericSubsystem {

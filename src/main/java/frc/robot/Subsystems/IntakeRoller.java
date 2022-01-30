@@ -9,7 +9,6 @@ import frc.robot.RobotMap;
 /**
  * Controls the roller part of the intake subsystem.
  *
- * @author Ofri Rosenbaum
  * @see MotoredGenericSubsystem
  */
 public class IntakeRoller extends MotoredGenericSubsystem {
