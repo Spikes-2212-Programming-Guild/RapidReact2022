@@ -13,17 +13,16 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
+
     /**
      * Which magnet the hall effect sensor is attached to.
      */
-
     private Level magnetLevel;
-
     private static ClimberWinch instance;
+
     /**
      * Whether the arm reached her max height or minimum height.
      */
-
     private final DigitalInput hallEffect;
 
     enum Level {UPPER, LOWER, MIDDLE}
