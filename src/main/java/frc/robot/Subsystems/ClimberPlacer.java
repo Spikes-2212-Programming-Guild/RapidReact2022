@@ -37,7 +37,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        return !(ClimberWinch.getInstance().getHookLimit() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get());
+        return !(ClimberWinch.getInstance().isHooked() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get());
     }
 
     public WPI_TalonSRX getLeftTalon() {
