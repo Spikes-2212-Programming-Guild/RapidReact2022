@@ -11,22 +11,19 @@ import java.util.function.Supplier;
  */
 public class DriveUntilHitHub extends DriveArcade {
 
-    RootNamespace rootNamespace = new RootNamespace("drive until hit hub");
+    private static final RootNamespace rootNamespace = new RootNamespace("drive until hit hub");
 
     /**
      * A value between the stall current and running current of the motors
      */
-    private final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 0);
+    private static final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 0);
+    private static final Supplier<Double> MOVEMENT_SPEED = rootNamespace.addConstantDouble("movement speed", 0);
 
     private final Drivetrain drivetrain;
 
     public DriveUntilHitHub(Drivetrain drivetrain, Supplier<Double> movementSpeed) {
-        super(drivetrain, movementSpeed, () -> 0.0);
+        super(drivetrain, MOVEMENT_SPEED, () -> 0.0);
         this.drivetrain = drivetrain;
-    }
-
-    public DriveUntilHitHub(Drivetrain drivetrain, double movementSpeed, double stallCurrent) {
-        this(drivetrain, () -> movementSpeed);
     }
 
     @Override
