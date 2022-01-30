@@ -37,7 +37,7 @@ public class MoveBetweenBars extends MoveGenericSubsystem {
 
     @Override
     public void execute() {
-        if (leftTalon.getStatorCurrent() < STALL_CURRENT.get() && !leftPassedFirstStall) {
+        if (!leftPassedFirstStall && leftTalon.getStatorCurrent() < STALL_CURRENT.get()) {
             leftTalon.set(MOVEMENT_SPEED.get());
             leftPassedFirstStall = true;
         } else if (leftTalon.getStatorCurrent() < STALL_CURRENT.get()){
@@ -45,7 +45,7 @@ public class MoveBetweenBars extends MoveGenericSubsystem {
         } else {
             leftStalled = true;
         }
-        if (rightTalon.getStatorCurrent() < STALL_CURRENT.get() && !rightPassedFirstStall) {
+        if (!rightPassedFirstStall && rightTalon.getStatorCurrent() < STALL_CURRENT.get()) {
             rightTalon.set(MOVEMENT_SPEED.get());
             rightPassedFirstStall = true;
         } else if (rightTalon.get() < STALL_CURRENT.get()) {
