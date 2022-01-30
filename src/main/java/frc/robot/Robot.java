@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,10 +21,16 @@ public class Robot extends TimedRobot {
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
+    private OI oi;
+    private Drivetrain drivetrain;
+
     @Override
     public void robotInit() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
+        oi = new OI();
+        drivetrain = Drivetrain.getInstance();
+        drivetrain.configureDashboard();
     }
 
     /**
@@ -38,6 +46,7 @@ public class Robot extends TimedRobot {
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
+        drivetrain.periodic();
         CommandScheduler.getInstance().run();
     }
 
@@ -69,6 +78,8 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**
