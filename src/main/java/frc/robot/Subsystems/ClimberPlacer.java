@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
- * This is a motor controlled subsystem of the placer of the climber. which climbs up to the third bar from the second
- * bar and can be adjusted.
+ * Controls the position of the climber's bars.
  */
 public class ClimberPlacer extends MotoredGenericSubsystem {
 
@@ -25,7 +24,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public ClimberPlacer(WPI_TalonSRX leftPlacer, WPI_TalonSRX rightPlacer) {
-        super(MIN_SPEED, MAX_SPEED, "climberplacer", leftPlacer, rightPlacer);
+        super(MIN_SPEED, MAX_SPEED, "climber placer", leftPlacer, rightPlacer);
         this.upLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_UP);
         this.downLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_DOWN);
         this.hook = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_HOOK);
@@ -41,5 +40,4 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
             return false;
         return true;
     }
-
 }
