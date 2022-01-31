@@ -10,8 +10,6 @@ public class Drivetrain extends TankDrivetrain {
     private PIDSettings pidSettings;
     private FeedForwardSettings ffSettings;
 
-    private PigeonWrapper gyro;
-
     private static Drivetrain instance;
 
     public static Drivetrain getInstance() {
@@ -22,10 +20,6 @@ public class Drivetrain extends TankDrivetrain {
 
     private Drivetrain() {
 
-    }
-
-    public PigeonWrapper getGyro() {
-        return gyro;
     }
 
     public PIDSettings getPIDSettings() {
