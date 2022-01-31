@@ -6,10 +6,9 @@ import frc.robot.Subsystems.Dispenser;
 import frc.robot.Subsystems.IntakeToTranfer;
 import frc.robot.Subsystems.Transfer;
 
-
 /**
  * A command that releases cargos from inside the robot.
-*/
+ */
 public class ReleaseCargo extends ParallelCommandGroup {
 
     public ReleaseCargo() {
