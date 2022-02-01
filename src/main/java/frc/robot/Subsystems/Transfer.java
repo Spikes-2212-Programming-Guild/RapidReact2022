@@ -11,7 +11,7 @@ public class Transfer extends MotoredGenericSubsystem {
     }
 
     private Transfer() {
-        super("transfer");
+        super(null);
     }
 
     public Limelight getLimelight() {

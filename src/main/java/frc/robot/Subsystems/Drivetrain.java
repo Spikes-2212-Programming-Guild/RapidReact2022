@@ -10,7 +10,7 @@ import com.spikes2212.util.PigeonWrapper;
 public class Drivetrain extends TankDrivetrain {
 
     private Drivetrain() {
-        super(new WPI_TalonSRX(0), new WPI_TalonSRX(0));
+        super(null, null);
     }
 
     public PIDSettings getPIDSettings() {
