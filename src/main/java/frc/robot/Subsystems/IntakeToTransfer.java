@@ -7,7 +7,7 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
     public static final double SPEED = 0.5;
 
     public IntakeToTransfer() {
-        super("intake to transfer");
+        super(null);
     }
 
     public static IntakeToTransfer getInstance() {

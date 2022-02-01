@@ -7,7 +7,7 @@ public class Transfer extends MotoredGenericSubsystem {
     public static final double SPEED = 0.5;
 
     public Transfer() {
-        super("transfer");
+        super(null);
     }
 
     public static Transfer getInstance() {
