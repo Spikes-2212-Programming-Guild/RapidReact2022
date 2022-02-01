@@ -20,7 +20,7 @@ public class AimToHub extends DriveArcadeWithPID {
        super(drivetrain, transfer.getLimelight()::getHorizontalOffsetFromTarget, 0, 0,
                drivetrain.getPIDSettings(), drivetrain.getFFSettings());
        this.transfer = transfer;
-       this.limelight = transfer.limelight;
+       this.limelight = transfer.getLimelight();
     }
 
     @Override
