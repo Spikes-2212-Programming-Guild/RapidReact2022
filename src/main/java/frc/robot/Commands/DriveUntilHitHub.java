@@ -21,7 +21,7 @@ public class DriveUntilHitHub extends DriveArcade {
 
     private final Drivetrain drivetrain;
 
-    public DriveUntilHitHub(Drivetrain drivetrain, Supplier<Double> movementSpeed) {
+    public DriveUntilHitHub(Drivetrain drivetrain) {
         super(drivetrain, MOVEMENT_SPEED, () -> 0.0);
         this.drivetrain = drivetrain;
     }
