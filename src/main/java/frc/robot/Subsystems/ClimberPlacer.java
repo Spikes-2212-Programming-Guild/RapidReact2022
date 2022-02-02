@@ -19,8 +19,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private static ClimberPlacer rightInstance, leftInstance;
 
-    private final Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0);
-    private final Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", 0);
+    private final Supplier<Double> MOVEMENT_SPEED = rootNamespace.addConstantDouble("movement speed", 0);
 
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
@@ -70,10 +69,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public Supplier<Double> getUpSpeed() {
-        return UP_SPEED;
-    }
-
-    public Supplier<Double> getHookedDownSpeed() {
-        return HOOKED_DOWN_SPEED;
+        return MOVEMENT_SPEED;
     }
 }
