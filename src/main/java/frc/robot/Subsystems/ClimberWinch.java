@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 public class ClimberWinch extends MotoredGenericSubsystem {
 
     private Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.6);
-    private Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.4);
+    private Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.25);
     private Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", -0.6);
 
     private ClimberWinch(Supplier<Double> minSpeed, Supplier<Double> maxSpeed, String namespaceName, MotorController... motorControllers) {
