@@ -20,6 +20,8 @@ public class Drivetrain extends OdometryDrivetrain2 {
 
     private static final RootNamespace rootNamespace = new RootNamespace("Drivetrain");
 
+    private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 0);
+
     private final Supplier<Double> kI = rootNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kD = rootNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> TOLERANCE = rootNamespace.addConstantDouble("TOLERANCE", 0);
@@ -48,7 +50,6 @@ public class Drivetrain extends OdometryDrivetrain2 {
         this.rightEncoder = rightEncoder;
         this.gyro = gyro;
 
-        Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 0);
         this.pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
         this.ffSettings = new FeedForwardSettings(kS, kV, kA, kG);
 
