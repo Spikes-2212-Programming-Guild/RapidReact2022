@@ -17,6 +17,7 @@ import frc.robot.RobotMap;
 import java.util.function.Supplier;
 
 public class Drivetrain extends OdometryDrivetrain2 {
+    private static final double WIDTH = 0.6;
 
     private static final RootNamespace rootNamespace = new RootNamespace("Drivetrain");
 
@@ -142,6 +143,6 @@ public class Drivetrain extends OdometryDrivetrain2 {
     }
 
     public double getWidth() {
-        return 0.65;
+        return WIDTH;
     }
 }
