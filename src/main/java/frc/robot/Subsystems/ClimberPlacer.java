@@ -15,9 +15,12 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 0);
 
     private static final double MIN_SPEED = -0.6;
-    private static final double MAX_SPEED =  0.6;
+    private static final double MAX_SPEED = 0.6;
 
     private static ClimberPlacer rightInstance, leftInstance;
+
+    private final Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0);
+    private final Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", 0);
 
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
@@ -54,7 +57,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         else if (!passedFirstStall && stalling && placer.getStatorCurrent() <= STALL_CURRENT.get()) {
             stalling = false;
             passedFirstStall = true;
-        } else if (passedFirstStall && placer.getStatorCurrent() >= STALL_CURRENT.get())
+        }
+        else if (passedFirstStall && placer.getStatorCurrent() >= STALL_CURRENT.get())
             stalling = true;
 
         return !(ClimberWinch.getInstance().isHooked() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get()) &&
@@ -63,5 +67,13 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public WPI_TalonSRX getPlacer() {
         return placer;
+    }
+
+    public Supplier<Double> getUpSpeed() {
+        return UP_SPEED;
+    }
+
+    public Supplier<Double> getHookedDownSpeed() {
+        return HOOKED_DOWN_SPEED;
     }
 }
