@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
  *This is an abstract class which will be implemented to a drivetrain that will include an odometry,
  *as well as the methods required to follow a trajectory.
  *
- * This would ideally be in SpikesLib after testing.
- *
  * For a simple example of an implementation, see
  * <a href=https://docs.wpilib.org/en/stable/docs/software/examples-tutorials/trajectory-tutorial/creating-drive-subsystem.html>here</a>
  */

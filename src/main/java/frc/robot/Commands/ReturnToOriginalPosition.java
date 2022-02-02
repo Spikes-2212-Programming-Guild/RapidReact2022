@@ -13,7 +13,6 @@ import frc.robot.Subsystems.Drivetrain;
 import java.util.ArrayList;
 
 public class ReturnToOriginalPosition extends CommandBase {
-    //yea i don't really know
     private static final double MAX_VELOCITY = 200;
     private static final double MAX_ACCELERATION = 500;
 

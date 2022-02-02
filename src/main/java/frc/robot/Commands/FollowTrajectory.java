@@ -16,9 +16,6 @@ import frc.robot.Subsystems.OdometryDrivetrain2;
 import java.io.IOException;
 import java.nio.file.Path;
 
-/**
- * this would ideally be in SpikesLib after testing
- */
 public class FollowTrajectory extends CommandBase {
     private final OdometryDrivetrain2 drivetrain;
     private Trajectory trajectory;

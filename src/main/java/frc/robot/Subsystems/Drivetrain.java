@@ -109,9 +109,7 @@ public class Drivetrain extends OdometryDrivetrain2 {
                     ),
                     new PigeonWrapper(RobotMap.CAN.DRIVETRAIN_PIGEON)
             );
-
         }
-
         return instance;
     }
 
