@@ -50,6 +50,4 @@ public abstract class OdometryDrivetrain2 extends TankDrivetrain {
 
     public abstract FeedForwardSettings getFFSettings();
 
-
-
 }
