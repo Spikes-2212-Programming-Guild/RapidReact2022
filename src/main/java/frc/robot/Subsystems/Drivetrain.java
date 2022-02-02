@@ -77,10 +77,12 @@ public class Drivetrain extends OdometryDrivetrain2 {
 
     }
 
+    @Override
     public Pose2d getPose() {
         return odometry.getPoseMeters();
     }
 
+    @Override
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
     }
