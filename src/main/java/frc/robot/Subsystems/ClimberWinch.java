@@ -16,7 +16,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.25);
     private Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", -0.6);
 
-
     private static ClimberWinch instance;
 
     /**
