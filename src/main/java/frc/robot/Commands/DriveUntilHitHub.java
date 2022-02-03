@@ -28,7 +28,7 @@ public class DriveUntilHitHub extends DriveArcade {
 
     @Override
     public boolean isFinished() {
-        return drivetrain.getRightTalonCurrent() > STALL_CURRENT.get() &&
-                drivetrain.getLeftTalonCurrent() > STALL_CURRENT.get();
+        return drivetrain.getRightTalon().getStatorCurrent() > STALL_CURRENT.get() &&
+                drivetrain.getLeftTalon().getStatorCurrent() > STALL_CURRENT.get();
     }
 }

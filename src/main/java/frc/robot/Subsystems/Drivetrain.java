@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
@@ -10,11 +11,11 @@ public class Drivetrain extends TankDrivetrain {
         super(left, right);
     }
 
-    public double getRightTalonCurrent() {
-        return 0;
+    public WPI_TalonSRX getRightTalon() {
+        return null;
     }
 
-    public double getLeftTalonCurrent() {
-        return 0;
+    public WPI_TalonSRX getLeftTalon() {
+        return null;
     }
 }
