@@ -11,19 +11,19 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.Subsystems.OdometryDrivetrain2;
+import frc.robot.Subsystems.OdometryDrivetrain;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 public class FollowTrajectory extends CommandBase {
-    private final OdometryDrivetrain2 drivetrain;
-    private Trajectory trajectory;
+    private final OdometryDrivetrain drivetrain;
+    protected Trajectory trajectory;
     private RamseteCommand ramseteCommand;
     private final RamseteController controller;
     private DifferentialDriveKinematics kinematics;
 
-    public FollowTrajectory(OdometryDrivetrain2 drivetrain, Trajectory trajectory, PIDSettings leftPIDSettings,
+    public FollowTrajectory(OdometryDrivetrain drivetrain, Trajectory trajectory, PIDSettings leftPIDSettings,
                             PIDSettings rightPIDSettings, FeedForwardSettings feedForwardSettings) {
         this.drivetrain = drivetrain;
         this.trajectory = trajectory;
@@ -35,18 +35,16 @@ public class FollowTrajectory extends CommandBase {
                 new PIDController(rightPIDSettings.getkP(), rightPIDSettings.getkI(), rightPIDSettings.getkD()), drivetrain::tankDriveVolts, drivetrain);
     }
 
-    public FollowTrajectory(OdometryDrivetrain2 drivetrain, String file, PIDSettings leftPIDSettings,
-                            PIDSettings rightPIDSettings, FeedForwardSettings feedForwardSettings) {
-
+    public FollowTrajectory(OdometryDrivetrain drivetrain, String fileName, PIDSettings leftPIDSettings,
+                            PIDSettings rightPIDSettings, FeedForwardSettings feedForwardSettings) throws Exception {
         this.drivetrain = drivetrain;
         controller = new RamseteController();
         kinematics = new DifferentialDriveKinematics(drivetrain.getWidth());
-        Path path = Path.of(Filesystem.getDeployDirectory().getPath(), file);
+        Path path = Path.of(Filesystem.getDeployDirectory().getPath(), fileName);
         try {
             trajectory = TrajectoryUtil.fromPathweaverJson(path);
         } catch (IOException e) {
-            System.out.println("no trajectory, this is the error");
-            e.printStackTrace();
+            throw new Exception("PATH IS EMPTY!!!11 X(");
         }
         ramseteCommand = new RamseteCommand(trajectory, drivetrain::getPose, controller,
                 new SimpleMotorFeedforward(feedForwardSettings.getkS(), feedForwardSettings.getkV(), feedForwardSettings.getkA()), kinematics,

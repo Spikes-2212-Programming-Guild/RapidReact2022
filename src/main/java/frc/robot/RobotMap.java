@@ -16,6 +16,5 @@ public class RobotMap {
         int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = -1;
         int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A = -1;
         int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B = -1;
-
     }
 }

@@ -12,11 +12,8 @@ import java.util.ArrayList;
 
 public class ReturnToOriginalPosition extends FollowTrajectory {
 
-    private static final double MAX_VELOCITY = 200;
-    private static final double MAX_ACCELERATION = 500;
-
     public ReturnToOriginalPosition(Drivetrain drivetrain) {
-        super(drivetrain, getTrajectory(drivetrain), drivetrain.getPIDSettings(), drivetrain.getPIDSettings(),
+        super(drivetrain, (Trajectory) null, drivetrain.getPIDSettings(), drivetrain.getPIDSettings(),
                 drivetrain.getFFSettings());
     }
 
@@ -27,6 +24,11 @@ public class ReturnToOriginalPosition extends FollowTrajectory {
 
         return TrajectoryGenerator.generateTrajectory(new Pose2d(START_X, START_Y, START_ROTATION),
                 new ArrayList<Translation2d>(), new Pose2d(0, 0, START_ROTATION),
-                new TrajectoryConfig(MAX_VELOCITY, MAX_ACCELERATION));
+                new TrajectoryConfig(Drivetrain.MAX_VELOCITY.get(), Drivetrain.MAX_ACCELERATION.get()));
+    }
+
+    @Override
+    public void initialize() {
+
     }
 }

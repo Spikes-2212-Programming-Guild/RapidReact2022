@@ -16,15 +16,18 @@ import frc.robot.RobotMap;
 
 import java.util.function.Supplier;
 
-public class Drivetrain extends OdometryDrivetrain2 {
+public class Drivetrain extends OdometryDrivetrain {
 
     // TODO
     private static final double WIDTH = 0.6;
+    public static final double DISTANCE_PER_PULSE = 6*0.0254*Math.PI/360;
 
     private static final RootNamespace rootNamespace = new RootNamespace("Drivetrain");
 
-    private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 0);
+    public static final Supplier<Double> MAX_VELOCITY = rootNamespace.addConstantDouble("max velocity", 0);
+    public static final Supplier<Double> MAX_ACCELERATION = rootNamespace.addConstantDouble("max acceleration", 0);
 
+    private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 0);
     private final Supplier<Double> kI = rootNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kD = rootNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> TOLERANCE = rootNamespace.addConstantDouble("TOLERANCE", 0);
@@ -53,6 +56,9 @@ public class Drivetrain extends OdometryDrivetrain2 {
         this.rightEncoder = rightEncoder;
         this.gyro = gyro;
 
+        this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+        this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+
         this.pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
         this.ffSettings = new FeedForwardSettings(kS, kV, kA, kG);
 
@@ -63,12 +69,8 @@ public class Drivetrain extends OdometryDrivetrain2 {
         this.odometry = new DifferentialDriveOdometry(rotFromAngle());
 
         this.field2d = new Field2d();
-        rootNamespace.putData("Field 2d", field2d);
-        rootNamespace.putNumber("gyro value", gyro::getYaw);
-        rootNamespace.putNumber("left encoder", leftEncoder::getDistance);
-        rootNamespace.putNumber("right encoder", rightEncoder::getDistance);
-        rootNamespace.putNumber("x", () -> odometry.getPoseMeters().getX());
-        rootNamespace.putNumber("y", () -> odometry.getPoseMeters().getY());
+
+        configureDashboard();
 
     }
 
@@ -77,7 +79,6 @@ public class Drivetrain extends OdometryDrivetrain2 {
         odometry.update(rotFromAngle(), leftEncoder.getDistance(), rightEncoder.getDistance());
         field2d.setRobotPose(odometry.getPoseMeters());
         rootNamespace.update();
-
     }
 
     @Override
@@ -103,7 +104,7 @@ public class Drivetrain extends OdometryDrivetrain2 {
                     ),
                     new Encoder(
                             RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
-                            RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A
+                            RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B
                     ),
                     new Encoder(
                             RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
@@ -144,5 +145,14 @@ public class Drivetrain extends OdometryDrivetrain2 {
 
     public double getWidth() {
         return WIDTH;
+    }
+
+    public void configureDashboard() {
+        rootNamespace.putData("Field 2d", field2d);
+        rootNamespace.putNumber("gyro value", gyro::getYaw);
+        rootNamespace.putNumber("left encoder", leftEncoder::getDistance);
+        rootNamespace.putNumber("right encoder", rightEncoder::getDistance);
+        rootNamespace.putNumber("x", () -> odometry.getPoseMeters().getX());
+        rootNamespace.putNumber("y", () -> odometry.getPoseMeters().getY());
     }
 }
