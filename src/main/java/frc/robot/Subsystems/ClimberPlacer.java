@@ -10,22 +10,12 @@ import java.util.function.Supplier;
  */
 public class ClimberPlacer extends MotoredGenericSubsystem {
 
-    private final Supplier<Double> MOVEMENT_SPEED = rootNamespace.addConstantDouble("movement speed", 0);
-
-    private static ClimberPlacer leftInstance, rightInstance;
-
     public static ClimberPlacer getLeftInstance() {
-        if (leftInstance == null) {
-            leftInstance = new ClimberPlacer(() -> 0.0, () -> 0.0, "", (MotorController) null);
-        }
-        return leftInstance;
+        return null;
     }
 
     public static ClimberPlacer getRightInstance() {
-        if (rightInstance == null) {
-            rightInstance = new ClimberPlacer(() -> 0.0, () -> 0.0, "", (MotorController) null);
-        }
-        return rightInstance;
+        return null;
     }
 
     public ClimberPlacer(Supplier<Double> minSpeed, Supplier<Double> maxSpeed, String namespaceName, MotorController... motorControllers) {
@@ -33,6 +23,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public Supplier<Double> getDropSpeed() {
-        return MOVEMENT_SPEED;
+        return null;
     }
 }
