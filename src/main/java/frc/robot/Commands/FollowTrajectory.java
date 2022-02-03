@@ -68,7 +68,7 @@ public class FollowTrajectory extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         ramseteCommand.end(interrupted);
-        drivetrain.tankDriveVolts(0, 0);
+        drivetrain.stop();
     }
 
     @Override

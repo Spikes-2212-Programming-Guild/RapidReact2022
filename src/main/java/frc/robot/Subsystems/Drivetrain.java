@@ -17,6 +17,8 @@ import frc.robot.RobotMap;
 import java.util.function.Supplier;
 
 public class Drivetrain extends OdometryDrivetrain2 {
+
+    // TODO
     private static final double WIDTH = 0.6;
 
     private static final RootNamespace rootNamespace = new RootNamespace("Drivetrain");
@@ -44,9 +46,9 @@ public class Drivetrain extends OdometryDrivetrain2 {
 
     private static Drivetrain instance;
 
-    private Drivetrain(MotorControllerGroup leftSCG, MotorControllerGroup rightSCG,
+    private Drivetrain(MotorControllerGroup leftMotors, MotorControllerGroup rightMotors,
                        Encoder leftEncoder, Encoder rightEncoder, PigeonWrapper gyro) {
-        super(leftSCG, rightSCG);
+        super(leftMotors, rightMotors);
         this.leftEncoder = leftEncoder;
         this.rightEncoder = rightEncoder;
         this.gyro = gyro;
