@@ -50,7 +50,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     @Override
-    public boolean canMove(double speed) {
+    protected void apply(double speed) {
         if (!passedFirstStall && placer.getStatorCurrent() > STALL_CURRENT.get())
             stalling = true;
         else if (!passedFirstStall && stalling && placer.getStatorCurrent() <= STALL_CURRENT.get()) {
@@ -60,6 +60,11 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         else if (passedFirstStall && placer.getStatorCurrent() >= STALL_CURRENT.get())
             stalling = true;
 
+        super.apply(speed);
+    }
+
+    @Override
+    public boolean canMove(double speed) {
         return !(ClimberWinch.getInstance().isHooked() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get()) &&
                 !(passedFirstStall && stalling);
     }
