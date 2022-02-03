@@ -1,11 +1,7 @@
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import frc.robot.Commands.Climb;
-import frc.robot.RobotMap;
 
 import java.util.function.Supplier;
 
@@ -36,7 +32,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         super(minSpeed, maxSpeed, namespaceName, motorControllers);
     }
 
-    public Supplier<Double> getUpSpeed() {
+    public Supplier<Double> getDropSpeed() {
         return MOVEMENT_SPEED;
     }
 }
