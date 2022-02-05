@@ -20,7 +20,7 @@ public class Drivetrain extends TankDrivetrain {
         return 0;
     }
 
-    public PIDSettings getPIDSettings() {
+    public PIDSettings getGyroPIDSettings() {
         return null;
     }
 
