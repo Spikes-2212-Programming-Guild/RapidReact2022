@@ -57,7 +57,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
             stalling = false;
             passedFirstStall = true;
         }
-        else if (passedFirstStall && placer.getStatorCurrent() >= STALL_CURRENT.get())
+        else if (passedFirstStall && placer.getStatorCurrent() > STALL_CURRENT.get())
             stalling = true;
 
         return !(ClimberWinch.getInstance().isHooked() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get()) &&
