@@ -3,6 +3,7 @@ package frc.robot.Subsystems;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotMap;
 
 import java.util.function.Supplier;
@@ -25,8 +26,9 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private final DigitalInput backLimit;
     private final WPI_TalonSRX placer;
 
-    private boolean stalling = false;
-    private boolean passedFirstStall = false;
+    private double startTime;
+    private double currentTime;
+    private boolean stalled = false;
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
@@ -47,18 +49,21 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         this.placer = placer;
         this.frontLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_FRONT);
         this.backLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_BACK);
+        this.startTime = Timer.getFPGATimestamp();
+        this.currentTime = startTime;
+    }
+
+    private boolean isStalling() {
+        return placer.getStatorCurrent() > STALL_CURRENT.get();
     }
 
     @Override
     protected void apply(double speed) {
-        if (!passedFirstStall && placer.getStatorCurrent() > STALL_CURRENT.get())
-            stalling = true;
-        else if (!passedFirstStall && stalling && placer.getStatorCurrent() <= STALL_CURRENT.get()) {
-            stalling = false;
-            passedFirstStall = true;
+        if (isStalling()) {
+            if (currentTime - startTime > 1) {
+                stalled = true;
+            }
         }
-        else if (passedFirstStall && placer.getStatorCurrent() > STALL_CURRENT.get())
-            stalling = true;
 
         super.apply(speed);
     }
@@ -66,7 +71,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     @Override
     public boolean canMove(double speed) {
         return !(ClimberWinch.getInstance().isHooked() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get()) &&
-                !(passedFirstStall && stalling);
+                !stalled;
     }
 
     public WPI_TalonSRX getPlacer() {
