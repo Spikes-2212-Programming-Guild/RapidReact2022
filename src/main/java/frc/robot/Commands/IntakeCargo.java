@@ -11,7 +11,7 @@ import frc.robot.Subsystems.IntakeRoller;
 import frc.robot.Subsystems.IntakeToTransfer;
 import frc.robot.Subsystems.Transfer;
 
-public class IntakeCargo extends ParallelCommandGroup {
+public class IntakeCargo extends SequentialCommandGroup {
 
     public IntakeCargo() {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
@@ -20,18 +20,20 @@ public class IntakeCargo extends ParallelCommandGroup {
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         addRequirements(intakeRoller, intakePlacer, transfer, intakeToTransfer);
         addCommands(
-                new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return intakeToTransfer.getLimit();
-                    }
-                },
-                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return transfer.isStartPressed();
-                    }
-                }
-        );
+                new MoveGenericSubsystem(intakePlacer, IntakePlacer.MIN_SPEED),
+                new ParallelCommandGroup(
+                        new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED) {
+                            @Override
+                            public boolean isFinished() {
+                                return intakeToTransfer.getLimit();
+                            }
+                        },
+                        new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
+                            @Override
+                            public boolean isFinished() {
+                                return transfer.isStartPressed();
+                            }
+                        }
+                ));
     }
 }
