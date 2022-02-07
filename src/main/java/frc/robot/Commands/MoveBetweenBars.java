@@ -12,9 +12,6 @@ public class MoveBetweenBars extends SequentialCommandGroup {
 
     public MoveBetweenBars() {
         ClimberWinch climberWinch = ClimberWinch.getInstance();
-        ClimberPlacer leftClimberPlacer = ClimberPlacer.getLeftInstance();
-        ClimberPlacer rightClimberPlacer = ClimberPlacer.getRightInstance();
-        addRequirements(climberWinch, leftClimberPlacer, rightClimberPlacer);
         addCommands(
                 new MoveGenericSubsystem(climberWinch, climberWinch.getUpSpeed()),
                 new DropBothPlacers(),
