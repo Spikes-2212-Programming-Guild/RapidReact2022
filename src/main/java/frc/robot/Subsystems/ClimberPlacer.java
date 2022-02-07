@@ -47,7 +47,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        return super.canMove(speed) && !frontLimit.get() && !backLimit.get();
+        return super.canMove(speed) && !(frontLimit.get() && DROP_SPEED.get() < 0) && !(backLimit.get() && DROP_SPEED.get() > 0);
     }
 
     public WPI_TalonSRX getPlacer() {
