@@ -45,7 +45,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "climber winch", leftWinch, rightWinch);
         this.magnetLevel = Level.LOWER;
         this.hallEffect = new DigitalInput(RobotMap.DIO.WINCH_HALL_EFFECT);
-        this.hookLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_HOOK);
     }
 
     @Override
