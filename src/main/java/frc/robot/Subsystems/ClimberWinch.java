@@ -17,11 +17,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private static ClimberWinch instance;
 
     /**
-     * Whether the hook is lashed onto the bar.
-     */
-    private final DigitalInput hookLimit;
-
-    /**
      * Whether the arm reached its max height or minimum height.
      */
     private final DigitalInput hallEffect;
