@@ -1,9 +1,6 @@
 package frc.robot.Commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
-import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystemWithPID;
-import com.spikes2212.control.FeedForwardSettings;
-import com.spikes2212.control.PIDSettings;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.IntakePlacer;
@@ -37,6 +34,11 @@ public class IntakeCargo extends SequentialCommandGroup {
                             }
                         }
                 ),
-                new MoveGenericSubsystem(transfer, Transfer.SPEED).withTimeout(TRANSFER_MOVE_TIMEOUT));
+                new MoveGenericSubsystem(transfer, Transfer.SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return intakeToTransfer.getLimit();
+                    }
+                }.withTimeout(TRANSFER_MOVE_TIMEOUT));
     }
 }
