@@ -25,4 +25,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public Supplier<Double> getDropSpeed() {
         return null;
     }
+
+    public boolean isStalling() {
+        return false;
+    }
 }
