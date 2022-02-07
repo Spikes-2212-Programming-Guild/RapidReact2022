@@ -3,7 +3,6 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import java.util.function.Supplier;
