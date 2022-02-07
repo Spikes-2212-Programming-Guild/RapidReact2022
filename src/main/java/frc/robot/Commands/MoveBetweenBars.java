@@ -1,7 +1,6 @@
 package frc.robot.Commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.ClimberPlacer;
 import frc.robot.Subsystems.ClimberWinch;
@@ -18,7 +17,7 @@ public class MoveBetweenBars extends SequentialCommandGroup {
         addRequirements(climberWinch, leftClimberPlacer, rightClimberPlacer);
         addCommands(
                 new MoveGenericSubsystem(climberWinch, climberWinch.getUpSpeed()),
-                new DropPlacers(),
+                new DropBothPlacers(),
                 new CloseTelescopic()
         );
     }
