@@ -17,6 +17,11 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private static ClimberWinch instance;
 
     /**
+     * Whether the hook is lashed onto the bar.
+     */
+    private final DigitalInput hookLimit;
+
+    /**
      * Whether the arm reached its max height or minimum height.
      */
     private final DigitalInput hallEffect;
@@ -40,6 +45,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "climber winch", leftWinch, rightWinch);
         this.magnetLevel = Level.LOWER;
         this.hallEffect = new DigitalInput(RobotMap.DIO.WINCH_HALL_EFFECT);
+        this.hookLimit = new DigitalInput(RobotMap.DIO.PLACER_HOOK_LIMIT);
     }
 
     @Override

@@ -15,9 +15,8 @@ public class RobotMap {
         int WINCH_HALL_EFFECT = -1;
         int PLACER_LEFT_LIMIT_FRONT = -1;
         int PLACER_LEFT_LIMIT_BACK = -1;
-        int PLACER_LEFT_LIMIT_HOOK = -1;
         int PLACER_RIGHT_LIMIT_FRONT = -1;
         int PLACER_RIGHT_LIMIT_BACK = -1;
-        int PLACER_RIGHT_LIMIT_HOOK = -1;
+        int PLACER_HOOK_LIMIT = -1;
     }
 }
