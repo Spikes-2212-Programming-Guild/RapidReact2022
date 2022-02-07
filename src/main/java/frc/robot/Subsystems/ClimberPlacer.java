@@ -45,6 +45,11 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         this.backLimit = new DigitalInput(backLimitPort);
     }
 
+    @Override
+    public boolean canMove(double speed) {
+        return super.canMove(speed) && !frontLimit.get() && !backLimit.get();
+    }
+
     public WPI_TalonSRX getPlacer() {
         return placer;
     }
