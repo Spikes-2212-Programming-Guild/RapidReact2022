@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class Transfer extends MotoredGenericSubsystem {
 
-    public static final double TRANSFER_TIME = 3;
+    public static final double SPEED = 0.6;
 
     private DigitalInput startLimit;
 
