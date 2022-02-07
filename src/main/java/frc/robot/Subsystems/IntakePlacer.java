@@ -6,7 +6,6 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
@@ -20,20 +19,8 @@ import java.util.function.Supplier;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
-    private static final double MAX_SPEED = 0.5;
-    private static final double MIN_SPEED = -0.3;
-
-    /**
-     * The potentiometer's starting value. This is also the value of the angle in which the potentiometer is
-     * when the subsystem is vertical.
-     */
-    public static final double POTENTIOMETER_STARTING_POINT = 0;
-
-    /**
-     * The potentiometer's full range of motion in degrees. This is also the value of the angle in which the
-     * potentiometer is when the subsystem is horizontal.
-     */
-    public static final double POTENTIOMETER_RANGE_VALUE = 90;
+    public static final double MAX_SPEED = 0.5;
+    public static final double MIN_SPEED = -0.3;
 
     private Namespace PID = rootNamespace.addChild("PID");
     private Supplier<Double> waitTime = PID.addConstantDouble("wait time", 0);
@@ -42,7 +29,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     private Supplier<Double> kV = PID.addConstantDouble("kV", 0);
     private PIDSettings pidSettings = new PIDSettings(() -> 0.0, tolerance, waitTime);
     private FeedForwardSettings feedForwardSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
-
     private static IntakePlacer instance;
 
     /**
@@ -55,11 +41,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     private DigitalInput lowerLimit;
 
-    /**
-     * The subsystem's potentiometer. Used to measure in what angle the subsystem is.
-     */
-    private AnalogPotentiometer potentiometer;
-
     public static IntakePlacer getInstance() {
         if (instance == null) {
             instance = new IntakePlacer();
@@ -71,8 +52,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
-        potentiometer = new AnalogPotentiometer(RobotMap.ANALOG_IN.INTAKE_POTENTIOMETER, POTENTIOMETER_RANGE_VALUE,
-                POTENTIOMETER_STARTING_POINT);
     }
 
     /**
@@ -105,10 +84,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public FeedForwardSettings getFeedForwardSettings() {
         return feedForwardSettings;
-    }
-
-    public double getPotentiometerAngle() {
-        return potentiometer.get();
     }
 
     public boolean isUp() {

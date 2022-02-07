@@ -4,34 +4,34 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystemWithPID;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Subsystems.IntakePlacer;
 import frc.robot.Subsystems.IntakeRoller;
+import frc.robot.Subsystems.IntakeToTransfer;
 import frc.robot.Subsystems.Transfer;
 
-public class IntakeCargo extends SequentialCommandGroup {
+public class IntakeCargo extends ParallelCommandGroup {
 
     public IntakeCargo() {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         IntakePlacer intakePlacer = IntakePlacer.getInstance();
         Transfer transfer = Transfer.getInstance();
-        PIDSettings pidSettings = intakePlacer.getPIDSettings();
-        FeedForwardSettings feedForwardSettings = intakePlacer.getFeedForwardSettings();
-        addRequirements(intakeRoller, intakePlacer, transfer);
+        IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
+        addRequirements(intakeRoller, intakePlacer, transfer, intakeToTransfer);
         addCommands(
-                new MoveGenericSubsystemWithPID(intakePlacer,
-                        () -> IntakePlacer.POTENTIOMETER_RANGE_VALUE,
-                        intakePlacer::getPotentiometerAngle, pidSettings, feedForwardSettings),
-                new MoveGenericSubsystem
-                        (intakeRoller, IntakeRoller.SPEED) {
+                new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED) {
                     @Override
                     public boolean isFinished() {
-                        return !transfer.isStartPressed();
+                        return intakeToTransfer.getLimit();
                     }
                 },
-                new MoveGenericSubsystem(transfer, 0).withTimeout(Transfer.TRANSFER_TIME),
-                new MoveGenericSubsystemWithPID(intakePlacer, () -> IntakePlacer.POTENTIOMETER_STARTING_POINT,
-                        intakePlacer::getPotentiometerAngle, pidSettings, feedForwardSettings)
+                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return transfer.isStartPressed();
+                    }
+                }
         );
     }
 }
