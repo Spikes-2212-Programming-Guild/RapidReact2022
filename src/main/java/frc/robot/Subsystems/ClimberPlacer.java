@@ -3,6 +3,7 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import java.util.function.Supplier;
@@ -18,27 +19,31 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private final Supplier<Double> DROP_SPEED = rootNamespace.addConstantDouble("drop speed", 0);
 
-    private static final DigitalInput frontLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_FRONT);
-    private static final DigitalInput backLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_BACK);
+    private final DigitalInput frontLimit;
+    private final DigitalInput backLimit;
     private final WPI_TalonSRX placer;
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
-            rightInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_RIGHT), "right");
+            rightInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_RIGHT), "right",
+                    RobotMap.DIO.PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.PLACER_RIGHT_LIMIT_BACK);
         }
         return rightInstance;
     }
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
-            leftInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_LEFT), "left");
+            leftInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_LEFT), "left",
+                    RobotMap.DIO.PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.PLACER_LEFT_LIMIT_BACK);
         }
         return leftInstance;
     }
 
-    private ClimberPlacer(WPI_TalonSRX placer, String side) {
+    private ClimberPlacer(WPI_TalonSRX placer, String side, int frontLimitPort, int backLimitPort) {
         super(MIN_SPEED, MAX_SPEED, side + " climber placer", placer);
         this.placer = placer;
+        this.frontLimit = new DigitalInput(frontLimitPort);
+        this.backLimit = new DigitalInput(backLimitPort);
     }
 
     public WPI_TalonSRX getPlacer() {
@@ -50,10 +55,10 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public boolean getFrontLimit() {
-        return ClimberPlacer.frontLimit.get();
+        return frontLimit.get();
     }
 
     public boolean getBackLimit() {
-        return ClimberPlacer.backLimit.get();
+        return backLimit.get();
     }
 }
