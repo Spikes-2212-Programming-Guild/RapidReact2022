@@ -10,8 +10,6 @@ import frc.robot.Subsystems.Transfer;
 
 public class IntakeCargo extends SequentialCommandGroup {
 
-    public static final double TRANSFER_MOVE_TIMEOUT = 0.5;
-
     public IntakeCargo() {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         IntakePlacer intakePlacer = IntakePlacer.getInstance();
@@ -39,6 +37,6 @@ public class IntakeCargo extends SequentialCommandGroup {
                     public boolean isFinished() {
                         return intakeToTransfer.getLimit();
                     }
-                }.withTimeout(TRANSFER_MOVE_TIMEOUT));
+                }.withTimeout(transfer.getTransferMoveTimeout()));
     }
 }

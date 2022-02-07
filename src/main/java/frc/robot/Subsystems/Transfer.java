@@ -11,6 +11,8 @@ public class Transfer extends MotoredGenericSubsystem {
 
     public static final double SPEED = 0.6;
 
+    private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("intake timeout", 0.5);
+
     private DigitalInput startLimit;
 
     private Transfer(Supplier<Double> minSpeed, Supplier<Double> maxSpeed, String namespaceName, MotorController... motorControllers) {
@@ -24,5 +26,9 @@ public class Transfer extends MotoredGenericSubsystem {
 
     public boolean isStartPressed() {
         return startLimit.get();
+    }
+
+    public double getTransferMoveTimeout() {
+        return transferMoveTimeout.get();
     }
 }
