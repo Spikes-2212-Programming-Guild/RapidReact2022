@@ -13,8 +13,6 @@ import java.util.function.Supplier;
  */
 public class ClimberPlacer extends MotoredGenericSubsystem {
 
-    private final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 0);
-
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
 
@@ -25,10 +23,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
     private final WPI_TalonSRX placer;
-
-    private double startTime;
-    private double currentTime;
-    private boolean stalled = false;
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
@@ -49,29 +43,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         this.placer = placer;
         this.frontLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_FRONT);
         this.backLimit = new DigitalInput(RobotMap.DIO.PLACER_LIMIT_BACK);
-        this.startTime = Timer.getFPGATimestamp();
-        this.currentTime = startTime;
-    }
-
-    private boolean isStalling() {
-        return placer.getStatorCurrent() > STALL_CURRENT.get();
-    }
-
-    @Override
-    protected void apply(double speed) {
-        if (isStalling()) {
-            if (currentTime - startTime > 1) {
-                stalled = true;
-            }
-        }
-
-        super.apply(speed);
-    }
-
-    @Override
-    public boolean canMove(double speed) {
-        return !(ClimberWinch.getInstance().isHooked() || speed > 0 && frontLimit.get() || speed < 0 && backLimit.get()) &&
-                !stalled;
     }
 
     public WPI_TalonSRX getPlacer() {
