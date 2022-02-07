@@ -16,7 +16,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private static final double MAX_SPEED = 0.6;
     private static ClimberPlacer rightInstance, leftInstance;
 
-    private final Supplier<Double> DROP_SPEED = rootNamespace.addConstantDouble("drop speed", 0);
+    private final Supplier<Double> dropSpeed = rootNamespace.addConstantDouble("drop speed", 0);
 
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
@@ -47,7 +47,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        return super.canMove(speed) && !(frontLimit.get() && DROP_SPEED.get() < 0) && !(backLimit.get() && DROP_SPEED.get() > 0);
+        return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0);
     }
 
     public WPI_TalonSRX getPlacer() {
@@ -55,7 +55,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public Supplier<Double> getDropSpeed() {
-        return DROP_SPEED;
+        return dropSpeed;
     }
 
     public boolean getFrontLimit() {
