@@ -25,7 +25,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
             rightInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_RIGHT), "right",
-                    RobotMap.DIO.PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.PLACER_RIGHT_LIMIT_BACK);
+                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
         }
         return rightInstance;
     }
@@ -33,7 +33,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
             leftInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_LEFT), "left",
-                    RobotMap.DIO.PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.PLACER_LEFT_LIMIT_BACK);
+                    RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK);
         }
         return leftInstance;
     }
