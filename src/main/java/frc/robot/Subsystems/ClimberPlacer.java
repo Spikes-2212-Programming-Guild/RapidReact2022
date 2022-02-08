@@ -24,7 +24,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
-            rightInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_RIGHT), "right",
+            rightInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT), "right",
                     RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
         }
         return rightInstance;
@@ -32,7 +32,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
-            leftInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.PLACER_TALON_LEFT), "left",
+            leftInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_LEFT), "left",
                     RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK);
         }
         return leftInstance;
@@ -47,7 +47,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0);
+        return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0) && !ClimberWinch.getInstance().isHooked();
     }
 
     public WPI_TalonSRX getPlacer() {

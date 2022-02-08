@@ -4,10 +4,10 @@ public class RobotMap {
 
     public interface CAN {
 
-        int WINCH_SPARKMAX_1 = -1;
-        int WINCH_SPARKMAX_2 = -1;
-        int PLACER_TALON_RIGHT = -1;
-        int PLACER_TALON_LEFT = -1;
+        int CLIMBER_WINCH_SPARKMAX_1 = -1;
+        int CLIMBER_WINCH_SPARKMAX_2 = -1;
+        int CLIMBER_PLACER_TALON_RIGHT = -1;
+        int CLIMBER_PLACER_TALON_LEFT = -1;
     }
 
     public interface DIO {
