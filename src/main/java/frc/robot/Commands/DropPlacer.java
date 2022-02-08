@@ -21,18 +21,17 @@ public class DropPlacer extends MoveGenericSubsystem {
         this.placer = placer;
     }
 
-    private boolean initialTimePassed() {
-        return Timer.getFPGATimestamp() - startTime > initialWaitTime.get();
-    }
-
     @Override
     public void initialize() {
         startTime = Timer.getFPGATimestamp();
-        super.initialize();
     }
 
     @Override
     public boolean isFinished() {
         return super.isFinished() && placer.isStalling() && initialTimePassed();
+    }
+
+    private boolean initialTimePassed() {
+        return Timer.getFPGATimestamp() - startTime > initialWaitTime.get();
     }
 }
