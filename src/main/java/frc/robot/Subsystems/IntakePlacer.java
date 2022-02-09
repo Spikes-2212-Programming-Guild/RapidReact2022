@@ -21,12 +21,12 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     /**
      * The upper limit of the subsystem. When it is pressed, the intake system is vertical.
      */
-    private DigitalInput upperLimit;
+    private final DigitalInput upperLimit;
 
     /**
      * The lower limit of the subsystem. When it is pressed, the intake system is horizontal.
      */
-    private DigitalInput lowerLimit;
+    private final DigitalInput lowerLimit;
 
     public static IntakePlacer getInstance() {
         if (instance == null) {
