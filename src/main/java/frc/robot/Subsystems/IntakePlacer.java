@@ -3,14 +3,8 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
-import com.spikes2212.control.FeedForwardSettings;
-import com.spikes2212.control.PIDSettings;
-import com.spikes2212.dashboard.Namespace;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
-
-import java.util.function.Supplier;
 
 /**
  * Controls the position of the {@code IntakeRoller}.
@@ -22,13 +16,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.3;
 
-    private Namespace PID = rootNamespace.addChild("PID");
-    private Supplier<Double> waitTime = PID.addConstantDouble("wait time", 0);
-    private Supplier<Double> tolerance = PID.addConstantDouble("tolerance", 0);
-    private Supplier<Double> kS = PID.addConstantDouble("kS", 0);
-    private Supplier<Double> kV = PID.addConstantDouble("kV", 0);
-    private PIDSettings pidSettings = new PIDSettings(() -> 0.0, tolerance, waitTime);
-    private FeedForwardSettings feedForwardSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
     private static IntakePlacer instance;
 
     /**
@@ -64,10 +51,10 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     @Override
     public boolean canMove(double speed) {
         if (speed > 0) {
-            return !upperLimit.get();
+            return !isUp();
         }
         if (speed < 0) {
-            return !lowerLimit.get();
+            return !isDown();
         }
         return false;
     }
@@ -76,14 +63,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
-    }
-
-    public PIDSettings getPIDSettings() {
-        return pidSettings;
-    }
-
-    public FeedForwardSettings getFeedForwardSettings() {
-        return feedForwardSettings;
     }
 
     public boolean isUp() {
