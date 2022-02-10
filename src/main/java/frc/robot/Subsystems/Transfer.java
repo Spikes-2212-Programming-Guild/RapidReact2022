@@ -9,7 +9,9 @@ import java.util.function.Supplier;
 
 public class Transfer extends MotoredGenericSubsystem {
 
-    public static final double TRANSFER_TIME = 3;
+    public static final double SPEED = 0.6;
+
+    private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.5);
 
     private DigitalInput startLimit;
 
@@ -24,5 +26,9 @@ public class Transfer extends MotoredGenericSubsystem {
 
     public boolean isStartPressed() {
         return startLimit.get();
+    }
+
+    public double getTransferMoveTimeout() {
+        return transferMoveTimeout.get();
     }
 }
