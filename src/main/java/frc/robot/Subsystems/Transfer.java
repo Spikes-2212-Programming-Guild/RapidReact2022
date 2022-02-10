@@ -11,7 +11,7 @@ public class Transfer extends MotoredGenericSubsystem {
 
     public static final double SPEED = 0.6;
 
-    private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("intake timeout", 0.5);
+    private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.5);
 
     private DigitalInput startLimit;
 
