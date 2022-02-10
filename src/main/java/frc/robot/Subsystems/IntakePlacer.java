@@ -50,13 +50,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        if (speed > 0) {
-            return !isUp();
-        }
-        if (speed < 0) {
-            return !isDown();
-        }
-        return false;
+        return !(isDown() && speed < 0) && !(isUp() && speed > 0);
     }
 
     @Override
