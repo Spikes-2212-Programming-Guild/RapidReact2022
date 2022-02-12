@@ -6,13 +6,15 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
+import java.util.function.Supplier;
+
 /**
  * Controls the climber winch which controls the height of the telescopic arms.
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
-    private static final double MIN_SPEED = -0.6;
-    private static final double MAX_SPEED = 0.6;
+    private Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.25);
+    private Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", -0.6);
 
     private static ClimberWinch instance;
 
@@ -42,7 +44,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     }
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
-        super(MIN_SPEED, MAX_SPEED, "climber winch", leftWinch, rightWinch);
+        super("climber winch", leftWinch, rightWinch);
         this.magnetLevel = Level.LOWER;
         this.hallEffect = new DigitalInput(RobotMap.DIO.CLIMBER_WINCH_HALL_EFFECT);
         this.hookLimit = new DigitalInput(RobotMap.DIO.CLIMBER_PLACER_HOOK_LIMIT);
@@ -68,5 +70,13 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     public boolean isHooked() {
         return hookLimit.get();
+    }
+
+    public Supplier<Double> getDownSpeed() {
+        return DOWN_SPEED;
+    }
+
+    public Supplier<Double> getHookedDownSpeed() {
+        return HOOKED_DOWN_SPEED;
     }
 }
