@@ -6,8 +6,8 @@ public class RobotMap {
 
         int CLIMBER_WINCH_SPARKMAX_1 = -1;
         int CLIMBER_WINCH_SPARKMAX_2 = -1;
-        int CLIMBER_PLACER_TALON_RIGHT = -1;
         int CLIMBER_PLACER_TALON_LEFT = -1;
+        int CLIMBER_PLACER_TALON_RIGHT = -1;
     }
 
     public interface DIO {
