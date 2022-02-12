@@ -28,7 +28,7 @@ public class DropPlacer extends MoveGenericSubsystem {
 
     @Override
     public boolean isFinished() {
-        return super.isFinished() && placer.isStalling() && initialTimePassed();
+        return super.isFinished() || (placer.isStalling() && initialTimePassed());
     }
 
     private boolean initialTimePassed() {
