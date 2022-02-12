@@ -19,8 +19,6 @@ import frc.robot.Subsystems.IntakeRoller;
  */
 public class Robot extends TimedRobot {
 
-    private OI oi;
-
     private IntakeToTransfer intakeToTransfer;
     private Transfer transfer;
     private IntakePlacer intakePlacer;
@@ -28,7 +26,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        oi = new OI();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
