@@ -19,7 +19,7 @@ public class IntakeCargo extends SequentialCommandGroup {
         addCommands(
                 new MoveGenericSubsystem(intakePlacer, IntakePlacer.MIN_SPEED),
                 new ParallelCommandGroup(
-                        new MoveGenericSubsystem(intakeRoller, IntakeRoller.SPEED) {
+                        new MoveGenericSubsystem(intakeRoller, IntakeRoller.MAX_SPEED) {
                             @Override
                             public boolean isFinished() {
                                 return intakeToTransfer.getLimit();
