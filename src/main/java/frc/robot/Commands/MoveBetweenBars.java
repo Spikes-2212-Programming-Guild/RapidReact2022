@@ -2,7 +2,6 @@ package frc.robot.Commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Subsystems.ClimberPlacer;
 import frc.robot.Subsystems.ClimberWinch;
 
 /**
