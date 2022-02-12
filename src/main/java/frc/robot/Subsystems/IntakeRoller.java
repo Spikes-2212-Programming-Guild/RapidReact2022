@@ -16,8 +16,6 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     public static final double MAX_SPEED = 0.6;
     private static final double MIN_SPEED = 0;
 
-    private static Transfer transfer = Transfer.getInstance();
-
     private static IntakeRoller instance;
 
     public static IntakeRoller getInstance() {
@@ -28,7 +26,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     }
 
     private IntakeRoller() {
-        super(MIN_SPEED, MAX_SPEED, "intake roller", new WPI_VictorSPX(RobotMap.CAN.INTAKE_ROLLER));
+        super(MIN_SPEED, MAX_SPEED, "intake roller", new WPI_VictorSPX(RobotMap.CAN.INTAKE_ROLLER_VICTOR));
     }
 
     @Override

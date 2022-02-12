@@ -28,7 +28,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                         new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
                             @Override
                             public boolean isFinished() {
-                                return transfer.isStartPressed();
+                                return transfer.getStrapEntranceSensor();
                             }
                         }
                 ),
