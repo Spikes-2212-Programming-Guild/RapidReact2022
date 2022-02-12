@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
     private Transfer transfer;
 
     private IntakeToTransfer intakeToTransfer;
+
     @Override
     public void robotInit() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
