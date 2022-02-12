@@ -14,7 +14,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
-    private static ClimberPlacer rightInstance, leftInstance;
 
     private final Supplier<Double> dropSpeed = rootNamespace.addConstantDouble("drop speed", 0);
 
@@ -22,13 +21,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private final DigitalInput backLimit;
     private final WPI_TalonSRX placer;
 
-    public static ClimberPlacer getRightInstance() {
-        if (rightInstance == null) {
-            rightInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT), "right",
-                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
-        }
-        return rightInstance;
-    }
+    private static ClimberPlacer leftInstance, rightInstance;
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
@@ -36,6 +29,14 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
                     RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK);
         }
         return leftInstance;
+    }
+
+    public static ClimberPlacer getRightInstance() {
+        if (rightInstance == null) {
+            rightInstance = new ClimberPlacer(new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT), "right",
+                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
+        }
+        return rightInstance;
     }
 
     private ClimberPlacer(WPI_TalonSRX placer, String side, int frontLimitPort, int backLimitPort) {
