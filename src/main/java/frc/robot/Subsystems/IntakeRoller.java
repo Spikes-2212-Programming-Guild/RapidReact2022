@@ -13,9 +13,8 @@ import frc.robot.RobotMap;
  */
 public class IntakeRoller extends MotoredGenericSubsystem {
 
-    private static final double MAX_SPEED = 0.5;
-    private static final double MIN_SPEED = -0.5;
-    public static final double SPEED = 0.4;
+    public static final double MAX_SPEED = 0.6;
+    private static final double MIN_SPEED = 0;
 
     private static Transfer transfer = Transfer.getInstance();
 
@@ -34,6 +33,6 @@ public class IntakeRoller extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, SPEED));
+        rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, MAX_SPEED));
     }
 }
