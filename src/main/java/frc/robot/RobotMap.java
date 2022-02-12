@@ -4,8 +4,8 @@ public class RobotMap {
 
     public interface CAN {
 
-        int CLIMBER_WINCH_SPARKMAX_1 = -1;
-        int CLIMBER_WINCH_SPARKMAX_2 = -1;
+        int CLIMBER_WINCH_SPARK_MAX_1 = -1;
+        int CLIMBER_WINCH_SPARK_MAX_2 = -1;
         int CLIMBER_PLACER_TALON_LEFT = -1;
         int CLIMBER_PLACER_TALON_RIGHT = -1;
     }

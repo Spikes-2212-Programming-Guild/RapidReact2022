@@ -35,8 +35,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     public static ClimberWinch getInstance() {
         if (instance == null) {
-            instance = new ClimberWinch(new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARKMAX_1, CANSparkMaxLowLevel.MotorType.kBrushless),
-                    new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARKMAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
+            instance = new ClimberWinch(new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_1, CANSparkMaxLowLevel.MotorType.kBrushless),
+                    new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return instance;
     }
