@@ -19,7 +19,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
-    private final WPI_TalonSRX placer;
+    private final WPI_TalonSRX talon;
 
     private static ClimberPlacer leftInstance, rightInstance;
 
@@ -39,9 +39,9 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         return rightInstance;
     }
 
-    private ClimberPlacer(WPI_TalonSRX placer, String side, int frontLimitPort, int backLimitPort) {
-        super(MIN_SPEED, MAX_SPEED, side + " climber placer", placer);
-        this.placer = placer;
+    private ClimberPlacer(WPI_TalonSRX talon, String side, int frontLimitPort, int backLimitPort) {
+        super(MIN_SPEED, MAX_SPEED, side + " climber placer", talon);
+        this.talon = talon;
         this.frontLimit = new DigitalInput(frontLimitPort);
         this.backLimit = new DigitalInput(backLimitPort);
     }
@@ -51,8 +51,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0) && !ClimberWinch.getInstance().isHooked();
     }
 
-    public WPI_TalonSRX getPlacer() {
-        return placer;
+    public WPI_TalonSRX getTalon() {
+        return talon;
     }
 
     public Supplier<Double> getDropSpeed() {
