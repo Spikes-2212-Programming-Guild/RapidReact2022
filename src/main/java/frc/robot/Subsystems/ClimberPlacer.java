@@ -15,6 +15,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private static final double MIN_SPEED = -0.6;
     private static final double MAX_SPEED = 0.6;
 
+    private final Supplier<Double> stallCurrent = rootNamespace.addConstantDouble("stall current", 10);
+
     private final Supplier<Double> dropSpeed = rootNamespace.addConstantDouble("drop speed", 0.5);
 
     private final DigitalInput frontLimit;
@@ -52,6 +54,10 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     @Override
     public boolean canMove(double speed) {
         return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0) && !climberWinch.isHooked();
+    }
+
+    public boolean isStalling() {
+        return talon.getStatorCurrent() > stallCurrent.get();
     }
 
     public WPI_TalonSRX getTalon() {
