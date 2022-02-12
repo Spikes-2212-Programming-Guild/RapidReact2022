@@ -40,7 +40,7 @@ Each feature is developed inside its own branch, which is merged into dev after 
 
 ##### Testing
 
-Each feature branch should be forked by a `feature-branch-name-testing` branch, in which all necessary testing code is
+Each feature branch should be forked by a `feature-testing` branch, in which all necessary testing code is
 added. <br>
 all the code fixes should be committed into this branch.
 
