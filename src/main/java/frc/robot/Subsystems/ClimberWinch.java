@@ -38,8 +38,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     public static ClimberWinch getInstance() {
         if (instance == null) {
-            instance = new ClimberWinch(new CANSparkMax(RobotMap.CAN.WINCH_SPARKMAX_1, CANSparkMaxLowLevel.MotorType.kBrushless),
-                    new CANSparkMax(RobotMap.CAN.WINCH_SPARKMAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
+            instance = new ClimberWinch(new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_1, CANSparkMaxLowLevel.MotorType.kBrushless),
+                    new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return instance;
     }
@@ -47,8 +47,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super("climber winch", leftWinch, rightWinch);
         this.magnetLevel = Level.LOWER;
-        this.hallEffect = new DigitalInput(RobotMap.DIO.WINCH_HALL_EFFECT);
-        this.hookLimit = new DigitalInput(RobotMap.DIO.PLACER_LEFT_LIMIT_HOOK);
+        this.hallEffect = new DigitalInput(RobotMap.DIO.CLIMBER_WINCH_HALL_EFFECT);
+        this.hookLimit = new DigitalInput(RobotMap.DIO.CLIMBER_PLACER_HOOK_LIMIT);
     }
 
     @Override

@@ -4,20 +4,19 @@ public class RobotMap {
 
     public interface CAN {
 
-        int WINCH_SPARKMAX_1 = -1;
-        int WINCH_SPARKMAX_2 = -1;
-        int PLACER_TALON_RIGHT = -1;
-        int PLACER_TALON_LEFT = -1;
+        int CLIMBER_WINCH_SPARK_MAX_1 = -1;
+        int CLIMBER_WINCH_SPARK_MAX_2 = -1;
+        int CLIMBER_PLACER_TALON_LEFT = -1;
+        int CLIMBER_PLACER_TALON_RIGHT = -1;
     }
 
     public interface DIO {
 
-        int WINCH_HALL_EFFECT = -1;
-        int PLACER_LEFT_LIMIT_FRONT = -1;
-        int PLACER_LEFT_LIMIT_BACK = -1;
-        int PLACER_LEFT_LIMIT_HOOK = -1;
-        int PLACER_RIGHT_LIMIT_FRONT = -1;
-        int PLACER_RIGHT_LIMIT_BACK = -1;
-        int PLACER_RIGHT_LIMIT_HOOK = -1;
+        int CLIMBER_WINCH_HALL_EFFECT = -1;
+        int CLIMBER_PLACER_LEFT_LIMIT_FRONT = -1;
+        int CLIMBER_PLACER_LEFT_LIMIT_BACK = -1;
+        int CLIMBER_PLACER_RIGHT_LIMIT_FRONT = -1;
+        int CLIMBER_PLACER_RIGHT_LIMIT_BACK = -1;
+        int CLIMBER_PLACER_HOOK_LIMIT = -1;
     }
 }
