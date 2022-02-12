@@ -15,6 +15,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     private Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.25);
     private Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", -0.6);
+    private Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.25);
 
     private static ClimberWinch instance;
 
@@ -70,6 +71,10 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     public boolean isHooked() {
         return hookLimit.get();
+    }
+
+    public Supplier<Double> getUpSpeed() {
+        return UP_SPEED;
     }
 
     public Supplier<Double> getDownSpeed() {
