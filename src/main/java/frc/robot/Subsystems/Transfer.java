@@ -6,10 +6,16 @@ import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
+import java.util.function.Supplier;
+
 /**
  * Transports cargo from the bottom to the top of the robot.
  */
 public class Transfer extends MotoredGenericSubsystem {
+
+    public static final double SPEED = 0.6;
+
+    private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.5);
 
     /**
      * A light sensor that sends a signal while a cargo is held at the bottom of the timing straps.
@@ -39,5 +45,11 @@ public class Transfer extends MotoredGenericSubsystem {
         return limelight;
     }
 
-    public boolean getStrapEntranceSensor() { return entranceSensor.get(); }
+    public boolean getStrapEntranceSensor() {
+        return entranceSensor.get();
+    }
+
+    public double getTransferMoveTimeout() {
+        return transferMoveTimeout.get();
+    }
 }

@@ -2,7 +2,6 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
@@ -10,6 +9,8 @@ import frc.robot.RobotMap;
  * Uses a wheel located between the transfer and intake subsystem to hold/move cargo pieces.
  */
 public class IntakeToTransfer extends MotoredGenericSubsystem {
+
+    public static final double SPEED = 0.7;
 
     private static IntakeToTransfer instance;
 
