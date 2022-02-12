@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.Transfer;
 import frc.robot.Subsystems.IntakeToTransfer;
 
 /**
@@ -16,9 +17,19 @@ import frc.robot.Subsystems.IntakeToTransfer;
  */
 public class Robot extends TimedRobot {
 
+    /**
+     * This function is run when the robot is first started up and should be used for any
+     * initialization code.
+     */
+    private Transfer transfer;
+
     private IntakeToTransfer intakeToTransfer;
+
     @Override
     public void robotInit() {
+        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+        // autonomous chooser on the dashboard.
+        transfer = Transfer.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
     }
 
