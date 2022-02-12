@@ -17,8 +17,8 @@ import frc.robot.Subsystems.ClimberWinch;
  */
 public class Robot extends TimedRobot {
 
-    ClimberWinch climberWinch;
-    ClimberPlacer leftClimberPlacer, rightClimberPlacer;
+    private ClimberWinch climberWinch;
+    private ClimberPlacer leftClimberPlacer, rightClimberPlacer;
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
