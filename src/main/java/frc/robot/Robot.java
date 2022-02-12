@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Subsystems.IntakeToTransfer;
 import frc.robot.Subsystems.IntakePlacer;
 import frc.robot.Subsystems.IntakeRoller;
 
@@ -17,6 +18,7 @@ import frc.robot.Subsystems.IntakeRoller;
  */
 public class Robot extends TimedRobot {
 
+    private IntakeToTransfer intakeToTransfer;
     private IntakePlacer intakePlacer = IntakePlacer.getInstance();
     private IntakeRoller intakeRoller = IntakeRoller.getInstance();
 
@@ -24,6 +26,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        intakeToTransfer = IntakeToTransfer.getInstance();
         oi = new OI();
         intakePlacer.configureDashboard();
         intakeRoller.configureDashboard();
@@ -40,6 +43,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         intakePlacer.periodic();
         intakeRoller.periodic();
+        intakeToTransfer.periodic();
         CommandScheduler.getInstance().run();
     }
 
