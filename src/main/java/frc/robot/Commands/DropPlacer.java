@@ -12,7 +12,7 @@ public class DropPlacer extends MoveGenericSubsystem {
     private final ClimberPlacer placer;
 
     private static final RootNamespace rootNamespace = new RootNamespace("drop placers");
-    public static final Supplier<Double> initialWaitTime = rootNamespace.addConstantDouble("initial wait time", 0);
+    public static final Supplier<Double> initialWaitTime = rootNamespace.addConstantDouble("initial wait time", 0.25);
 
     private double startTime;
 
