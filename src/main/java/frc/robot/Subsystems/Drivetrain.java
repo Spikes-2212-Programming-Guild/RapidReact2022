@@ -27,8 +27,8 @@ public class Drivetrain extends TankDrivetrain {
     private static final RootNamespace rootNamespace = new RootNamespace("drivetrain");
     private static final Namespace encoderNamespace = rootNamespace.addChild("encoders");
     private static final Namespace pigeonNamespace = rootNamespace.addChild("pigeon");
-    private static final Namespace GyroPIDNamespace = rootNamespace.addChild("Gyro PID");
-    private static final Namespace drivetrainPIDNamespace = rootNamespace.addChild("drivetrain PID");
+    private static final Namespace gyroPIDNamespace = rootNamespace.addChild("Gyro PID");
+    private static final Namespace cameraPIDNamespace = rootNamespace.addChild("camera PID");
     private static final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
     /**
@@ -40,19 +40,26 @@ public class Drivetrain extends TankDrivetrain {
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
 
-    private final Supplier<Double> KPGyro = GyroPIDNamespace.addConstantDouble("gyro kP", 0);
-    private final Supplier<Double> KIGyro = GyroPIDNamespace.addConstantDouble("gyro kI", 0);
-    private final Supplier<Double> KDGyro = GyroPIDNamespace.addConstantDouble("gyro kD", 0);
-    private final Supplier<Double> ToleranceGyro = GyroPIDNamespace.addConstantDouble("gyro tolerance", 0);
-    private final Supplier<Double> WaitTimeGyro = GyroPIDNamespace.addConstantDouble("gyro wait time", 0);
+    private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("gyro kP", 0);
+    private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("gyro kI", 0);
+    private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("gyro kD", 0);
+    private final Supplier<Double> ToleranceGyro = gyroPIDNamespace.addConstantDouble("gyro tolerance", 0);
+    private final Supplier<Double> WaitTimeGyro = gyroPIDNamespace.addConstantDouble("gyro wait time", 0);
     private final PIDSettings pidSettingsGyro;
 
-    private final Supplier<Double> KPDrivetrain = drivetrainPIDNamespace.addConstantDouble("drivetrain kP", 0);
-    private final Supplier<Double> KIDrivetrain = drivetrainPIDNamespace.addConstantDouble("drivetrain kI", 0);
-    private final Supplier<Double> KDDrivetrain = drivetrainPIDNamespace.addConstantDouble("drivetrain kD", 0);
-    private final Supplier<Double> ToleranceDrivetrain = drivetrainPIDNamespace.addConstantDouble("drivetrain tolerance", 0);
-    private final Supplier<Double> WaitTimeDrivetrain = drivetrainPIDNamespace.addConstantDouble("drivetrain wait time", 0);
-    private final PIDSettings pidSettingsDrivetrain;
+    private final Supplier<Double> kPEncoders = encoderNamespace.addConstantDouble("drivetrain kP", 0);
+    private final Supplier<Double> kIEncoders = encoderNamespace.addConstantDouble("drivetrain kI", 0);
+    private final Supplier<Double> kDEncoders = encoderNamespace.addConstantDouble("drivetrain kD", 0);
+    private final Supplier<Double> ToleranceEncoders = encoderNamespace.addConstantDouble("drivetrain tolerance", 0);
+    private final Supplier<Double> WaitTimeEncoders = encoderNamespace.addConstantDouble("drivetrain wait time", 0);
+    private final PIDSettings pidSettingsEncoders;
+
+    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("camera kP", 0);
+    private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("camera kI", 0);
+    private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("camera kD", 0);
+    private final Supplier<Double> ToleranceCamera = cameraPIDNamespace.addConstantDouble("camera tolerance", 0);
+    private final Supplier<Double> WaitTimeCamera = cameraPIDNamespace.addConstantDouble("camera wait time", 0);
+    private final PIDSettings pidSettingsCamera;
 
     private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
@@ -85,10 +92,12 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        this.pidSettingsGyro = new PIDSettings(this.KPGyro, this.KIGyro, this.KDGyro, this.ToleranceGyro,
+        this.pidSettingsGyro = new PIDSettings(this.kPGyro, this.kIGyro, this.kDGyro, this.ToleranceGyro,
                 this.WaitTimeGyro);
-        this.pidSettingsDrivetrain = new PIDSettings(this.KPDrivetrain, this.KIDrivetrain, this.KDDrivetrain,
-                this.ToleranceDrivetrain, this.WaitTimeDrivetrain);
+        this.pidSettingsEncoders = new PIDSettings(this.kPEncoders, this.kIEncoders, this.kDEncoders,
+                this.ToleranceEncoders, this.WaitTimeEncoders);
+        this.pidSettingsCamera = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
+                this.ToleranceCamera, this.WaitTimeCamera);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
 
