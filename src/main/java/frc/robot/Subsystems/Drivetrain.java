@@ -1,7 +1,6 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
@@ -11,7 +10,6 @@ import com.spikes2212.util.PigeonWrapper;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.utils.BustedMotorControllerGroup;
 
@@ -20,10 +18,9 @@ import java.util.function.Supplier;
 public class Drivetrain extends TankDrivetrain {
 
     /**
-     * The wheel moves 20.32 * PI (it's perimeter) each 360 ticks.
-     * In meters.
+     * The wheel moves 15.24 * PI (it's perimeter) each 360 ticks (in meters).
      */
-    private static final double DISTANCE_PER_PULSE = 20.32 * Math.PI / 360.0 / 100;
+    private static final double DISTANCE_PER_PULSE = 15.24 * Math.PI / 360.0 / 100;
 
     private static Drivetrain instance;
 
