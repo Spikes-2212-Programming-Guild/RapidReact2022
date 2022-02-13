@@ -26,9 +26,10 @@ public class Drivetrain extends TankDrivetrain {
 
     private static final RootNamespace rootNamespace = new RootNamespace("drivetrain");
     private static final Namespace encoderNamespace = rootNamespace.addChild("encoders");
-    private static final Namespace pigeonNamespace = rootNamespace.addChild("pigeon");
-    private static final Namespace gyroPIDNamespace = rootNamespace.addChild("Gyro PID");
-    private static final Namespace cameraPIDNamespace = rootNamespace.addChild("camera PID");
+    private static final Namespace encodersPIDNamespace = encoderNamespace.addChild("encoders pid");
+    private static final Namespace gyroNamespace = rootNamespace.addChild("gyro");
+    private static final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
+    private static final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
     private static final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
     /**
@@ -47,11 +48,11 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> WaitTimeGyro = gyroPIDNamespace.addConstantDouble("gyro wait time", 0);
     private final PIDSettings pidSettingsGyro;
 
-    private final Supplier<Double> kPEncoders = encoderNamespace.addConstantDouble("drivetrain kP", 0);
-    private final Supplier<Double> kIEncoders = encoderNamespace.addConstantDouble("drivetrain kI", 0);
-    private final Supplier<Double> kDEncoders = encoderNamespace.addConstantDouble("drivetrain kD", 0);
-    private final Supplier<Double> ToleranceEncoders = encoderNamespace.addConstantDouble("drivetrain tolerance", 0);
-    private final Supplier<Double> WaitTimeEncoders = encoderNamespace.addConstantDouble("drivetrain wait time", 0);
+    private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kP", 0);
+    private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kI", 0);
+    private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kD", 0);
+    private final Supplier<Double> ToleranceEncoders = encodersPIDNamespace.addConstantDouble("drivetrain tolerance", 0);
+    private final Supplier<Double> WaitTimeEncoders = encodersPIDNamespace.addConstantDouble("drivetrain wait time", 0);
     private final PIDSettings pidSettingsEncoders;
 
     private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("camera kP", 0);
@@ -148,9 +149,8 @@ public class Drivetrain extends TankDrivetrain {
                 return true;
             }
         });
-
-        pigeonNamespace.putNumber("yaw", this::getYaw);
-        pigeonNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
+        gyroNamespace.putNumber("yaw", this::getYaw);
+        gyroNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
