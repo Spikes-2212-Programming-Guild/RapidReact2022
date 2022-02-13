@@ -1,7 +1,8 @@
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
  */
 public class Transfer extends MotoredGenericSubsystem {
 
-    public static final double SPEED = 0.6;
+    public static final double SPEED = -0.3;
 
     private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.5);
 
@@ -28,15 +29,15 @@ public class Transfer extends MotoredGenericSubsystem {
 
     public static Transfer getInstance() {
         if (instance == null) {
-            instance = new Transfer(new WPI_TalonSRX(RobotMap.CAN.TRANSFER_STRAP_TALON_1),
-                    new WPI_TalonSRX(RobotMap.CAN.TRANSFER_STRAP_TALON_2)
+            instance = new Transfer(new WPI_VictorSPX(RobotMap.CAN.TRANSFER_STRAP_VICTOR_1),
+                    new WPI_VictorSPX(RobotMap.CAN.TRANSFER_STRAP_VICTOR_2)
             );
         }
         return instance;
     }
 
-    private Transfer(WPI_TalonSRX talon1, WPI_TalonSRX talon2) {
-        super("transfer", talon1, talon2);
+    private Transfer(WPI_VictorSPX victor1, WPI_VictorSPX victor2) {
+        super("transfer", victor1, victor2);
         this.entranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_ENTRANCE_LIGHT_SENSOR);
         this.limelight = new Limelight();
     }
@@ -51,5 +52,10 @@ public class Transfer extends MotoredGenericSubsystem {
 
     public double getTransferMoveTimeout() {
         return transferMoveTimeout.get();
+    }
+
+    @Override
+    public void configureDashboard() {
+        rootNamespace.putData("transfer", new MoveGenericSubsystem(this, 0.5));
     }
 }

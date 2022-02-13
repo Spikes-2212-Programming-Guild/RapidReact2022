@@ -1,9 +1,8 @@
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
@@ -13,8 +12,8 @@ import frc.robot.RobotMap;
  */
 public class IntakeRoller extends MotoredGenericSubsystem {
 
-    public static final double MAX_SPEED = 0.6;
-    private static final double MIN_SPEED = 0;
+    public static final double MAX_SPEED = -0.6;
+    private static final double MIN_SPEED = -1;
 
     private static IntakeRoller instance;
 
@@ -26,7 +25,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     }
 
     private IntakeRoller() {
-        super(MIN_SPEED, MAX_SPEED, "intake roller", new WPI_VictorSPX(RobotMap.CAN.INTAKE_ROLLER_VICTOR));
+        super(MIN_SPEED, MAX_SPEED, "intake roller", new WPI_TalonSRX(RobotMap.CAN.INTAKE_ROLLER_TALON));
     }
 
     @Override
