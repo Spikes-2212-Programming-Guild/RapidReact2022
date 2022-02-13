@@ -62,8 +62,8 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> WaitTimeCamera = cameraPIDNamespace.addConstantDouble("camera wait time", 0);
     private final PIDSettings pidSettingsCamera;
 
-    private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
     private final FeedForwardSettings ffSettings;
 
