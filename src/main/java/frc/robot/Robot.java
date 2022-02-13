@@ -4,8 +4,13 @@
 
 package frc.robot;
 
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Commands.IntakeCargo;
 import frc.robot.Subsystems.Transfer;
 import frc.robot.Subsystems.IntakeToTransfer;
 import frc.robot.Subsystems.IntakePlacer;
@@ -23,6 +28,7 @@ public class Robot extends TimedRobot {
     private Transfer transfer;
     private IntakePlacer intakePlacer;
     private IntakeRoller intakeRoller;
+    private RootNamespace rootNamespace;
 
     @Override
     public void robotInit() {
@@ -34,6 +40,26 @@ public class Robot extends TimedRobot {
         intakeRoller.configureDashboard();
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
+        rootNamespace = new RootNamespace("Robot Namespace");
+        DigitalInput digitalInput = new DigitalInput(4);
+        rootNamespace.putBoolean("digital input 4", digitalInput.get());
+        rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putBoolean("transfer limit", transfer::getStrapEntranceSensor);
+        rootNamespace.putData("test intake", new ParallelCommandGroup(
+                new MoveGenericSubsystem(intakeRoller, IntakeRoller.MAX_SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return intakeToTransfer.getLimit();
+                    }
+                },
+                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return transfer.getStrapEntranceSensor();
+                    }
+                }
+        ));
+
     }
 
     /**
@@ -49,6 +75,7 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
+        rootNamespace.update();
         CommandScheduler.getInstance().run();
     }
 
