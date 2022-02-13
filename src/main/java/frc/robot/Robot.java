@@ -4,8 +4,12 @@
 
 package frc.robot;
 
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.CloseTelescopic;
+import frc.robot.Commands.DropBothPlacers;
 import frc.robot.Subsystems.ClimberPlacer;
 import frc.robot.Subsystems.ClimberWinch;
 
@@ -19,6 +23,8 @@ public class Robot extends TimedRobot {
 
     private ClimberWinch climberWinch;
     private ClimberPlacer leftClimberPlacer, rightClimberPlacer;
+    RootNamespace root = new RootNamespace("Root");
+
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -28,8 +34,14 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         climberWinch = ClimberWinch.getInstance();
+        climberWinch.configureDashboard();
         leftClimberPlacer = ClimberPlacer.getLeftInstance();
+        leftClimberPlacer.configureDashboard();
         rightClimberPlacer = ClimberPlacer.getRightInstance();
+        rightClimberPlacer.configureDashboard();
+        root.putData("DropBothPlacers", new DropBothPlacers());
+        root.putData("CloseTelescopic", new CloseTelescopic());
+        root.putData("OpenTelescopic", new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().getUpSpeed()));
     }
 
     /**

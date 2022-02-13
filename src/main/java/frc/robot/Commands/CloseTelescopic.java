@@ -13,7 +13,7 @@ public class CloseTelescopic extends SequentialCommandGroup {
                 new MoveGenericSubsystem(climberWinch, climberWinch.getDownSpeed()) {
                     @Override
                     public boolean isFinished() {
-                        return climberWinch.isHooked();
+                        return (climberWinch.isLeftHooked() && climberWinch.isRightHooked()) || super.isFinished();
                     }
                 },
                 new MoveGenericSubsystem(climberWinch, climberWinch.getHookedDownSpeed())

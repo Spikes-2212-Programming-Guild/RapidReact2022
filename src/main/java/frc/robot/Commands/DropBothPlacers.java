@@ -8,7 +8,6 @@ public class DropBothPlacers extends ParallelCommandGroup {
     public DropBothPlacers() {
         ClimberPlacer leftPlacer = ClimberPlacer.getLeftInstance();
         ClimberPlacer rightPlacer = ClimberPlacer.getRightInstance();
-        addRequirements(leftPlacer, rightPlacer);
         addCommands(
                 new DropPlacer(leftPlacer),
                 new DropPlacer(rightPlacer)
