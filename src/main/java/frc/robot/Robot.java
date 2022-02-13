@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -15,6 +16,7 @@ import frc.robot.Subsystems.Transfer;
 import frc.robot.Subsystems.IntakeToTransfer;
 import frc.robot.Subsystems.IntakePlacer;
 import frc.robot.Subsystems.IntakeRoller;
+import frc.robot.Subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,6 +26,8 @@ import frc.robot.Subsystems.IntakeRoller;
  */
 public class Robot extends TimedRobot {
 
+    private OI oi;
+    private Drivetrain drivetrain;
     private IntakeToTransfer intakeToTransfer;
     private Transfer transfer;
     private IntakePlacer intakePlacer;
@@ -32,6 +36,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        oi = new OI();
+        drivetrain = Drivetrain.getInstance();
+        drivetrain.configureDashboard();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
@@ -71,6 +78,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        drivetrain.periodic();
         intakePlacer.periodic();
         intakeRoller.periodic();
         intakeToTransfer.periodic();
@@ -107,6 +115,8 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**
