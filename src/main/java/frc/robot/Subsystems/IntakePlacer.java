@@ -1,5 +1,6 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
@@ -14,7 +15,7 @@ import frc.robot.RobotMap;
 public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.5;
-    public static final double MIN_SPEED = -0.3;
+    public static final double MIN_SPEED = -0.1;
 
     private static IntakePlacer instance;
 
@@ -30,15 +31,18 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static IntakePlacer getInstance() {
         if (instance == null) {
-            instance = new IntakePlacer();
+            WPI_VictorSPX victor = new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR);
+            victor.setNeutralMode(NeutralMode.Brake);
+            instance = new IntakePlacer(victor);
         }
         return instance;
     }
 
-    private IntakePlacer() {
-        super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
+    private IntakePlacer(WPI_VictorSPX victor) {
+        super(MIN_SPEED, MAX_SPEED, "intake placer", victor);
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
+        rootNamespace.putNumber("motor voltage", victor::getMotorOutputVoltage);
     }
 
     /**

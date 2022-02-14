@@ -48,24 +48,10 @@ public class Robot extends TimedRobot {
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
         rootNamespace = new RootNamespace("Robot Namespace");
-        DigitalInput digitalInput = new DigitalInput(4);
-        rootNamespace.putBoolean("digital input 4", digitalInput.get());
         rootNamespace.putData("intake cargo", new IntakeCargo());
-        rootNamespace.putBoolean("transfer limit", transfer::getStrapEntranceSensor);
-        rootNamespace.putData("test intake", new ParallelCommandGroup(
-                new MoveGenericSubsystem(intakeRoller, IntakeRoller.MAX_SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return intakeToTransfer.getLimit();
-                    }
-                },
-                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return transfer.getStrapEntranceSensor();
-                    }
-                }
-        ));
+
+        rootNamespace.putData("drive Forward", new DriveArcade(drivetrain, 0.5, 0));
+        rootNamespace.putData("drive Backward", new DriveArcade(drivetrain, -0.5, 0));
 
     }
 
@@ -115,8 +101,8 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
-        drivetrain.setDefaultCommand(driveArcade);
+//        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+//        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**

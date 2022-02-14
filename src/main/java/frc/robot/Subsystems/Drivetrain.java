@@ -44,22 +44,22 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("gyro kP", 0);
     private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("gyro kI", 0);
     private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("gyro kD", 0);
-    private final Supplier<Double> ToleranceGyro = gyroPIDNamespace.addConstantDouble("gyro tolerance", 0);
-    private final Supplier<Double> WaitTimeGyro = gyroPIDNamespace.addConstantDouble("gyro wait time", 0);
+    private final Supplier<Double> toleranceGyro = gyroPIDNamespace.addConstantDouble("gyro tolerance", 0);
+    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("gyro wait time", 0);
     private final PIDSettings pidSettingsGyro;
 
     private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kP", 0);
     private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kI", 0);
     private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kD", 0);
-    private final Supplier<Double> ToleranceEncoders = encodersPIDNamespace.addConstantDouble("drivetrain tolerance", 0);
-    private final Supplier<Double> WaitTimeEncoders = encodersPIDNamespace.addConstantDouble("drivetrain wait time", 0);
+    private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("drivetrain tolerance", 0);
+    private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("drivetrain wait time", 0);
     private final PIDSettings pidSettingsEncoders;
 
     private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("camera kP", 0);
     private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("camera kI", 0);
     private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("camera kD", 0);
-    private final Supplier<Double> ToleranceCamera = cameraPIDNamespace.addConstantDouble("camera tolerance", 0);
-    private final Supplier<Double> WaitTimeCamera = cameraPIDNamespace.addConstantDouble("camera wait time", 0);
+    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("camera tolerance", 0);
+    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("camera wait time", 0);
     private final PIDSettings pidSettingsCamera;
 
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
@@ -73,7 +73,7 @@ public class Drivetrain extends TankDrivetrain {
             instance = new Drivetrain(new BustedMotorControllerGroup(
                     leftCorrection,
                     pigeonTalon, // @TODO: If you change the pigeon talon change this as well
-                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_2)
+                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1)
             ),
                     new BustedMotorControllerGroup(
                             rightCorrection,
@@ -93,12 +93,12 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        this.pidSettingsGyro = new PIDSettings(this.kPGyro, this.kIGyro, this.kDGyro, this.ToleranceGyro,
-                this.WaitTimeGyro);
+        this.pidSettingsGyro = new PIDSettings(this.kPGyro, this.kIGyro, this.kDGyro, this.toleranceGyro,
+                this.waitTimeGyro);
         this.pidSettingsEncoders = new PIDSettings(this.kPEncoders, this.kIEncoders, this.kDEncoders,
-                this.ToleranceEncoders, this.WaitTimeEncoders);
+                this.toleranceEncoders, this.waitTimeEncoders);
         this.pidSettingsCamera = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
-                this.ToleranceCamera, this.WaitTimeCamera);
+                this.toleranceCamera, this.waitTimeCamera);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
 

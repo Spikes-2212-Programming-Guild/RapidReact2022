@@ -10,6 +10,8 @@ import frc.robot.Subsystems.Transfer;
 
 public class IntakeCargo extends SequentialCommandGroup {
 
+    private boolean isTransferPressed;
+
     public IntakeCargo() {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         IntakePlacer intakePlacer = IntakePlacer.getInstance();
@@ -26,7 +28,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                                         return intakeToTransfer.getLimit();
                                     }
                                 },
-                                new MoveGenericSubsystem(transfer, Transfer.SPEED) {
+                                new MoveGenericSubsystem(transfer, -0.3) {
                                     @Override
                                     public boolean isFinished() {
                                         return transfer.getStrapEntranceSensor();
@@ -36,15 +38,22 @@ public class IntakeCargo extends SequentialCommandGroup {
                         new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
                             @Override
                             public boolean isFinished() {
+                                if (isTransferPressed) return intakeToTransfer.getLimit();
                                 return transfer.getStrapEntranceSensor();
                             }
                         }
                 ),
-                new MoveGenericSubsystem(transfer, Transfer.SPEED) {
+                new MoveGenericSubsystem(transfer, transfer.getTransferSpeed()) {
                     @Override
                     public boolean isFinished() {
                         return intakeToTransfer.getLimit();
                     }
                 }.withTimeout(transfer.getTransferMoveTimeout()));
+    }
+
+    @Override
+    public void initialize() {
+        isTransferPressed = Transfer.getInstance().getStrapEntranceSensor();
+        super.initialize();
     }
 }
