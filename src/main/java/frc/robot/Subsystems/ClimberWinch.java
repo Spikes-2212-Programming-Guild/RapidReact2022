@@ -5,8 +5,6 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Commands.CloseTelescopic;
 import frc.robot.RobotMap;
 
@@ -17,9 +15,9 @@ import java.util.function.Supplier;
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
-    private Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.25);
-    private Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", -0.6);
-    private Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.4);
+    private final Supplier<Double> downSpeed = rootNamespace.addConstantDouble("down speed", -0.25);
+    private final Supplier<Double> hookedDownSpeed = rootNamespace.addConstantDouble("hooked down speed", -0.6);
+    private final Supplier<Double> upSpeed = rootNamespace.addConstantDouble("up speed", 0.4);
 
     private static ClimberWinch instance;
 
@@ -38,11 +36,11 @@ public class ClimberWinch extends MotoredGenericSubsystem {
      */
     private Level magnetLevel;
 
-    private enum Level {UPPER, LOWER, MIDDLE}
+    private enum Level {UPPER, MIDDLE, LOWER;}
 
     public static ClimberWinch getInstance() {
         if (instance == null) {
-         instance = new ClimberWinch(new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_1, CANSparkMaxLowLevel.MotorType.kBrushless),
+            instance = new ClimberWinch(new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_1, CANSparkMaxLowLevel.MotorType.kBrushless),
                     new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return instance;
@@ -86,19 +84,22 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         return rightHookLimit.get();
     }
 
+    @Override
     public void configureDashboard() {
+        rootNamespace.putData("Close Telescopic", new CloseTelescopic());
+        rootNamespace.putData("Open Telescopic", new MoveGenericSubsystem(this, upSpeed));
         rootNamespace.putString("Status", () -> magnetLevel.name());
     }
 
     public Supplier<Double> getUpSpeed() {
-        return UP_SPEED;
+        return upSpeed;
     }
 
     public Supplier<Double> getDownSpeed() {
-        return DOWN_SPEED;
+        return downSpeed;
     }
 
     public Supplier<Double> getHookedDownSpeed() {
-        return HOOKED_DOWN_SPEED;
+        return hookedDownSpeed;
     }
 }

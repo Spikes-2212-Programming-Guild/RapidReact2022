@@ -23,7 +23,6 @@ public class Robot extends TimedRobot {
 
     private ClimberWinch climberWinch;
     private ClimberPlacer leftClimberPlacer, rightClimberPlacer;
-    RootNamespace root = new RootNamespace("Root");
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -39,9 +38,6 @@ public class Robot extends TimedRobot {
         leftClimberPlacer.configureDashboard();
         rightClimberPlacer = ClimberPlacer.getRightInstance();
         rightClimberPlacer.configureDashboard();
-        root.putData("DropBothPlacers", new DropBothPlacers());
-        root.putData("CloseTelescopic", new CloseTelescopic());
-        root.putData("OpenTelescopic", new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().getUpSpeed()));
     }
 
     /**
