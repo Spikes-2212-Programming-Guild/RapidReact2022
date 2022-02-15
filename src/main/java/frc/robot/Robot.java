@@ -4,8 +4,19 @@
 
 package frc.robot;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Commands.IntakeCargo;
+import frc.robot.Subsystems.Transfer;
+import frc.robot.Subsystems.IntakeToTransfer;
+import frc.robot.Subsystems.IntakePlacer;
+import frc.robot.Subsystems.IntakeRoller;
+import frc.robot.Subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,14 +26,47 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
+    private OI oi;
+    private Drivetrain drivetrain;
+    private IntakeToTransfer intakeToTransfer;
+    private Transfer transfer;
+    private IntakePlacer intakePlacer;
+    private IntakeRoller intakeRoller;
+    private RootNamespace rootNamespace;
+
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
+        oi = new OI();
+        drivetrain = Drivetrain.getInstance();
+        drivetrain.configureDashboard();
+        intakePlacer = IntakePlacer.getInstance();
+        intakeRoller = IntakeRoller.getInstance();
+        intakeToTransfer = IntakeToTransfer.getInstance();
+        transfer = Transfer.getInstance();
+        intakePlacer.configureDashboard();
+        intakeRoller.configureDashboard();
+        intakeToTransfer.configureDashboard();
+        transfer.configureDashboard();
+        rootNamespace = new RootNamespace("Robot Namespace");
+        DigitalInput digitalInput = new DigitalInput(4);
+        rootNamespace.putBoolean("digital input 4", digitalInput.get());
+        rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putBoolean("transfer limit", transfer::getStrapEntranceSensor);
+        rootNamespace.putData("test intake", new ParallelCommandGroup(
+                new MoveGenericSubsystem(intakeRoller, IntakeRoller.MAX_SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return intakeToTransfer.getLimit();
+                    }
+                },
+                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return transfer.getStrapEntranceSensor();
+                    }
+                }
+        ));
+
     }
 
     /**
@@ -34,10 +78,12 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        drivetrain.periodic();
+        intakePlacer.periodic();
+        intakeRoller.periodic();
+        intakeToTransfer.periodic();
+        transfer.periodic();
+        rootNamespace.update();
         CommandScheduler.getInstance().run();
     }
 
@@ -69,6 +115,8 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**
