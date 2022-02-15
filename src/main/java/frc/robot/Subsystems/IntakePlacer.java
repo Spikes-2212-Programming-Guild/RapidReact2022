@@ -15,6 +15,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.3;
+    public static final double IDLE_SPEED = 0.2;
 
     private static IntakePlacer instance;
 
@@ -22,6 +23,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      * The upper limit of the subsystem. When it is pressed, the intake system is vertical.
      */
     private final DigitalInput upperLimit;
+    private boolean shouldBeUp;
 
     /**
      * The lower limit of the subsystem. When it is pressed, the intake system is horizontal.
@@ -39,6 +41,16 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
+        this.shouldBeUp = true;
+    }
+
+    @Override
+    protected void apply(double speed) {
+        if (!(isDown() && speed < 0) && !(isUp() && speed > 0)) {
+            super.apply(speed);
+        } else {
+            super.apply(0);
+        }
     }
 
     /**
@@ -50,7 +62,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        return !(isDown() && speed < 0) && !(isUp() && speed > 0);
+        return (!(isDown() && speed < 0) && !(isUp() && speed > 0)) || shouldBeUp;
     }
 
     @Override
@@ -65,5 +77,9 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public boolean isDown() {
         return lowerLimit.get();
+    }
+
+    public void setShouldBeUp(boolean value) {
+        shouldBeUp = value;
     }
 }

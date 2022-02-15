@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
                     }
                 }
         ));
-
+        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED));
     }
 
     /**
