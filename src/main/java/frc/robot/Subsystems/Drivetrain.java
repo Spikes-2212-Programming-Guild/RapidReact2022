@@ -38,7 +38,7 @@ public class Drivetrain extends TankDrivetrain {
     private static final Supplier<Double> rightCorrection = rootNamespace.addConstantDouble("right correction", 1);
     private static final Supplier<Double> leftCorrection = rootNamespace.addConstantDouble("left correction", 1);
 
-//    private final PigeonWrapper pigeon;
+    private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("gyro kP", 0);
@@ -88,7 +88,7 @@ public class Drivetrain extends TankDrivetrain {
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon) {
         super(leftMotors, rightMotors);
-//        this.pigeon = new PigeonWrapper(pigeonTalon);
+        this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
@@ -113,11 +113,10 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     public double getYaw() {
-//        double yaw = pigeon.getYaw() % 360;
-//        if (yaw > 180) yaw -= 360;
-//        if (yaw < -180) yaw += 360;
-//        return yaw;
-        return 0;
+        double yaw = pigeon.getYaw() % 360;
+        if (yaw > 180) yaw -= 360;
+        if (yaw < -180) yaw += 360;
+        return yaw;
     }
 
     public double getRightDistance() {
@@ -151,11 +150,11 @@ public class Drivetrain extends TankDrivetrain {
             }
         });
         gyroNamespace.putNumber("yaw", this::getYaw);
-//        gyroNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
-//            @Override
-//            public boolean runsWhenDisabled() {
-//                return true;
-//            }
-//        });
+        gyroNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
+            @Override
+            public boolean runsWhenDisabled() {
+                return true;
+            }
+        });
     }
 }

@@ -1,12 +1,9 @@
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 /**
@@ -33,19 +30,15 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static IntakePlacer getInstance() {
         if (instance == null) {
-            instance = new IntakePlacer(new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
+            instance = new IntakePlacer();
         }
         return instance;
     }
 
-    public final WPI_VictorSPX wpi_victorSPX;
-
-    private IntakePlacer(WPI_VictorSPX wpi_victorSPX) {
-        super(MIN_SPEED, MAX_SPEED, "intake placer", wpi_victorSPX);
+    private IntakePlacer() {
+        super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
-        wpi_victorSPX.setNeutralMode(NeutralMode.Brake);
-        this.wpi_victorSPX = wpi_victorSPX;
     }
 
     /**
@@ -57,17 +50,13 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        return (!(isDown() && speed < 0) && !(isUp() && speed > 0)) || Robot.shouldClose;
+        return !(isDown() && speed < 0) && !(isUp() && speed > 0);
     }
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED).andThen(
-                new InstantCommand(() -> Robot.shouldClose = false)
-        ));
-        rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED).andThen(
-                new InstantCommand(() -> Robot.shouldClose = true)
-        ));
+        rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
+        rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
     }
 
     public boolean isUp() {

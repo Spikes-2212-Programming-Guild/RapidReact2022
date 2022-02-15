@@ -9,7 +9,6 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.IntakeCargo;
@@ -35,9 +34,6 @@ public class Robot extends TimedRobot {
     private IntakeRoller intakeRoller;
     private RootNamespace rootNamespace;
 
-    // @TODO: Sitton don't kill me
-    public static boolean shouldClose = true;
-
     @Override
     public void robotInit() {
         oi = new OI();
@@ -52,6 +48,8 @@ public class Robot extends TimedRobot {
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
         rootNamespace = new RootNamespace("Robot Namespace");
+        DigitalInput digitalInput = new DigitalInput(4);
+        rootNamespace.putBoolean("digital input 4", digitalInput.get());
         rootNamespace.putData("intake cargo", new IntakeCargo());
         rootNamespace.putBoolean("transfer limit", transfer::getStrapEntranceSensor);
         rootNamespace.putData("test intake", new ParallelCommandGroup(
@@ -69,31 +67,7 @@ public class Robot extends TimedRobot {
                 }
         ));
 
-//        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, 0.2));
-
-        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, 0.2) {
-            @Override
-            public void execute() {
-                if (shouldClose) {
-                    subsystem.move(0.2);
-                } else {
-                    subsystem.stop();
-                }
-            }
-        });
     }
-
-    private MoveGenericSubsystem m = new MoveGenericSubsystem(IntakePlacer.getInstance(), 0.3) {
-        @Override
-        public void execute() {
-            intakePlacer.wpi_victorSPX.set(speedSupplier.get());
-        }
-
-        @Override
-        public boolean isFinished() {
-            return false;
-        }
-    };
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for items like
@@ -111,7 +85,6 @@ public class Robot extends TimedRobot {
         transfer.periodic();
         rootNamespace.update();
         CommandScheduler.getInstance().run();
-
     }
 
     /**
