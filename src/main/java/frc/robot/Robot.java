@@ -7,17 +7,10 @@ package frc.robot;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.IntakeCargo;
-import frc.robot.Subsystems.Transfer;
-import frc.robot.Subsystems.IntakeToTransfer;
-import frc.robot.Subsystems.IntakePlacer;
-import frc.robot.Subsystems.IntakeRoller;
-import frc.robot.Subsystems.Drivetrain;
+import frc.robot.Subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -54,23 +47,6 @@ public class Robot extends TimedRobot {
         rootNamespace = new RootNamespace("Robot Namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
         rootNamespace.putBoolean("transfer limit", transfer::getStrapEntranceSensor);
-        rootNamespace.putData("test intake", new ParallelCommandGroup(
-                new MoveGenericSubsystem(intakeRoller, IntakeRoller.MAX_SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return intakeToTransfer.getLimit();
-                    }
-                },
-                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return transfer.getStrapEntranceSensor();
-                    }
-                }
-        ));
-
-//        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, 0.2));
-
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, 0.2) {
             @Override
             public void execute() {
@@ -82,18 +58,6 @@ public class Robot extends TimedRobot {
             }
         });
     }
-
-    private MoveGenericSubsystem m = new MoveGenericSubsystem(IntakePlacer.getInstance(), 0.3) {
-        @Override
-        public void execute() {
-            intakePlacer.wpi_victorSPX.set(speedSupplier.get());
-        }
-
-        @Override
-        public boolean isFinished() {
-            return false;
-        }
-    };
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for items like

@@ -5,6 +5,8 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import frc.robot.RobotMap;
 
+import java.util.function.Supplier;
+
 /**
  * Controls the roller part of the intake subsystem.
  *
@@ -12,8 +14,9 @@ import frc.robot.RobotMap;
  */
 public class IntakeRoller extends MotoredGenericSubsystem {
 
-    public static final double MAX_SPEED = -0.6;
-    private static final double MIN_SPEED = -1;
+    public static final double MAX_SPEED = 0.5;
+    public static final double MIN_SPEED = -0.6;
+
 
     private static IntakeRoller instance;
 
