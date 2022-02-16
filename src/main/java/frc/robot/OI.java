@@ -3,7 +3,6 @@ package frc.robot;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.util.XboxControllerWrapper;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Commands.IntakeCargo;
 import frc.robot.Subsystems.IntakePlacer;
@@ -26,10 +25,8 @@ public class OI /* GEVALD */ {
         intake.whenPressed(new IntakeCargo());
         rollOut.whileHeld(new MoveGenericSubsystem(intakeRoller, IntakeRoller.MAX_SPEED));
         rollIn.whileHeld(new MoveGenericSubsystem(intakeRoller, IntakeRoller.MIN_SPEED));
-        intakePlacerUp.whileHeld(new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED).
-                andThen(new InstantCommand(() -> Robot.shouldClose = false)));
-        intakePlacerDown.whileHeld(new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED).
-                andThen(new InstantCommand(() -> Robot.shouldClose = true)));
+        intakePlacerUp.whileHeld(new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED));
+        intakePlacerDown.whileHeld(new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED));
     }
 
     public double getRightY() {
