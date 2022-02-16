@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 public class Drivetrain extends TankDrivetrain {
 
     /**
-     * The wheel moves 15.24 * PI (it's perimeter) each 360 ticks (in meters).
+     * The wheel moves 15.24 * PI (its perimeter) each 360 ticks (in meters).
      */
     private static final double DISTANCE_PER_PULSE = 15.24 * Math.PI / 360.0 / 100;
 

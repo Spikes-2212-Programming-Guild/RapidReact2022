@@ -28,9 +28,6 @@ public class Robot extends TimedRobot {
     private IntakeRoller intakeRoller;
     private RootNamespace rootNamespace;
 
-    // @TODO: Sitton don't kill me
-    public static boolean shouldClose = true;
-
     @Override
     public void robotInit() {
         oi = new OI();
@@ -45,6 +42,8 @@ public class Robot extends TimedRobot {
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
         rootNamespace = new RootNamespace("Robot Namespace");
+        DigitalInput digitalInput = new DigitalInput(4);
+        rootNamespace.putBoolean("digital input 4", digitalInput.get());
         rootNamespace.putData("intake cargo", new IntakeCargo());
         rootNamespace.putBoolean("transfer limit", transfer::getStrapEntranceSensor);
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, 0.2) {
@@ -75,7 +74,6 @@ public class Robot extends TimedRobot {
         transfer.periodic();
         rootNamespace.update();
         CommandScheduler.getInstance().run();
-
     }
 
     /**
