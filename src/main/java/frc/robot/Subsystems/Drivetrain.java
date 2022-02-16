@@ -6,7 +6,6 @@ import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
-import com.spikes2212.util.PigeonWrapper;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -38,7 +37,7 @@ public class Drivetrain extends TankDrivetrain {
     private static final Supplier<Double> rightCorrection = rootNamespace.addConstantDouble("right correction", 1);
     private static final Supplier<Double> leftCorrection = rootNamespace.addConstantDouble("left correction", 1);
 
-//    private final PigeonWrapper pigeon;
+    //    private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("gyro kP", 0);
@@ -87,7 +86,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon) {
-        super("drivetrain", leftMotors, rightMotors);
+        super(leftMotors, rightMotors);
 //        this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
