@@ -48,7 +48,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
 
-
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
             public void execute() {
