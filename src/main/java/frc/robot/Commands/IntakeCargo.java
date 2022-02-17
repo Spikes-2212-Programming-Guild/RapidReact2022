@@ -28,15 +28,14 @@ public class IntakeCargo extends SequentialCommandGroup {
                                 new MoveGenericSubsystem(transfer, transfer.getTransferSpeed()) {
                                     @Override
                                     public boolean isFinished() {
-                                        return transfer.getStrapEntranceSensor();
+                                        return transfer.getEntranceSensor();
                                     }
                                 }
                         ),
                         new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
                             @Override
                             public boolean isFinished() {
-                                if (isTransferPressed) return intakeToTransfer.getLimit();
-                                return transfer.getStrapEntranceSensor();
+                                return isTransferPressed ? intakeToTransfer.getLimit() : transfer.getEntranceSensor();
                             }
                         }
                 ),
@@ -50,7 +49,7 @@ public class IntakeCargo extends SequentialCommandGroup {
 
     @Override
     public void initialize() {
-        isTransferPressed = Transfer.getInstance().getStrapEntranceSensor();
+        isTransferPressed = Transfer.getInstance().getEntranceSensor();
         super.initialize();
     }
 }

@@ -45,7 +45,7 @@ public class Transfer extends MotoredGenericSubsystem {
         return limelight;
     }
 
-    public boolean getStrapEntranceSensor() {
+    public boolean getEntranceSensor() {
         return entranceSensor.get();
     }
 
