@@ -5,15 +5,13 @@ import com.spikes2212.util.XboxControllerWrapper;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.IntakeCargo;
-import frc.robot.Subsystems.IntakePlacer;
-import frc.robot.Subsystems.IntakeToTransfer;
-import frc.robot.Subsystems.Transfer;
+import frc.robot.Subsystems.*;
 
 public class OI /* GEVALD */ {
 
     private final Joystick left = new Joystick(0);
     private final Joystick right = new Joystick(1);
-    private final XboxControllerWrapper xbox = new XboxControllerWrapper(0);
+    private final XboxControllerWrapper xbox = new XboxControllerWrapper(2);
 
     public OI() {
         xbox.getRTButton().whenActive(new IntakeCargo());

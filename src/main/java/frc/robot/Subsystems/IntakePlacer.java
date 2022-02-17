@@ -31,18 +31,15 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static IntakePlacer getInstance() {
         if (instance == null) {
-            WPI_VictorSPX victor = new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR);
-            victor.setNeutralMode(NeutralMode.Brake);
-            instance = new IntakePlacer(victor);
+            instance = new IntakePlacer();
         }
         return instance;
     }
 
-    private IntakePlacer(WPI_VictorSPX victor) {
-        super(MIN_SPEED, MAX_SPEED, "intake placer", victor);
+    private IntakePlacer() {
+        super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
-        rootNamespace.putNumber("motor voltage", victor::getMotorOutputVoltage);
     }
 
     /**
