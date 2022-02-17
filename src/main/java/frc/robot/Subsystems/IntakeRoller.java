@@ -31,6 +31,5 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, MIN_SPEED));
-        rootNamespace.putData("intake roller reverse", new MoveGenericSubsystem(this, MAX_SPEED));
     }
 }
