@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
 /**
@@ -47,7 +46,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     @Override
     protected void apply(double speed) {
-        shouldBeUp = speed >= 0;
+        shouldBeUp = speed > 0;
         super.apply(speed);
     }
 
