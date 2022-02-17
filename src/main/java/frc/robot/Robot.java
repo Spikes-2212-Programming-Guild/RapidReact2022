@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         oi = new OI();
         drivetrain = Drivetrain.getInstance();
+
+        drivetrain.configureDashboard();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
@@ -44,10 +47,25 @@ public class Robot extends TimedRobot {
 
         rootNamespace = new RootNamespace("Robot Namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
-
         rootNamespace.putData("drive Forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive Backward", new DriveArcade(drivetrain, -0.5, 0));
 
+
+        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
+            @Override
+            public void execute() {
+                if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
+                    subsystem.move(speedSupplier.get());
+                } else {
+                    subsystem.move(0);
+                }
+            }
+
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
     }
 
     /**

@@ -13,8 +13,9 @@ import frc.robot.RobotMap;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
-    public static final double MAX_SPEED = 0.46;
+    public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.1;
+    public static final double IDLE_SPEED = 0.1;
 
     private static IntakePlacer instance;
 
@@ -22,6 +23,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      * The upper limit of the subsystem. When it is pressed, the intake system is vertical.
      */
     private final DigitalInput upperLimit;
+    private boolean shouldBeUp;
 
     /**
      * The lower limit of the subsystem. When it is pressed, the intake system is horizontal.
@@ -39,6 +41,13 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
+        this.shouldBeUp = upperLimit.get();
+    }
+
+    @Override
+    protected void apply(double speed) {
+        shouldBeUp = speed != 0 ? speed > 0 : shouldBeUp;
+        super.apply(speed);
     }
 
     /**
@@ -57,6 +66,10 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
+    }
+
+    public boolean getShouldBeUp() {
+        return shouldBeUp;
     }
 
     public boolean isUp() {
