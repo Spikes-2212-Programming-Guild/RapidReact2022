@@ -11,7 +11,7 @@ import frc.robot.Subsystems.Transfer;
  */
 public class ReturnByGyro extends DriveArcadeWithPID {
 
-    private static final double SPEED = 0;
+    private static final double SPEED = -0.5;
     private static final int LIMELIGHT_PIPELINE = 1;
 
     private int previousPipeline;
@@ -19,7 +19,7 @@ public class ReturnByGyro extends DriveArcadeWithPID {
 //    private Limelight limelight;
 
     public ReturnByGyro(Drivetrain drivetrain, double setpoint) {
-        super(drivetrain, drivetrain::getYaw, setpoint, SPEED, drivetrain.getGyroPIDSettings(),
+        super(drivetrain, () -> -drivetrain.getYaw(), setpoint, SPEED, drivetrain.getGyroPIDSettings(),
                 drivetrain.getFFSettings());
 //        this.limelight = Transfer.getInstance().getLimelight();
     }

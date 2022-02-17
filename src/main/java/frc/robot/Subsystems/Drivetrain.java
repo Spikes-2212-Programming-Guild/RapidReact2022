@@ -113,10 +113,10 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     public double getYaw() {
-//        double yaw = pigeon.getYaw() % 360;
-//        if (yaw > 180) yaw -= 360;
-//        if (yaw < -180) yaw += 360;
-        return pigeon.getX();
+        double yaw = pigeon.getYaw() % 360;
+        if (yaw > 180) yaw -= 360;
+        if (yaw < -180) yaw += 360;
+        return yaw;
     }
 
     public double getRightDistance() {
@@ -158,7 +158,7 @@ public class Drivetrain extends TankDrivetrain {
             }
         });
         gyroNamespace.putNumber("yaw", this::getYaw);
-        gyroNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
+        gyroNamespace.putData(" pigeon", new InstantCommand(pigeon::reset) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
