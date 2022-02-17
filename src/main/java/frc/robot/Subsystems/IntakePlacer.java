@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
 /**
@@ -23,7 +24,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      * The upper limit of the subsystem. When it is pressed, the intake system is vertical.
      */
     private final DigitalInput upperLimit;
-    private boolean shouldBeUp;
+    public static boolean shouldBeUp;
 
     /**
      * The lower limit of the subsystem. When it is pressed, the intake system is horizontal.
@@ -41,16 +42,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
-        this.shouldBeUp = true;
-    }
-
-    @Override
-    protected void apply(double speed) {
-        if (!(isDown() && speed < 0) && !(isUp() && speed > 0)) {
-            super.apply(speed);
-        } else {
-            super.apply(0);
-        }
+        shouldBeUp = true;
     }
 
     /**
@@ -62,7 +54,11 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        return (!(isDown() && speed < 0) && !(isUp() && speed > 0)) || shouldBeUp;
+        return ended(speed) || shouldBeUp;
+    }
+
+    public boolean ended(double speed) {
+        return !(isDown() && speed < 0) && !(isUp() && speed > 0);
     }
 
     @Override
@@ -77,9 +73,5 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public boolean isDown() {
         return lowerLimit.get();
-    }
-
-    public void setShouldBeUp(boolean value) {
-        shouldBeUp = value;
     }
 }
