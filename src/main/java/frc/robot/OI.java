@@ -18,13 +18,13 @@ public class OI /* GEVALD */ {
     private final XboxControllerWrapper xbox = new XboxControllerWrapper(0);
 
     public OI() {
-        xbox.getRTButton().whenActive(new IntakeCargo());
-        xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
-        xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
-
         IntakeRoller roller = IntakeRoller.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         Transfer transfer = Transfer.getInstance();
+
+        xbox.getRTButton().whenActive(new IntakeCargo());
+        xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
+        xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
 
         xbox.getLeftButton().whileHeld(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
