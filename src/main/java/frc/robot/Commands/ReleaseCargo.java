@@ -6,7 +6,7 @@ import frc.robot.Subsystems.IntakeToTransfer;
 import frc.robot.Subsystems.Transfer;
 
 public class ReleaseCargo extends ParallelCommandGroup {
-    
+
     public ReleaseCargo() {
         super(
                 new MoveGenericSubsystem(IntakeToTransfer.getInstance(), IntakeToTransfer.SPEED),
