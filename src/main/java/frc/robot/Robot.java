@@ -9,6 +9,7 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.DriveUntilHitHub;
 import frc.robot.Commands.IntakeCargo;
 import frc.robot.Subsystems.*;
 
@@ -47,6 +48,9 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("intake cargo", new IntakeCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
+        rootNamespace.putData("drive until hit hub", new DriveUntilHitHub(drivetrain));
+        rootNamespace.putNumber("left talon current", drivetrain.getLeftTalon()::getStatorCurrent);
+        rootNamespace.putNumber("right talon current", drivetrain.getRightTalon()::getStatorCurrent);
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
@@ -79,6 +83,7 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
+        DriveUntilHitHub.periodic();
 
         rootNamespace.update();
         CommandScheduler.getInstance().run();
