@@ -14,7 +14,7 @@ import frc.robot.RobotMap;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
-    public static final double MAX_SPEED = 0.5;
+    public static final double MAX_SPEED = 0.46;
     public static final double MIN_SPEED = -0.1;
 
     private static IntakePlacer instance;

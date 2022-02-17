@@ -28,7 +28,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                                         return intakeToTransfer.getLimit();
                                     }
                                 },
-                                new MoveGenericSubsystem(transfer, -0.3) {
+                                new MoveGenericSubsystem(transfer, transfer.getTransferSpeed()) {
                                     @Override
                                     public boolean isFinished() {
                                         return transfer.getStrapEntranceSensor();
@@ -43,7 +43,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                             }
                         }
                 ),
-                new MoveGenericSubsystem(transfer, transfer.getTransferSpeed()) {
+                new MoveGenericSubsystem(transfer, () -> transfer.getTransferSpeed().get() / 2) {
                     @Override
                     public boolean isFinished() {
                         return intakeToTransfer.getLimit();

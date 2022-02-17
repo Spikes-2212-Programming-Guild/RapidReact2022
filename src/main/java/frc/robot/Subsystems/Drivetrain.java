@@ -24,19 +24,19 @@ public class Drivetrain extends TankDrivetrain {
 
     private static Drivetrain instance;
 
-    private static final RootNamespace rootNamespace = new RootNamespace("drivetrain");
-    private static final Namespace encoderNamespace = rootNamespace.addChild("encoders");
-    private static final Namespace encodersPIDNamespace = encoderNamespace.addChild("encoders pid");
-    private static final Namespace gyroNamespace = rootNamespace.addChild("gyro");
-    private static final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
-    private static final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
-    private static final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
+    private final Namespace encoderNamespace = rootNamespace.addChild("encoders");
+    private final Namespace encodersPIDNamespace = encoderNamespace.addChild("encoders pid");
+    private final Namespace gyroNamespace = rootNamespace.addChild("gyro");
+    private final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
+    private final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
+    private final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
+    private static final RootNamespace corrections = new RootNamespace("drivetrain correction");
     /**
      * One side of the robot is faster than the other. To solve this we slow down one of the sides.
      */
-    private static final Supplier<Double> rightCorrection = rootNamespace.addConstantDouble("right correction", 1);
-    private static final Supplier<Double> leftCorrection = rootNamespace.addConstantDouble("left correction", 1);
+    private static final Supplier<Double> rightCorrection = corrections.addConstantDouble("right correction", 1);
+    private static final Supplier<Double> leftCorrection = corrections.addConstantDouble("left correction", 1);
 
     private final PigeonWrapper pigeon;
     private final Encoder leftEncoder, rightEncoder;
@@ -87,7 +87,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon) {
-        super(leftMotors, rightMotors);
+        super("drivetrain",leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
