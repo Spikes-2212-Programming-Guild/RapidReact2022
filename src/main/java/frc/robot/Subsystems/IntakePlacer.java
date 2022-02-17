@@ -14,8 +14,8 @@ import frc.robot.RobotMap;
 public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.5;
-    public static final double MIN_SPEED = -0.3;
-    public static final double IDLE_SPEED = 0.2;
+    public static final double MIN_SPEED = -0.1;
+    public static final double IDLE_SPEED = 0.1;
 
     private static IntakePlacer instance;
 
@@ -41,7 +41,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
-        this.shouldBeUp = true;
+        this.shouldBeUp = upperLimit.get();
     }
 
     @Override
