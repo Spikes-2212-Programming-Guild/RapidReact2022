@@ -72,8 +72,8 @@ public class Drivetrain extends TankDrivetrain {
             WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(RobotMap.CAN.PIGEON_TALON);
             instance = new Drivetrain(new BustedMotorControllerGroup(
                     leftCorrection,
-                    pigeonTalon, // @TODO: If you change the pigeon talon change this as well
-                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_2)
+                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
+                    pigeonTalon // @TODO: If you change the pigeon talon change this as well
             ),
                     new BustedMotorControllerGroup(
                             rightCorrection,
@@ -87,7 +87,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon) {
-        super(leftMotors, rightMotors);
+        super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);

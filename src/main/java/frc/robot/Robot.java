@@ -47,26 +47,25 @@ public class Robot extends TimedRobot {
         intakeRoller.configureDashboard();
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
-        rootNamespace = new RootNamespace("Robot Namespace");
-        DigitalInput digitalInput = new DigitalInput(4);
-        rootNamespace.putBoolean("digital input 4", digitalInput.get());
-        rootNamespace.putData("intake cargo", new IntakeCargo());
-        rootNamespace.putBoolean("transfer limit", transfer::getStrapEntranceSensor);
-        rootNamespace.putData("test intake", new ParallelCommandGroup(
-                new MoveGenericSubsystem(intakeRoller, IntakeRoller.MAX_SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return intakeToTransfer.getLimit();
-                    }
-                },
-                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return transfer.getStrapEntranceSensor();
-                    }
-                }
-        ));
 
+        rootNamespace = new RootNamespace("Robot Namespace");
+        rootNamespace.putData("intake cargo", new IntakeCargo());
+
+        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
+            @Override
+            public void execute() {
+                if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
+                    subsystem.move(speedSupplier.get());
+                } else {
+                    subsystem.move(0);
+                }
+            }
+
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
     }
 
     /**
