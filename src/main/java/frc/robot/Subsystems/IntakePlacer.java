@@ -46,9 +46,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     @Override
     protected void apply(double speed) {
-        if (speed != 0) {
-            shouldBeUp = speed > 0;
-        }
+        shouldBeUp = speed != 0 ? speed > 0 : shouldBeUp;
         super.apply(speed);
     }
 
