@@ -32,8 +32,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         oi = new OI();
         drivetrain = Drivetrain.getInstance();
-
-        drivetrain.configureDashboard();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
@@ -45,10 +43,10 @@ public class Robot extends TimedRobot {
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
 
-        rootNamespace = new RootNamespace("Robot Namespace");
+        rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
-        rootNamespace.putData("drive Forward", new DriveArcade(drivetrain, 0.5, 0));
-        rootNamespace.putData("drive Backward", new DriveArcade(drivetrain, -0.5, 0));
+        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
+        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
 
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
