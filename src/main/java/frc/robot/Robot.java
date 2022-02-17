@@ -10,7 +10,10 @@ import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.IntakeCargo;
+import frc.robot.Commands.ReturnByGyro;
 import frc.robot.Subsystems.*;
+
+import java.util.function.Supplier;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -63,6 +66,13 @@ public class Robot extends TimedRobot {
                 return false;
             }
         });
+
+        Supplier<Double> turn = rootNamespace.addConstantDouble("turn value", 0.3);
+        Supplier<Double> move = rootNamespace.addConstantDouble("move value", 0.3);
+        rootNamespace.putData("turn robot", new DriveArcade(drivetrain, () -> 0.0, turn));
+        rootNamespace.putData("move forward", new DriveArcade(drivetrain, move, () -> 0.0));
+        rootNamespace.putData("move backward", new DriveArcade(drivetrain, () -> -move.get(), () -> 0.0));
+        rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
     }
 
     /**

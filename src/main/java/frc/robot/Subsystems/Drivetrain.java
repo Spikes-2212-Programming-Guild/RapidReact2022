@@ -113,10 +113,10 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     public double getYaw() {
-        double yaw = pigeon.getYaw() % 360;
-        if (yaw > 180) yaw -= 360;
-        if (yaw < -180) yaw += 360;
-        return yaw;
+//        double yaw = pigeon.getYaw() % 360;
+//        if (yaw > 180) yaw -= 360;
+//        if (yaw < -180) yaw += 360;
+        return pigeon.getX();
     }
 
     public double getRightDistance() {
@@ -133,6 +133,14 @@ public class Drivetrain extends TankDrivetrain {
 
     public double getLeftTicks() {
         return leftEncoder.get();
+    }
+
+    public PIDSettings getGyroPIDSettings() {
+        return pidSettingsGyro;
+    }
+
+    public FeedForwardSettings getFFSettings() {
+        return ffSettings;
     }
 
     /**
