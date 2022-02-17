@@ -69,6 +69,10 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
     }
 
+    public boolean getShouldBeUp() {
+        return shouldBeUp;
+    }
+
     public boolean isUp() {
         return upperLimit.get();
     }

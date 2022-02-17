@@ -66,11 +66,10 @@ public class Robot extends TimedRobot {
                     }
                 }
         ));
-//        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED));
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
             public void execute() {
-                if (IntakePlacer.shouldBeUp && !intakePlacer.isUp()) {
+                if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
                     subsystem.move(speedSupplier.get());
                 } else {
                     subsystem.move(0);
