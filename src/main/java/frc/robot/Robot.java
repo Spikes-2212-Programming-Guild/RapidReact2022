@@ -47,8 +47,10 @@ public class Robot extends TimedRobot {
         intakeRoller.configureDashboard();
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
+
         rootNamespace = new RootNamespace("Robot Namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
+
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
             public void execute() {
