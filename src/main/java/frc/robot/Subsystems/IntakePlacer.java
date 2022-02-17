@@ -24,7 +24,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      * The upper limit of the subsystem. When it is pressed, the intake system is vertical.
      */
     private final DigitalInput upperLimit;
-    public static boolean shouldBeUp;
+    private static boolean shouldBeUp;
 
     /**
      * The lower limit of the subsystem. When it is pressed, the intake system is horizontal.
@@ -43,6 +43,16 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
         shouldBeUp = true;
+    }
+
+    @Override
+    protected void apply(double speed) {
+        if (speed > 0) {
+            shouldBeUp = true;
+        } else {
+            shouldBeUp = false;
+        }
+        super.apply(speed);
     }
 
     /**
