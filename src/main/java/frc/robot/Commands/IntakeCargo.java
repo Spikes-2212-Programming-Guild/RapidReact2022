@@ -3,11 +3,12 @@ package frc.robot.Commands;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Subsystems.*;
+import frc.robot.Subsystems.IntakePlacer;
+import frc.robot.Subsystems.IntakeRoller;
+import frc.robot.Subsystems.IntakeToTransfer;
+import frc.robot.Subsystems.Transfer;
 
 public class IntakeCargo extends SequentialCommandGroup {
-
-    private boolean isTransferPressed;
 
     public IntakeCargo() {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
@@ -25,7 +26,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                                         return intakeToTransfer.getLimit();
                                     }
                                 },
-                                new MoveGenericSubsystem(transfer, transfer.getTransferSpeed()) {
+                                new MoveGenericSubsystem(transfer, Transfer.getInstance().getTransferSpeed()) {
                                     @Override
                                     public boolean isFinished() {
                                         return transfer.getEntranceSensor();
@@ -35,21 +36,15 @@ public class IntakeCargo extends SequentialCommandGroup {
                         new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED) {
                             @Override
                             public boolean isFinished() {
-                                return isTransferPressed ? intakeToTransfer.getLimit() : transfer.getEntranceSensor();
+                                return transfer.getEntranceSensor();
                             }
                         }
                 ),
-                new MoveGenericSubsystem(transfer, () -> transfer.getTransferSpeed().get() / 2) {
+                new MoveGenericSubsystem(transfer, Transfer.getInstance().getTransferSpeed()) {
                     @Override
                     public boolean isFinished() {
                         return intakeToTransfer.getLimit();
                     }
                 }.withTimeout(transfer.getTransferMoveTimeout()));
-    }
-
-    @Override
-    public void initialize() {
-        isTransferPressed = Transfer.getInstance().getEntranceSensor();
-        super.initialize();
     }
 }
