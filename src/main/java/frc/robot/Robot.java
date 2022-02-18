@@ -9,12 +9,9 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveUntilHitHub;
 import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.ReturnByGyro;
-import frc.robot.commands.autonomous.OneCargo;
 import frc.robot.subsystems.*;
-
-import java.util.function.Supplier;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -49,6 +46,11 @@ public class Robot extends TimedRobot {
 
         rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
+        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
+        rootNamespace.putData("drive until hit hub", new DriveUntilHitHub(drivetrain));
+        rootNamespace.putNumber("left talon current", drivetrain.getLeftTalon()::getStatorCurrent);
+        rootNamespace.putNumber("right talon current", drivetrain.getRightTalon()::getStatorCurrent);
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
@@ -65,13 +67,6 @@ public class Robot extends TimedRobot {
                 return false;
             }
         });
-
-        Supplier<Double> turn = rootNamespace.addConstantDouble("turn value", 0.3);
-        Supplier<Double> move = rootNamespace.addConstantDouble("move value", 0.3);
-        rootNamespace.putData("turn robot", new DriveArcade(drivetrain, () -> 0.0, turn));
-        rootNamespace.putData("move forward", new DriveArcade(drivetrain, move, () -> 0.0));
-        rootNamespace.putData("move backward", new DriveArcade(drivetrain, () -> -move.get(), () -> 0.0));
-        rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
     }
 
     /**
@@ -88,6 +83,7 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
+        DriveUntilHitHub.periodic();
 
         rootNamespace.update();
         CommandScheduler.getInstance().run();
@@ -106,7 +102,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        new OneCargo().schedule();
     }
 
     /**
