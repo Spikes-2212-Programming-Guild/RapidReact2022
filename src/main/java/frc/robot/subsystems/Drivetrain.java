@@ -42,28 +42,28 @@ public class Drivetrain extends TankDrivetrain {
     private final WPI_TalonSRX leftTalon, rightTalon;
     private final Encoder leftEncoder, rightEncoder;
 
-    private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("gyro kP", 0);
-    private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("gyro kI", 0);
-    private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("gyro kD", 0);
-    private final Supplier<Double> toleranceGyro = gyroPIDNamespace.addConstantDouble("gyro tolerance", 0);
-    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("gyro wait time", 0);
+    private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
+    private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
+    private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceGyro = gyroPIDNamespace.addConstantDouble("tolerance", 5);
+    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("wait time", 0.5);
     private final PIDSettings pidSettingsGyro;
 
-    private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kP", 0);
-    private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kI", 0);
-    private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kD", 0);
-    private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("drivetrain tolerance", 0);
-    private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("drivetrain wait time", 0);
+    private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsEncoders;
 
-    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("camera kP", 0);
-    private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("camera kI", 0);
-    private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("camera kD", 0);
-    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("camera tolerance", 0);
-    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("camera wait time", 0);
+    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsCamera;
 
-    private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
     private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
     private final FeedForwardSettings ffSettings;
@@ -75,12 +75,12 @@ public class Drivetrain extends TankDrivetrain {
             WPI_TalonSRX rightTalon = new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1);
             instance = new Drivetrain(new BustedMotorControllerGroup(
                     leftCorrection,
-                    leftTalon,
+                    new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
                     pigeonTalon // @TODO: If you change the pigeon talon change this as well
             ),
                     new BustedMotorControllerGroup(
                             rightCorrection,
-                            rightTalon,
+                            new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1),
                             new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_2)
                     ),
                     pigeonTalon,
@@ -92,7 +92,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
-                       WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
+                        WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftTalon = leftTalon;
@@ -174,7 +174,7 @@ public class Drivetrain extends TankDrivetrain {
             }
         });
         gyroNamespace.putNumber("yaw", this::getYaw);
-        gyroNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
+        gyroNamespace.putData(" pigeon", new InstantCommand(pigeon::reset) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;

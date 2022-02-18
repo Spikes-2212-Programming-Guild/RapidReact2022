@@ -16,8 +16,8 @@ public class DriveUntilHitHub extends DriveArcade {
     /**
      * A value between the stall current and running current of the motors
      */
-    private static final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 0);
-    private static final Supplier<Double> MOVEMENT_SPEED = rootNamespace.addConstantDouble("movement speed", 0);
+    private static final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 15);
+    private static final Supplier<Double> MOVEMENT_SPEED = rootNamespace.addConstantDouble("movement speed", 0.5);
 
     private final Drivetrain drivetrain;
 
