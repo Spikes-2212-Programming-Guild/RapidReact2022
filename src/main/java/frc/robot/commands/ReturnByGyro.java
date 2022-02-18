@@ -1,9 +1,8 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
-import frc.robot.Subsystems.Drivetrain;
+import frc.robot.subsystems.Drivetrain;
 import com.spikes2212.util.Limelight;
-import frc.robot.Subsystems.Transfer;
 
 /**
  * This command moves the {@link Drivetrain} till either its gyro angle is zero or the
