@@ -54,7 +54,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("turn robot", new DriveArcade(drivetrain, () -> 0.0, turn));
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
-
             @Override
             public void execute() {
                 if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
