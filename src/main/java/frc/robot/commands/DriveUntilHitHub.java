@@ -19,15 +19,14 @@ public class DriveUntilHitHub extends DriveArcade {
     private static final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 15);
     private static final Supplier<Double> MOVEMENT_SPEED = rootNamespace.addConstantDouble("movement speed", 0.5);
 
-    private final Drivetrain drivetrain;
-
     public DriveUntilHitHub(Drivetrain drivetrain) {
         super(drivetrain, MOVEMENT_SPEED, () -> 0.0);
-        this.drivetrain = drivetrain;
     }
 
     @Override
     public boolean isFinished() {
+        Drivetrain drivetrain = (Drivetrain) tankDrivetrain;
+
         return Math.abs(drivetrain.getRightTalon().getStatorCurrent()) > STALL_CURRENT.get() &&
                 Math.abs(drivetrain.getLeftTalon().getStatorCurrent()) > STALL_CURRENT.get();
     }
