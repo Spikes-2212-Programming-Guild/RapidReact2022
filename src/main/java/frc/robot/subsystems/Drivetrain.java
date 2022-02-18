@@ -55,7 +55,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsEncoders;
 
-    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0.0065);
     private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 0);
