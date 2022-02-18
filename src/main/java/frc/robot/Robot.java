@@ -6,12 +6,16 @@ package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.MoveToCargo;
 import frc.robot.commands.ReturnByGyro;
-import frc.robot.commands.autonomous.OneCargo;
+import frc.robot.commands.autonomous.GyroAutonomous;
+import frc.robot.commands.autonomous.OneCargoAutonomous;
 import frc.robot.subsystems.*;
 
 import java.util.function.Supplier;
@@ -34,7 +38,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        oi = new OI();
+//        oi = new OI();
         drivetrain = Drivetrain.getInstance();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
@@ -72,6 +76,15 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("move forward", new DriveArcade(drivetrain, move, () -> 0.0));
         rootNamespace.putData("move backward", new DriveArcade(drivetrain, () -> -move.get(), () -> 0.0));
         rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
+        rootNamespace.putData("aim to cargo", new MoveToCargo(Drivetrain.getInstance()));
+        rootNamespace.putData("get camera x", new InstantCommand(() -> setX(rootNamespace)));
+        rootNamespace.putData("gyro auto", new GyroAutonomous());
+    }
+
+    private static void setX(RootNamespace root) {
+        RootNamespace imageProcess = new RootNamespace("image processing");
+        Namespace contourInfo = imageProcess.addChild("contour 0");
+        root.putNumber("x:", () -> contourInfo.getNumber("x"));
     }
 
     /**
@@ -83,11 +96,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        drivetrain.periodic();
-        intakePlacer.periodic();
-        intakeRoller.periodic();
-        intakeToTransfer.periodic();
-        transfer.periodic();
+//        drivetrain.periodic();
+//        intakePlacer.periodic();
+//        intakeRoller.periodic();
+//        intakeToTransfer.periodic();
+//        transfer.periodic();
 
         rootNamespace.update();
         CommandScheduler.getInstance().run();
@@ -106,7 +119,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        new OneCargo().schedule();
+        drivetrain.resetEncoders();
+        drivetrain.resetPigeon();
+//        new OneCargoAutonomous().schedule();
     }
 
     /**
@@ -122,8 +137,11 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
-        drivetrain.setDefaultCommand(driveArcade);
+
+        drivetrain.resetPigeon();
+
+//        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+//        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**

@@ -107,6 +107,10 @@ public class Drivetrain extends TankDrivetrain {
         rightEncoder.reset();
     }
 
+    public void resetPigeon() {
+        pigeon.reset();
+    }
+
     @Override
     public void periodic() {
         rootNamespace.update();
@@ -139,6 +143,10 @@ public class Drivetrain extends TankDrivetrain {
         return pidSettingsGyro;
     }
 
+    public PIDSettings getCameraPIDSettings() {
+        return pidSettingsCamera;
+    }
+
     public FeedForwardSettings getFFSettings() {
         return ffSettings;
     }
@@ -158,7 +166,7 @@ public class Drivetrain extends TankDrivetrain {
             }
         });
         gyroNamespace.putNumber("yaw", this::getYaw);
-        gyroNamespace.putData(" pigeon", new InstantCommand(pigeon::reset) {
+        gyroNamespace.putData(" pigeon", new InstantCommand(this::resetPigeon) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
