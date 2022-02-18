@@ -31,8 +31,4 @@ public class DriveUntilHitHub extends DriveArcade {
         return Math.abs(drivetrain.getRightTalon().getStatorCurrent()) > STALL_CURRENT.get() &&
                 Math.abs(drivetrain.getLeftTalon().getStatorCurrent()) > STALL_CURRENT.get();
     }
-
-    public static void periodic() {
-        rootNamespace.update();
-    }
 }

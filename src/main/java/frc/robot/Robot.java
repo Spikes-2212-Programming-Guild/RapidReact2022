@@ -85,7 +85,6 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
-        DriveUntilHitHub.periodic();
 
         rootNamespace.update();
         CommandScheduler.getInstance().run();
