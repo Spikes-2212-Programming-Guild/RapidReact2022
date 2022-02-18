@@ -26,7 +26,6 @@ public class DriveUntilHitHub extends DriveArcade {
     @Override
     public boolean isFinished() {
         Drivetrain drivetrain = (Drivetrain) tankDrivetrain;
-
         return Math.abs(drivetrain.getRightTalon().getStatorCurrent()) > STALL_CURRENT.get() &&
                 Math.abs(drivetrain.getLeftTalon().getStatorCurrent()) > STALL_CURRENT.get();
     }
