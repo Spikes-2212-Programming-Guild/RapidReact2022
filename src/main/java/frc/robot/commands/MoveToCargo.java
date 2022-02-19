@@ -15,7 +15,7 @@ public class MoveToCargo extends DriveArcadeWithPID {
     }
 
     public static double getCargoX() {
-        RootNamespace imageProcess = new RootNamespace("image processing");
+        RootNamespace imageProcess = new RootNamespace("Image Processing");
         Namespace contourInfo = imageProcess.addChild("contour 0");
         return contourInfo.getNumber("x");
     }

@@ -107,6 +107,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         drivetrain.resetEncoders();
         drivetrain.resetPigeon();
+        new GyroAutonomous().schedule();
 //        new OneCargoAutonomous().schedule();
     }
 

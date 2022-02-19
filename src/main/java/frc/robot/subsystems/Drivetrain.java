@@ -46,7 +46,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
     private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceGyro = gyroPIDNamespace.addConstantDouble("tolerance", 5);
-    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("wait time", 0.5);
+    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("wait time", 0.1);
     private final PIDSettings pidSettingsGyro;
 
     private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("kP", 0);
@@ -59,8 +59,8 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0.0065);
     private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 0);
+    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 2);
+    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 1);
     private final PIDSettings pidSettingsCamera;
 
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
@@ -91,7 +91,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
-                        WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
+                       WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftTalon = leftTalon;
