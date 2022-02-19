@@ -1,4 +1,4 @@
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;

@@ -1,10 +1,10 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.Limelight;
-import frc.robot.Subsystems.Drivetrain;
-import frc.robot.Subsystems.Transfer;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Transfer;
 
 import java.util.function.Supplier;
 
