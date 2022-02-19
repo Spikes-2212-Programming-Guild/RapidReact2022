@@ -23,14 +23,13 @@ public class GyroAutonomous extends SequentialCommandGroup {
                         )
                 ),
                 new ReturnByGyro(Drivetrain.getInstance(), 0),
-                new SequentialCommandGroup(
-                        new DriveArcade(Drivetrain.getInstance(), DRIVE_SPEED_TO_HUB, 0) {
-                            @Override
-                            public void end(boolean interrupted) {
-                            }
-                        }.withTimeout(0.3),
-                        new DriveUntilHitHub(Drivetrain.getInstance())
-                ).withTimeout(3),
+                new DriveArcade(Drivetrain.getInstance(), DRIVE_SPEED_TO_HUB, 0) {
+                    @Override
+                    public void end(boolean interrupted) {
+                    }
+                }.withTimeout(0.3),
+                new DriveUntilHitHub(Drivetrain.getInstance())
+                        .withTimeout(3),
                 new ReleaseCargo().withTimeout(2)
         );
     }
