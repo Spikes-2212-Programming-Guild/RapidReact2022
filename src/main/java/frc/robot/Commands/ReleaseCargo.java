@@ -10,7 +10,7 @@ public class ReleaseCargo extends ParallelCommandGroup {
     public ReleaseCargo() {
         super(
                 new MoveGenericSubsystem(IntakeToTransfer.getInstance(), IntakeToTransfer.SPEED),
-                new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().getTransferSpeed())
+                new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().getTransferReleaseSpeed())
         );
     }
 }

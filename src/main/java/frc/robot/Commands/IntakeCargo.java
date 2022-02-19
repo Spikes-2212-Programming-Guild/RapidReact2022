@@ -3,10 +3,7 @@ package frc.robot.Commands;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Subsystems.IntakePlacer;
-import frc.robot.Subsystems.IntakeRoller;
-import frc.robot.Subsystems.IntakeToTransfer;
-import frc.robot.Subsystems.Transfer;
+import frc.robot.Subsystems.*;
 
 public class IntakeCargo extends SequentialCommandGroup {
 
@@ -28,7 +25,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                                         return intakeToTransfer.getLimit();
                                     }
                                 },
-                                new MoveGenericSubsystem(transfer, transfer.getTransferSpeed()) {
+                                new MoveGenericSubsystem(transfer, transfer.getTransferMoveSpeed()) {
                                     @Override
                                     public boolean isFinished() {
                                         return transfer.getEntranceSensor();
@@ -42,7 +39,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                             }
                         }
                 ),
-                new MoveGenericSubsystem(transfer, transfer.getTransferSpeed()) {
+                new MoveGenericSubsystem(transfer, transfer.getTransferMoveSpeed()) {
                     @Override
                     public boolean isFinished() {
                         return intakeToTransfer.getLimit();
@@ -52,6 +49,7 @@ public class IntakeCargo extends SequentialCommandGroup {
 
     @Override
     public void initialize() {
+        super.initialize();
         hasCargo = Transfer.getInstance().getEntranceSensor();
     }
 }

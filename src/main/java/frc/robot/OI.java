@@ -29,7 +29,7 @@ public class OI /* GEVALD */ {
         xbox.getLeftButton().whileHeld(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED),
-                new MoveGenericSubsystem(transfer, () -> -transfer.getTransferSpeed().get())
+                new MoveGenericSubsystem(transfer, () -> -transfer.getTransferMoveSpeed().get())
         ));
 
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
