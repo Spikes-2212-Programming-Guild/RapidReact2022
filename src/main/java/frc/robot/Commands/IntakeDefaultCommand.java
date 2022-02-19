@@ -17,12 +17,12 @@ import java.util.ArrayList;
 public class IntakeDefaultCommand extends CommandBase {
 
     /**
-     * The timespan in which the {@link IntakePlacer} needs to hit the limit multiple times in a row.
+     * The timespan in which the {@link IntakePlacer} needs to hit the limit a certain amount of times.
      */
     private static final double SECONDS_BENCHMARK = 2;
 
     /**
-     * The amount of times the limit needs to be hit in a row in order to cut the speed in half.
+     * The amount of times the limit needs to be hit in a certain timespan in order to cut the speed in half.
      */
     private static final int HITS_BENCHMARK = 3;
 
@@ -57,9 +57,7 @@ public class IntakeDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        /*
-         * If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
-         */
+        //If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
         if (hitEnoughTimes)
             speed = speed / 2;
         if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
