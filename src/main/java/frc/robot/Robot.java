@@ -7,16 +7,10 @@ package frc.robot;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.IntakeCargo;
-import frc.robot.Subsystems.Transfer;
-import frc.robot.Subsystems.IntakeToTransfer;
-import frc.robot.Subsystems.IntakePlacer;
-import frc.robot.Subsystems.IntakeRoller;
-import frc.robot.Subsystems.Drivetrain;
+import frc.robot.Subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -38,18 +32,21 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         oi = new OI();
         drivetrain = Drivetrain.getInstance();
-        drivetrain.configureDashboard();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
         transfer = Transfer.getInstance();
+
+        drivetrain.configureDashboard();
         intakePlacer.configureDashboard();
         intakeRoller.configureDashboard();
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
 
-        rootNamespace = new RootNamespace("Robot Namespace");
+        rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
+        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
@@ -82,6 +79,7 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
+
         rootNamespace.update();
         CommandScheduler.getInstance().run();
     }
