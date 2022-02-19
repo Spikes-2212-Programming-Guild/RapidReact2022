@@ -53,8 +53,8 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
-        rootNamespace.putData("aim to cargo", new MoveToCargo(Drivetrain.getInstance()));
-        rootNamespace.putData("gyro auto", new GyroAutonomous());
+        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
+        rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         drivetrain.resetEncoders();
         drivetrain.resetPigeon();
-        new GyroAutonomous().schedule();
+        new GyroAutonomous(drivetrain).schedule();
 //        new OneCargoAutonomous().schedule();
     }
 

@@ -181,7 +181,7 @@ public class Drivetrain extends TankDrivetrain {
             }
         });
         gyroNamespace.putNumber("yaw", this::getYaw);
-        gyroNamespace.putData(" pigeon", new InstantCommand(this::resetPigeon) {
+        gyroNamespace.putData("reset pigeon", new InstantCommand(this::resetPigeon) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
