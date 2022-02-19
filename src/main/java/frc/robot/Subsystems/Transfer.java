@@ -56,6 +56,6 @@ public class Transfer extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("transfer", new MoveGenericSubsystem(this, MOVE_SPEED.get()));
+        rootNamespace.putData("transfer", new MoveGenericSubsystem(this, MOVE_SPEED));
     }
 }
