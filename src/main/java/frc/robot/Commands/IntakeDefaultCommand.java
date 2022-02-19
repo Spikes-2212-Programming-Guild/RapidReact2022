@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.IntakePlacer;
 
+import javax.naming.InitialContext;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +27,7 @@ public class IntakeDefaultCommand extends CommandBase {
     private static final int HITS_BENCHMARK = 3;
 
     /**
-     * List of the last {@value HITS_BENCHMARK} timespans in which the upper limit of the {@link IntakePlacer} was hit.
+     * List of the last {@value HITS_BENCHMARK} timestamps in which the upper limit of the {@link IntakePlacer} was hit.
      */
     private final ArrayList<Double> timestamps;
     private final Timer timer;
@@ -37,9 +38,8 @@ public class IntakeDefaultCommand extends CommandBase {
 
     private double speed;
 
-    public IntakeDefaultCommand(IntakePlacer intakePlacer, double initialSpeed) {
-        this.intakePlacer = intakePlacer;
-        this.speed = initialSpeed;
+    public IntakeDefaultCommand() {
+        this.intakePlacer = IntakePlacer.getInstance();
         timer = new Timer();
         timestamps = new ArrayList<>();
         hitEnoughTimes = false;
@@ -50,8 +50,8 @@ public class IntakeDefaultCommand extends CommandBase {
      */
     @Override
     public void initialize() {
-        timer.reset();
         timer.start();
+        speed = IntakePlacer.INITIAL_IDLE_SPEED;
     }
 
 
