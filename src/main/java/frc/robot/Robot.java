@@ -9,6 +9,7 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveUntilHitHub;
 import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.ReturnByGyro;
 import frc.robot.commands.autonomous.OneCargo;
@@ -47,9 +48,6 @@ public class Robot extends TimedRobot {
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
 
-        rootNamespace = new RootNamespace("robot namespace");
-        rootNamespace.putData("intake cargo", new IntakeCargo());
-
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
             public void execute() {
@@ -65,6 +63,9 @@ public class Robot extends TimedRobot {
                 return false;
             }
         });
+
+        rootNamespace = new RootNamespace("robot namespace");
+        rootNamespace.putData("intake cargo", new IntakeCargo());
 
         Supplier<Double> turn = rootNamespace.addConstantDouble("turn value", 0.3);
         Supplier<Double> move = rootNamespace.addConstantDouble("move value", 0.3);
