@@ -13,7 +13,7 @@ public class ReleaseCargo extends SequentialCommandGroup {
                 new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().RELEASE_SPEED).withTimeout(0.3),
                 new ParallelCommandGroup(
                         new MoveGenericSubsystem(IntakeToTransfer.getInstance(), IntakeToTransfer.SPEED),
-                        new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().RELEASE_SPEED)
+                        new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().SECOND_CARGO_RELEASE)
                 )
         );
     }
