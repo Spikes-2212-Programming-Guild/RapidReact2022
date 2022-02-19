@@ -10,6 +10,7 @@ import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.IntakeCargo;
+import frc.robot.Commands.IntakeDefaultCommand;
 import frc.robot.Subsystems.*;
 
 /**
@@ -48,21 +49,7 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
 
-        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
-            @Override
-            public void execute() {
-                if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
-                    subsystem.move(speedSupplier.get());
-                } else {
-                    subsystem.move(0);
-                }
-            }
-
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
-        });
+        intakePlacer.setDefaultCommand(new IntakeDefaultCommand(intakePlacer, IntakePlacer.INITIAL_IDLE_SPEED));
     }
 
     /**
