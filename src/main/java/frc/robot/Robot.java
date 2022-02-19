@@ -10,6 +10,7 @@ import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.IntakeCargo;
+import frc.robot.Commands.ReleaseCargo;
 import frc.robot.Subsystems.*;
 
 /**
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
 
         rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
 
