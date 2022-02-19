@@ -39,6 +39,7 @@ public class Drivetrain extends TankDrivetrain {
     private static final Supplier<Double> leftCorrection = corrections.addConstantDouble("left correction", 1);
 
     private final PigeonWrapper pigeon;
+    private final WPI_TalonSRX leftTalon, rightTalon;
     private final Encoder leftEncoder, rightEncoder;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
@@ -70,6 +71,7 @@ public class Drivetrain extends TankDrivetrain {
     public static Drivetrain getInstance() {
         if (instance == null) {
             WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(RobotMap.CAN.PIGEON_TALON);
+            WPI_TalonSRX rightTalon = new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1);
             instance = new Drivetrain(new BustedMotorControllerGroup(
                     leftCorrection,
                     new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
@@ -77,18 +79,23 @@ public class Drivetrain extends TankDrivetrain {
             ),
                     new BustedMotorControllerGroup(
                             rightCorrection,
-                            new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1),
+                            rightTalon,
                             new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_2)
                     ),
-                    pigeonTalon
+                    pigeonTalon,
+                    pigeonTalon,
+                    rightTalon
             );
         }
         return instance;
     }
 
-    private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon) {
+    private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
+                        WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
+        this.leftTalon = leftTalon;
+        this.rightTalon = rightTalon;
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
@@ -137,6 +144,14 @@ public class Drivetrain extends TankDrivetrain {
 
     public double getLeftTicks() {
         return leftEncoder.get();
+    }
+
+    public WPI_TalonSRX getLeftTalon() {
+        return leftTalon;
+    }
+
+    public WPI_TalonSRX getRightTalon() {
+        return rightTalon;
     }
 
     public PIDSettings getGyroPIDSettings() {
