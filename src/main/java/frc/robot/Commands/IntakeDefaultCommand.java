@@ -1,7 +1,7 @@
 package frc.robot.Commands;
 
-import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Subsystems.IntakePlacer;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * If the upper limit of the {@link IntakePlacer} is pressed multiple times in a short timespan, the speed of the
  * {@link IntakePlacer} is cut in half in order to stop it from hitting the robot.
  */
-public class IntakeDefaultCommand extends MoveGenericSubsystem {
+public class IntakeDefaultCommand extends CommandBase {
 
     /**
      * Length (in seconds) of the timespan in which the limit has to be hit multiple times in order to cut
@@ -34,8 +34,13 @@ public class IntakeDefaultCommand extends MoveGenericSubsystem {
 
     private boolean hitEnoughTimes;
 
+    private final IntakePlacer intakePlacer;
+
+    private double speed;
+
     public IntakeDefaultCommand(IntakePlacer intakePlacer, double initialSpeed) {
-        super(intakePlacer, initialSpeed);
+        this.intakePlacer = intakePlacer;
+        this.speed = initialSpeed;
         timer = new Timer();
         timestamps = new ArrayList<>();
         hitEnoughTimes = false;
@@ -53,18 +58,16 @@ public class IntakeDefaultCommand extends MoveGenericSubsystem {
 
     @Override
     public void execute() {
-        double speed = speedSupplier.get();
-
         /**
          * If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
          */
         if (hitEnoughTimes)
             speed = speed / 2;
 
-        if (((IntakePlacer)subsystem).getShouldBeUp() && !((IntakePlacer)subsystem).isUp()) {
-            subsystem.move(speed);
+        if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
+            intakePlacer.move(speed);
         } else {
-            subsystem.move(0);
+            intakePlacer.move(0);
         }
         configureHits();
     }
@@ -80,7 +83,7 @@ public class IntakeDefaultCommand extends MoveGenericSubsystem {
                 hitEnoughTimes = true;
             else
                 timestamps.remove(0);
-        } else if (((IntakePlacer)subsystem).isUp())
+        } else if (intakePlacer.isUp())
             timestamps.add(timer.get());
     }
 }

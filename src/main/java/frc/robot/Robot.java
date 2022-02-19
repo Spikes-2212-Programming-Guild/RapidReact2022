@@ -5,13 +5,13 @@
 package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
-import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.IntakeCargo;
 import frc.robot.Commands.IntakeDefaultCommand;
 import frc.robot.Subsystems.*;
+import frc.robot.Subsystems.IntakePlacer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
