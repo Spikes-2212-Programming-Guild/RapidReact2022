@@ -10,6 +10,8 @@ import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.ReleaseCargo;
+import frc.robot.commands.autonomous.OneCargo;
 import frc.robot.subsystems.*;
 
 /**
