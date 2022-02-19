@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ReleaseCargo;
 import frc.robot.subsystems.Drivetrain;
 
-public class OneCargoAutonomous extends SequentialCommandGroup {
+public class YeetAndRetreat extends SequentialCommandGroup {
 
     public static final double RELEASE_DURATION = 1.0;
     public static final double DRIVE_SPEED = 0.7;
     public static final double DRIVE_ROTATE = 0.3;
     public static final double DRIVE_DURATION = 2.0;
 
-    public OneCargoAutonomous() {
+    public YeetAndRetreat() {
         super(
                 new ReleaseCargo().withTimeout(RELEASE_DURATION),
                 new DriveArcade(Drivetrain.getInstance(), DRIVE_SPEED, DRIVE_ROTATE).withTimeout(DRIVE_DURATION)
