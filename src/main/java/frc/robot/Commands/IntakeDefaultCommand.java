@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class IntakeDefaultCommand extends MoveGenericSubsystem {
 
-    public static final double SECONDS_BENCHMARK = 2;
-    public static final int HITS_BENCHMARK = 3;
+    private static final double SECONDS_BENCHMARK = 2;
+    private static final int HITS_BENCHMARK = 3;
 
     private final IntakePlacer intakePlacer;
 
