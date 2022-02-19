@@ -14,7 +14,8 @@ import java.util.function.Supplier;
  */
 public class Transfer extends MotoredGenericSubsystem {
 
-    private final Supplier<Double> speed = rootNamespace.addConstantDouble("speed", -0.5);
+    private final Supplier<Double> MOVE_SPEED = rootNamespace.addConstantDouble("speed", -0.5);
+    private final Supplier<Double> SHOOT_SPEED = rootNamespace.addConstantDouble("speed", -0.5);
     private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.1);
 
     /**
@@ -54,11 +55,11 @@ public class Transfer extends MotoredGenericSubsystem {
     }
 
     public Supplier<Double> getTransferSpeed() {
-        return speed;
+        return MOVE_SPEED;
     }
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("transfer", new MoveGenericSubsystem(this, speed.get()));
+        rootNamespace.putData("transfer", new MoveGenericSubsystem(this, MOVE_SPEED.get()));
     }
 }
