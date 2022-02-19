@@ -16,8 +16,7 @@ import java.util.ArrayList;
 public class IntakeDefaultCommand extends CommandBase {
 
     /**
-     * Length (in seconds) of the timespan in which the limit has to be hit multiple times in order to cut
-     * the speed in half.
+     * The timespan in which the {@link IntakePlacer} needs to hit the limit multiple times in a row.
      */
     private static final double SECONDS_BENCHMARK = 2;
 
@@ -27,7 +26,7 @@ public class IntakeDefaultCommand extends CommandBase {
     private static final int HITS_BENCHMARK = 3;
 
     /**
-     * List of the last three timespans in which the upper limit of the {@link IntakePlacer} was hit.
+     * List of the last {@value HITS_BENCHMARK} timespans in which the upper limit of the {@link IntakePlacer} was hit.
      */
     private final ArrayList<Double> timestamps;
     private final Timer timer;
@@ -47,7 +46,7 @@ public class IntakeDefaultCommand extends CommandBase {
     }
 
     /**
-     * restarts the timer
+     * starts the timer
      */
     @Override
     public void initialize() {
@@ -58,12 +57,11 @@ public class IntakeDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-        /**
+        /*
          * If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
          */
         if (hitEnoughTimes)
             speed = speed / 2;
-
         if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
             intakePlacer.move(speed);
         } else {
@@ -75,7 +73,7 @@ public class IntakeDefaultCommand extends CommandBase {
     /**
      * Updates the list of timespans to include the latest {@value HITS_BENCHMARK} timespans which the limit was hit.
      * If the difference between the first timespan and the last is less than {@value SECONDS_BENCHMARK}, changes the
-     * {@code hitEnoughTimes} flag to {@code true}.
+     * {@code hitEnoughTimes} flag to true.
      */
     private void configureHits() {
         if (timestamps.size() == HITS_BENCHMARK) {
