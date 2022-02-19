@@ -6,37 +6,62 @@ import frc.robot.Subsystems.IntakePlacer;
 
 import java.util.ArrayList;
 
+/**
+ * A command which slowly raises the {@link IntakePlacer}. It's supposed to be used as the default command for the
+ * subsystem in order to stop it from falling.
+ *
+ * If the upper limit of the {@link IntakePlacer} is pressed multiple times in a short timespan, the speed of the
+ * {@link IntakePlacer} is cut in half in order to stop it from hitting the robot.
+ */
 public class IntakeDefaultCommand extends MoveGenericSubsystem {
 
+    /**
+     * Length (in seconds) of the timespan in which the limit has to be hit multiple times in order to cut
+     * the speed in half.
+     */
     private static final double SECONDS_BENCHMARK = 2;
+
+    /**
+     * The amount of times the limit needs to be hit in a row in order to cut the speed in half.
+     */
     private static final int HITS_BENCHMARK = 3;
 
-    private final IntakePlacer intakePlacer;
-
-    private final ArrayList<Double> timestampList;
+    /**
+     * List of the last three timespans in which the upper limit of the {@link IntakePlacer} was hit.
+     */
+    private final ArrayList<Double> timestamps;
     private final Timer timer;
 
-    private boolean hitThreeTimes;
+    private boolean hitEnoughTimes;
 
     public IntakeDefaultCommand(IntakePlacer intakePlacer, double initialSpeed) {
         super(intakePlacer, initialSpeed);
-        this.intakePlacer = intakePlacer;
         timer = new Timer();
-        timestampList = new ArrayList<>();
-        hitThreeTimes = false;
+        timestamps = new ArrayList<>();
+        hitEnoughTimes = false;
     }
 
+    /**
+     * restarts the timer
+     */
     @Override
     public void initialize() {
         timer.reset();
+        timer.start();
     }
+
 
     @Override
     public void execute() {
         double speed = speedSupplier.get();
-        if (hitThreeTimes)
+
+        /**
+         * If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
+         */
+        if (hitEnoughTimes)
             speed = speed / 2;
-        if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
+
+        if (((IntakePlacer)subsystem).getShouldBeUp() && !((IntakePlacer)subsystem).isUp()) {
             subsystem.move(speed);
         } else {
             subsystem.move(0);
@@ -44,13 +69,18 @@ public class IntakeDefaultCommand extends MoveGenericSubsystem {
         configureHits();
     }
 
+    /**
+     * Updates the list of timespans to include the latest {@value HITS_BENCHMARK} timespans which the limit was hit.
+     * If the difference between the first timespan and the last is less than {@value SECONDS_BENCHMARK}, changes the
+     * {@code hitEnoughTimes} flag to {@code true}.
+     */
     private void configureHits() {
-        if (timestampList.size() == HITS_BENCHMARK) {
-            if (timestampList.get(HITS_BENCHMARK - 1) - timestampList.get(0) <= SECONDS_BENCHMARK)
-                hitThreeTimes = true;
+        if (timestamps.size() == HITS_BENCHMARK) {
+            if (timestamps.get(HITS_BENCHMARK - 1) - timestamps.get(0) <= SECONDS_BENCHMARK)
+                hitEnoughTimes = true;
             else
-                timestampList.remove(0);
-        } else if (intakePlacer.isUp())
-            timestampList.add(timer.get());
+                timestamps.remove(0);
+        } else if (((IntakePlacer)subsystem).isUp())
+            timestamps.add(timer.get());
     }
 }
