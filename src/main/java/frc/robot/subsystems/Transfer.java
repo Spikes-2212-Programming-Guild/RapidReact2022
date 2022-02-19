@@ -14,8 +14,9 @@ import java.util.function.Supplier;
  */
 public class Transfer extends MotoredGenericSubsystem {
 
-    private final Supplier<Double> speed = rootNamespace.addConstantDouble("speed", -0.8);
-    private final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.1);
+    public final Supplier<Double> MOVE_SPEED = rootNamespace.addConstantDouble("move speed", -0.5);
+    public final Supplier<Double> RELEASE_SPEED = rootNamespace.addConstantDouble("release speed", -0.7);
+    public final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.1);
 
     /**
      * A light sensor that sends a signal while a cargo is held at the bottom of the timing straps.
@@ -52,13 +53,8 @@ public class Transfer extends MotoredGenericSubsystem {
     public double getTransferMoveTimeout() {
         return transferMoveTimeout.get();
     }
-
-    public Supplier<Double> getTransferSpeed() {
-        return speed;
-    }
-
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("transfer", new MoveGenericSubsystem(this, speed));
+        rootNamespace.putData("transfer", new MoveGenericSubsystem(this, MOVE_SPEED));
     }
 }
