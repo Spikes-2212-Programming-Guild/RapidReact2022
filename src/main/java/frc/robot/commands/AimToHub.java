@@ -17,14 +17,12 @@ public class AimToHub extends DriveArcadeWithPID {
     private static final RootNamespace aimToHubNS = new RootNamespace("aim to hub");
     private static final Supplier<Double> MOVE_VALUE = aimToHubNS.addConstantDouble("move value", 0);
 
-    private final Transfer transfer;
     private int initialPipeline;
     private final Limelight limelight;
 
     public AimToHub(Drivetrain drivetrain, Transfer transfer) {
-       super(drivetrain, transfer.getLimelight()::getHorizontalOffsetFromTarget, 0, MOVE_VALUE.get(),
-               drivetrain.getPIDSettings(), drivetrain.getFFSettings());
-       this.transfer = transfer;
+       super(drivetrain, transfer.getLimelight()::getHorizontalOffsetFromTarget, () -> 0.0, MOVE_VALUE,
+               drivetrain.getLimelightPIDSettings(), drivetrain.getFFSettings());
        this.limelight = transfer.getLimelight();
     }
 

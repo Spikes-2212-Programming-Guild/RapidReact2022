@@ -6,12 +6,12 @@ import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
+import com.spikes2212.util.BustedMotorControllerGroup;
 import com.spikes2212.util.PigeonWrapper;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
-import frc.robot.utils.BustedMotorControllerGroup;
 
 import java.util.function.Supplier;
 
@@ -29,7 +29,8 @@ public class Drivetrain extends TankDrivetrain {
     private final Namespace gyroNamespace = rootNamespace.addChild("gyro");
     private final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
     private final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
-    private final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
+    private final Namespace limelightPIDNamespace = rootNamespace.addChild("limelight pid");
+    private final Namespace feedForwardNamespace = rootNamespace.addChild("feed forward");
 
     /**
      * One side of the robot is faster than the other. To solve this we slow down one of the sides.
@@ -63,9 +64,17 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsCamera;
 
-    private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
-    private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
-    private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
+    private final Supplier<Double> kPLimelight = cameraPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kILimelight = cameraPIDNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kDLimelight = cameraPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceLimelight = cameraPIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> waitTimeLimelight = cameraPIDNamespace.addConstantDouble("wait time", 0);
+    private final PIDSettings pidSettingsLimelight;
+
+
+    private final Supplier<Double> kS = feedForwardNamespace.addConstantDouble("kS", 0.24);
+    private final Supplier<Double> kV = feedForwardNamespace.addConstantDouble("kV", 0);
+    private final Supplier<Double> kA = feedForwardNamespace.addConstantDouble("kA", 0);
     private final FeedForwardSettings ffSettings;
 
     public static Drivetrain getInstance() {
@@ -105,6 +114,8 @@ public class Drivetrain extends TankDrivetrain {
         this.pidSettingsEncoders = new PIDSettings(this.kPEncoders, this.kIEncoders, this.kDEncoders,
                 this.toleranceEncoders, this.waitTimeEncoders);
         this.pidSettingsCamera = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
+                this.toleranceCamera, this.waitTimeCamera);
+        this.pidSettingsLimelight = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
                 this.toleranceCamera, this.waitTimeCamera);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
@@ -152,6 +163,10 @@ public class Drivetrain extends TankDrivetrain {
 
     public PIDSettings getGyroPIDSettings() {
         return pidSettingsGyro;
+    }
+
+    public PIDSettings getLimelightPIDSettings() {
+        return pidSettingsLimelight;
     }
 
     public FeedForwardSettings getFFSettings() {
