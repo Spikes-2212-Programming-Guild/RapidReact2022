@@ -1,8 +1,8 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystems.IntakePlacer;
+import frc.robot.subsystems.IntakePlacer;
 
 import java.util.ArrayList;
 
