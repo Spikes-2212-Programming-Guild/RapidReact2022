@@ -4,12 +4,8 @@
 
 package frc.robot;
 
-import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
-import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Commands.CloseTelescopic;
-import frc.robot.Commands.DropBothPlacers;
 import frc.robot.Subsystems.ClimberPlacer;
 import frc.robot.Subsystems.ClimberWinch;
 

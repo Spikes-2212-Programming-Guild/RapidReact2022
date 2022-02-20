@@ -66,7 +66,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public boolean isStalling() {
-        return talon.getStatorCurrent() > stallCurrent.get();
+        return Math.abs(talon.getStatorCurrent()) > stallCurrent.get();
     }
 
     public WPI_TalonSRX getTalon() {
