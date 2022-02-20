@@ -11,8 +11,6 @@ import frc.robot.subsystems.IntakeRoller;
 import frc.robot.subsystems.IntakeToTransfer;
 import frc.robot.subsystems.Transfer;
 
-import java.awt.*;
-
 public class OI /* GEVALD */ {
 
     private final Joystick left = new Joystick(0);
