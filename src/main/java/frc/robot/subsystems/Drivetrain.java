@@ -187,5 +187,7 @@ public class Drivetrain extends TankDrivetrain {
                 return true;
             }
         });
+        rootNamespace.putNumber("right talon current", rightTalon::getStatorCurrent);
+        rootNamespace.putNumber("left talon current", leftTalon::getStatorCurrent);
     }
 }
