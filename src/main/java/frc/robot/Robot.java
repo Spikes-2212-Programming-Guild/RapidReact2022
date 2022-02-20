@@ -9,11 +9,7 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.MoveToCargo;
-import frc.robot.commands.ReleaseCargo;
-import frc.robot.commands.ReturnByGyro;
-import frc.robot.commands.autonomous.GyroAutonomous;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 /**

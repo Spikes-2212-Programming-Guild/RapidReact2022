@@ -10,10 +10,10 @@ public class ReleaseCargo extends SequentialCommandGroup {
 
     public ReleaseCargo() {
         super(
-                new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().MOVE_SPEED).withTimeout(0.3),
+                new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().FIRST_CARGO_RELEASE_SPEED).withTimeout(0.3),
                 new ParallelCommandGroup(
                         new MoveGenericSubsystem(IntakeToTransfer.getInstance(), IntakeToTransfer.SPEED),
-                        new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().RELEASE_SPEED)
+                        new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().SECOND_CARGO_RELEASE_SPEED)
                 )
         );
     }

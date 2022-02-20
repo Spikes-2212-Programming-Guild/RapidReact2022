@@ -6,12 +6,12 @@ import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
+import com.spikes2212.util.BustedMotorControllerGroup;
 import com.spikes2212.util.PigeonWrapper;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
-import frc.robot.utils.BustedMotorControllerGroup;
 
 import java.util.function.Supplier;
 
