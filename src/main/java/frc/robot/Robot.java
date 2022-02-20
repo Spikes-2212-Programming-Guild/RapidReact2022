@@ -10,8 +10,10 @@ import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.MoveToCargo;
 import frc.robot.commands.ReleaseCargo;
-import frc.robot.commands.autonomous.OneCargo;
+import frc.robot.commands.ReturnByGyro;
+import frc.robot.commands.autonomous.GyroAutonomous;
 import frc.robot.subsystems.*;
 
 /**
@@ -50,6 +52,9 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
+        rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
+        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
+        rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
@@ -100,7 +105,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        new OneCargo().schedule();
+        drivetrain.resetEncoders();
+        drivetrain.resetPigeon();
+        new GyroAutonomous(drivetrain).schedule();
+//        new OneCargoAutonomous().schedule();
     }
 
     /**
@@ -116,6 +124,9 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+
+        drivetrain.resetPigeon();
+
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
     }

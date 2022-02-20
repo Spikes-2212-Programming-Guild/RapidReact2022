@@ -47,7 +47,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
     private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceGyro = gyroPIDNamespace.addConstantDouble("tolerance", 5);
-    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("wait time", 0.5);
+    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("wait time", 0.1);
     private final PIDSettings pidSettingsGyro;
 
     private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("kP", 0);
@@ -57,11 +57,11 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsEncoders;
 
-    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0.0065);
     private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 0);
+    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 2);
+    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 1);
     private final PIDSettings pidSettingsCamera;
 
     private final Supplier<Double> kPLimelight = cameraPIDNamespace.addConstantDouble("kP", 0);
@@ -124,6 +124,10 @@ public class Drivetrain extends TankDrivetrain {
         rightEncoder.reset();
     }
 
+    public void resetPigeon() {
+        pigeon.reset();
+    }
+
     @Override
     public void periodic() {
         rootNamespace.update();
@@ -167,6 +171,10 @@ public class Drivetrain extends TankDrivetrain {
     public PIDSettings getLimelightPIDSettings() {
         return pidSettingsLimelight;
     }
+  
+    public PIDSettings getCameraPIDSettings() {
+        return pidSettingsCamera;
+    }
 
     public FeedForwardSettings getFFSettings() {
         return ffSettings;
@@ -187,7 +195,7 @@ public class Drivetrain extends TankDrivetrain {
             }
         });
         gyroNamespace.putNumber("yaw", this::getYaw);
-        gyroNamespace.putData(" pigeon", new InstantCommand(pigeon::reset) {
+        gyroNamespace.putData("reset pigeon", new InstantCommand(this::resetPigeon) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
