@@ -54,14 +54,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
         rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
 
-//        rootNamespace.putData("drive until hit hub", new DriveUntilHitHub(drivetrain));
-        rootNamespace.putData("drive until hit hub", new SequentialCommandGroup(
-                new DriveArcade(drivetrain, -0.7, 0).withTimeout(0.2),
-                new DriveUntilHitHub(drivetrain))
-        );
-        rootNamespace.putNumber("left talon current", drivetrain.getLeftTalon()::getStatorCurrent);
-        rootNamespace.putNumber("right talon current", drivetrain.getRightTalon()::getStatorCurrent);
-
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
             public void execute() {
