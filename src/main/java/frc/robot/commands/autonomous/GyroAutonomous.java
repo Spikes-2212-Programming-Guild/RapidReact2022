@@ -12,6 +12,10 @@ public class GyroAutonomous extends SequentialCommandGroup {
     public static final double DRIVE_SPEED_TO_CARGO = 0.3;
     public static final double DRIVE_SPEED_TO_HUB = -0.5;
 
+    public static final double RETREAT_DRIVE_SPEED = 0.7;
+    public static final double RETREAT_DRIVE_ROTATE = 0.3;
+    public static final double RETREAT_DRIVE_DURATION = 2.0;
+
     public GyroAutonomous(Drivetrain drivetrain) {
         super(
                 new ParallelCommandGroup(
@@ -29,7 +33,8 @@ public class GyroAutonomous extends SequentialCommandGroup {
                 }.withTimeout(0.3),
                 new DriveUntilHitHub(drivetrain)
                         .withTimeout(3),
-                new ReleaseCargo().withTimeout(2)
+                new ReleaseCargo().withTimeout(2),
+                new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
         );
     }
 }
