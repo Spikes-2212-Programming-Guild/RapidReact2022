@@ -11,11 +11,13 @@ import frc.robot.subsystems.IntakeRoller;
 import frc.robot.subsystems.IntakeToTransfer;
 import frc.robot.subsystems.Transfer;
 
+import java.awt.*;
+
 public class OI /* GEVALD */ {
 
     private final Joystick left = new Joystick(0);
-    private final Joystick right = new Joystick(0);
-    private final XboxControllerWrapper xbox = new XboxControllerWrapper(0);
+    private final Joystick right = new Joystick(1);
+    private final XboxControllerWrapper xbox = new XboxControllerWrapper(2);
 
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
