@@ -14,8 +14,8 @@ import java.util.function.Supplier;
  */
 public class Transfer extends MotoredGenericSubsystem {
 
-    public final Supplier<Double> MOVE_SPEED = rootNamespace.addConstantDouble("move speed", -0.5);
-    public final Supplier<Double> RELEASE_SPEED = rootNamespace.addConstantDouble("release speed", -0.7);
+    public final Supplier<Double> MOVE_SPEED = rootNamespace.addConstantDouble("move speed", -0.7);
+    public final Supplier<Double> RELEASE_SPEED = rootNamespace.addConstantDouble("release speed", -0.9);
     public final Supplier<Double> transferMoveTimeout = rootNamespace.addConstantDouble("transfer move timeout", 0.1);
 
     /**

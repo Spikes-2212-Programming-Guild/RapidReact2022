@@ -9,10 +9,8 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.MoveToCargo;
-import frc.robot.commands.ReleaseCargo;
-import frc.robot.commands.ReturnByGyro;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.*;
 import frc.robot.commands.autonomous.GyroAutonomous;
 import frc.robot.subsystems.*;
 
@@ -55,6 +53,14 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
         rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
         rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
+
+//        rootNamespace.putData("drive until hit hub", new DriveUntilHitHub(drivetrain));
+        rootNamespace.putData("drive until hit hub", new SequentialCommandGroup(
+                new DriveArcade(drivetrain, -0.7, 0).withTimeout(0.2),
+                new DriveUntilHitHub(drivetrain))
+        );
+        rootNamespace.putNumber("left talon current", drivetrain.getLeftTalon()::getStatorCurrent);
+        rootNamespace.putNumber("right talon current", drivetrain.getRightTalon()::getStatorCurrent);
 
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
