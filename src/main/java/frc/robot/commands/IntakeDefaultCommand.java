@@ -57,8 +57,10 @@ public class IntakeDefaultCommand extends CommandBase {
     @Override
     public void execute() {
         //If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
-        if (hitEnoughTimes)
+        if (hitEnoughTimes) {
             speed = speed / 2;
+            timestamps.clear();
+        }
         if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
             intakePlacer.move(speed);
         } else {
