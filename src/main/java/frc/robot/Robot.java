@@ -4,8 +4,15 @@
 
 package frc.robot;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.ReleaseCargo;
+import frc.robot.commands.autonomous.OneCargo;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,14 +22,50 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
+    private OI oi;
+    private Drivetrain drivetrain;
+    private IntakeToTransfer intakeToTransfer;
+    private Transfer transfer;
+    private IntakePlacer intakePlacer;
+    private IntakeRoller intakeRoller;
+    private RootNamespace rootNamespace;
+
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
+        oi = new OI();
+        drivetrain = Drivetrain.getInstance();
+        intakePlacer = IntakePlacer.getInstance();
+        intakeRoller = IntakeRoller.getInstance();
+        intakeToTransfer = IntakeToTransfer.getInstance();
+        transfer = Transfer.getInstance();
+
+        drivetrain.configureDashboard();
+        intakePlacer.configureDashboard();
+        intakeRoller.configureDashboard();
+        intakeToTransfer.configureDashboard();
+        transfer.configureDashboard();
+
+        rootNamespace = new RootNamespace("robot namespace");
+        rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("release cargo", new ReleaseCargo());
+        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
+        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
+
+        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
+            @Override
+            public void execute() {
+                if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
+                    subsystem.move(speedSupplier.get());
+                } else {
+                    subsystem.move(0);
+                }
+            }
+
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
     }
 
     /**
@@ -34,10 +77,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        drivetrain.periodic();
+        intakePlacer.periodic();
+        intakeRoller.periodic();
+        intakeToTransfer.periodic();
+        transfer.periodic();
+
+        rootNamespace.update();
         CommandScheduler.getInstance().run();
     }
 
@@ -54,6 +100,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        new OneCargo().schedule();
     }
 
     /**
@@ -69,6 +116,8 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**

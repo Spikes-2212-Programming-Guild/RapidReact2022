@@ -30,7 +30,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
     private final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
     private final Namespace limelightPIDNamespace = rootNamespace.addChild("limelight pid");
-    private final Namespace feedForwardNamespace = rootNamespace.addChild("feed forward");
+    private final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
     /**
      * One side of the robot is faster than the other. To solve this we slow down one of the sides.
@@ -71,10 +71,9 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> waitTimeLimelight = cameraPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsLimelight;
 
-
-    private final Supplier<Double> kS = feedForwardNamespace.addConstantDouble("kS", 0.24);
-    private final Supplier<Double> kV = feedForwardNamespace.addConstantDouble("kV", 0);
-    private final Supplier<Double> kA = feedForwardNamespace.addConstantDouble("kA", 0);
+    private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
+    private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
+    private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
     private final FeedForwardSettings ffSettings;
 
     public static Drivetrain getInstance() {
