@@ -18,7 +18,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private final Supplier<Double> stallCurrent = rootNamespace.addConstantDouble("stall current", 10);
 
-    private final Supplier<Double> dropSpeed = rootNamespace.addConstantDouble("drop speed", 0.5);
+    public final Supplier<Double> DROP_SPEED = rootNamespace.addConstantDouble("drop speed", 0.5);
 
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
@@ -71,10 +71,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public WPI_TalonSRX getTalon() {
         return talon;
-    }
-
-    public Supplier<Double> getDropSpeed() {
-        return dropSpeed;
     }
 
     public boolean getFrontLimit() {

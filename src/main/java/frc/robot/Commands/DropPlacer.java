@@ -17,7 +17,7 @@ public class DropPlacer extends MoveGenericSubsystem {
     private double startTime;
 
     public DropPlacer(ClimberPlacer placer) {
-        super(placer, placer.getDropSpeed());
+        super(placer, placer.DROP_SPEED);
         this.placer = placer;
     }
 

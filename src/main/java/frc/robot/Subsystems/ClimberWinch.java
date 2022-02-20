@@ -15,9 +15,9 @@ import java.util.function.Supplier;
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
-    private final Supplier<Double> downSpeed = rootNamespace.addConstantDouble("down speed", -0.25);
-    private final Supplier<Double> hookedDownSpeed = rootNamespace.addConstantDouble("hooked down speed", -0.6);
-    private final Supplier<Double> upSpeed = rootNamespace.addConstantDouble("up speed", 0.4);
+    public final Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.25);
+    public final Supplier<Double> HOOKED_DOWN_SPEED = rootNamespace.addConstantDouble("hooked down speed", -0.6);
+    public final Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.4);
 
     private static ClimberWinch instance;
 
@@ -87,19 +87,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("Close Telescopic", new CloseTelescopic());
-        rootNamespace.putData("Open Telescopic", new MoveGenericSubsystem(this, upSpeed));
+        rootNamespace.putData("Open Telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putString("Status", () -> magnetLevel.name());
-    }
-
-    public Supplier<Double> getUpSpeed() {
-        return upSpeed;
-    }
-
-    public Supplier<Double> getDownSpeed() {
-        return downSpeed;
-    }
-
-    public Supplier<Double> getHookedDownSpeed() {
-        return hookedDownSpeed;
     }
 }
