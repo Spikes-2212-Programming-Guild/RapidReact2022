@@ -53,10 +53,11 @@ public class IntakeDefaultCommand extends CommandBase {
         speed = IntakePlacer.INITIAL_IDLE_SPEED;
     }
 
-
+    /**
+     * If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
+     */
     @Override
     public void execute() {
-        //If the condition of the limit being hit multiple times in a short timespan is met, the speed is cut in half.
         if (hitEnoughTimes) {
             speed = speed / 2;
             timestamps.clear();
