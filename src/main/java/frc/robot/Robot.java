@@ -56,6 +56,10 @@ public class Robot extends TimedRobot {
         intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
             @Override
             public void execute() {
+                if (intakePlacer.getShouldBeUp() && intakePlacer.isDown()) {
+                    new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED).schedule();
+                }
+
                 if (intakePlacer.getShouldBeUp()) {
                     subsystem.move(speedSupplier.get());
                 } else {
