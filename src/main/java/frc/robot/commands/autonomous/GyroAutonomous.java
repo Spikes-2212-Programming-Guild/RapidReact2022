@@ -3,6 +3,7 @@ package frc.robot.commands.autonomous;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Drivetrain;
@@ -28,16 +29,21 @@ public class GyroAutonomous extends SequentialCommandGroup {
                         ).withInterrupt(IntakeToTransfer.getInstance()::getLimit)
                 ),
                 new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED),
-                new ReturnByGyro(drivetrain, 0),
-                new DriveArcade(drivetrain, DRIVE_SPEED_TO_HUB, 0) {
-                    @Override
-                    public void end(boolean interrupted) {
-                    }
-                }.withTimeout(0.2),
-                new DriveUntilHitHub(drivetrain)
-                        .withTimeout(3),
-                new ReleaseCargo().withTimeout(2),
-                new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
+                new ParallelDeadlineGroup(
+                        new SequentialCommandGroup(
+                                new ReturnByGyro(drivetrain, 0),
+                                new DriveArcade(drivetrain, DRIVE_SPEED_TO_HUB, 0) {
+                                    @Override
+                                    public void end(boolean interrupted) {
+                                    }
+                                }.withTimeout(0.2),
+                                new DriveUntilHitHub(drivetrain)
+                                        .withTimeout(3),
+                                new ReleaseCargo().withTimeout(2),
+                                new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
+                        ),
+                        new IntakePlacerDefaultCommand()
+                )
         );
     }
 }

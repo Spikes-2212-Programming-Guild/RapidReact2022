@@ -9,7 +9,6 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.GyroAutonomous;
 import frc.robot.subsystems.*;
@@ -54,25 +53,7 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
         rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
 
-        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
-            @Override
-            public void execute() {
-                if (intakePlacer.getShouldBeUp() && intakePlacer.isDown()) {
-                    new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED).schedule();
-                } else {
-                    if (intakePlacer.getShouldBeUp()) {
-                        subsystem.move(speedSupplier.get());
-                    } else {
-                        subsystem.move(0);
-                    }
-                }
-            }
-
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
-        });
+        intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
 
     /**
