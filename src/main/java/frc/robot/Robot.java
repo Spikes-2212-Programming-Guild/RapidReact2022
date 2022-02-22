@@ -58,12 +58,12 @@ public class Robot extends TimedRobot {
             public void execute() {
                 if (intakePlacer.getShouldBeUp() && intakePlacer.isDown()) {
                     new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED).schedule();
-                }
-
-                if (intakePlacer.getShouldBeUp()) {
-                    subsystem.move(speedSupplier.get());
                 } else {
-                    subsystem.move(0);
+                    if (intakePlacer.getShouldBeUp()) {
+                        subsystem.move(speedSupplier.get());
+                    } else {
+                        subsystem.move(0);
+                    }
                 }
             }
 
