@@ -36,5 +36,6 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("intake to transfer", new MoveGenericSubsystem(this, SPEED));
+        rootNamespace.putBoolean("limit switch", this::getLimit);
     }
 }
