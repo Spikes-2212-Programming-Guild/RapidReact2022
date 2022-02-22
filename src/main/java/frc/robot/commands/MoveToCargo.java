@@ -7,7 +7,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class MoveToCargo extends DriveArcadeWithPID {
 
-    public static final double CARGO_MOVE_VALUE = 0.4;
+    public static final double CARGO_MOVE_VALUE = 0.5;
 
     public MoveToCargo(Drivetrain drivetrain) {
         super(drivetrain, () -> -MoveToCargo.getCargoX(), 10, CARGO_MOVE_VALUE, drivetrain.getCameraPIDSettings(),
