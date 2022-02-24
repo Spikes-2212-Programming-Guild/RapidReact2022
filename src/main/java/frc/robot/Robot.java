@@ -48,7 +48,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
-        rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
         rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
         rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
 
@@ -102,11 +101,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-
         drivetrain.resetPigeon();
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
@@ -122,7 +116,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
-        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
 
