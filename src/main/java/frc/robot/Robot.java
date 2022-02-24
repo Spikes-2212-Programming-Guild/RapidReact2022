@@ -5,12 +5,11 @@
 package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
-import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.ReleaseCargo;
+import frc.robot.commands.*;
+import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -49,22 +48,10 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
+        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
+        rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
 
-        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
-            @Override
-            public void execute() {
-                if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
-                    subsystem.move(speedSupplier.get());
-                } else {
-                    subsystem.move(0);
-                }
-            }
-
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
-        });
+        intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
 
     /**
@@ -99,6 +86,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        drivetrain.resetEncoders();
+        drivetrain.resetPigeon();
+        new GyroAutonomous(drivetrain).schedule();
+//        new OneCargoAutonomous().schedule();
     }
 
     /**
@@ -110,10 +101,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        drivetrain.resetPigeon();
+
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
     }
@@ -127,7 +116,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
-        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
 

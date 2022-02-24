@@ -39,30 +39,31 @@ public class Drivetrain extends TankDrivetrain {
     private static final Supplier<Double> leftCorrection = corrections.addConstantDouble("left correction", 1);
 
     private final PigeonWrapper pigeon;
+    private final WPI_TalonSRX leftTalon, rightTalon;
     private final Encoder leftEncoder, rightEncoder;
 
-    private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("gyro kP", 0);
-    private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("gyro kI", 0);
-    private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("gyro kD", 0);
-    private final Supplier<Double> toleranceGyro = gyroPIDNamespace.addConstantDouble("gyro tolerance", 0);
-    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("gyro wait time", 0);
+    private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
+    private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
+    private final Supplier<Double> kDGyro = gyroPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceGyro = gyroPIDNamespace.addConstantDouble("tolerance", 5);
+    private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("wait time", 0.1);
     private final PIDSettings pidSettingsGyro;
 
-    private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kP", 0);
-    private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kI", 0);
-    private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("drivetrain kD", 0);
-    private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("drivetrain tolerance", 0);
-    private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("drivetrain wait time", 0);
+    private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsEncoders;
 
-    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("camera kP", 0);
-    private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("camera kI", 0);
-    private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("camera kD", 0);
-    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("camera tolerance", 0);
-    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("camera wait time", 0);
+    private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0.0065);
+    private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 2);
+    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 1);
     private final PIDSettings pidSettingsCamera;
 
-    private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
     private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
     private final FeedForwardSettings ffSettings;
@@ -70,6 +71,7 @@ public class Drivetrain extends TankDrivetrain {
     public static Drivetrain getInstance() {
         if (instance == null) {
             WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(RobotMap.CAN.PIGEON_TALON);
+            WPI_TalonSRX rightTalon = new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1);
             instance = new Drivetrain(new BustedMotorControllerGroup(
                     leftCorrection,
                     new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
@@ -77,18 +79,23 @@ public class Drivetrain extends TankDrivetrain {
             ),
                     new BustedMotorControllerGroup(
                             rightCorrection,
-                            new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1),
+                            rightTalon,
                             new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_2)
                     ),
-                    pigeonTalon
+                    pigeonTalon,
+                    pigeonTalon,
+                    rightTalon
             );
         }
         return instance;
     }
 
-    private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon) {
+    private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
+                       WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
+        this.leftTalon = leftTalon;
+        this.rightTalon = rightTalon;
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
@@ -105,6 +112,10 @@ public class Drivetrain extends TankDrivetrain {
     public void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
+    }
+
+    public void resetPigeon() {
+        pigeon.reset();
     }
 
     @Override
@@ -135,6 +146,26 @@ public class Drivetrain extends TankDrivetrain {
         return leftEncoder.get();
     }
 
+    public WPI_TalonSRX getLeftTalon() {
+        return leftTalon;
+    }
+
+    public WPI_TalonSRX getRightTalon() {
+        return rightTalon;
+    }
+
+    public PIDSettings getGyroPIDSettings() {
+        return pidSettingsGyro;
+    }
+
+    public PIDSettings getCameraPIDSettings() {
+        return pidSettingsCamera;
+    }
+
+    public FeedForwardSettings getFFSettings() {
+        return ffSettings;
+    }
+
     /**
      * Initializes namespaces and adds sensor data to dashboard.
      */
@@ -150,11 +181,13 @@ public class Drivetrain extends TankDrivetrain {
             }
         });
         gyroNamespace.putNumber("yaw", this::getYaw);
-        gyroNamespace.putData("reset pigeon", new InstantCommand(pigeon::reset) {
+        gyroNamespace.putData("reset pigeon", new InstantCommand(this::resetPigeon) {
             @Override
             public boolean runsWhenDisabled() {
                 return true;
             }
         });
+        rootNamespace.putNumber("right talon current", rightTalon::getStatorCurrent);
+        rootNamespace.putNumber("left talon current", leftTalon::getStatorCurrent);
     }
 }
