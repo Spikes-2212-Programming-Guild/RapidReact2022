@@ -6,10 +6,14 @@ package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.*;
-import frc.robot.commands.autonomous.*;
+import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.IntakePlacerDefaultCommand;
+import frc.robot.commands.MoveToCargo;
+import frc.robot.commands.ReleaseCargo;
+import frc.robot.commands.autonomous.GyroAutonomous;
 import frc.robot.subsystems.*;
 
 /**
@@ -40,6 +44,8 @@ public class Robot extends TimedRobot {
         transfer = Transfer.getInstance();
         climberWinch = ClimberWinch.getInstance();
 
+        DigitalInput light = new DigitalInput(8);
+
         drivetrain.configureDashboard();
         intakePlacer.configureDashboard();
         intakeRoller.configureDashboard();
@@ -48,6 +54,7 @@ public class Robot extends TimedRobot {
         climberWinch.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
+        rootNamespace.putBoolean("light sensor", light::get);
         rootNamespace.putData("intake cargo", new IntakeCargo());
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
@@ -107,6 +114,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         drivetrain.resetPigeon();
+        climberWinch.resetEncoder();
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);

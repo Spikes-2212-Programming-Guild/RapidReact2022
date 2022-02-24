@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
 import java.util.function.Supplier;
@@ -13,9 +14,10 @@ import java.util.function.Supplier;
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
-    public final Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.5);
+    public final Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.3);
     public final Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.25);
-    public final Supplier<Double> ENCODER_UP_POS = rootNamespace.addConstantDouble("encoder up position", 360 * 5);
+    public final Supplier<Double> ENCODER_UP_POS = rootNamespace.addConstantDouble("encoder up position", 140);
+    public final Supplier<Double> ENCODER_DOWN_TOLERANCE = rootNamespace.addConstantDouble("encoder down tolerance", 10);
 
     private static ClimberWinch instance;
 
@@ -38,12 +40,18 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     @Override
     public boolean canMove(double speed) {
         return (sparkMax.getEncoder().getPosition() < ENCODER_UP_POS.get() && speed > 0) ||
-                (sparkMax.getEncoder().getPosition() > 10 && speed < 0);
+                (sparkMax.getEncoder().getPosition() > ENCODER_DOWN_TOLERANCE.get() && speed < 0);
+    }
+
+    public void resetEncoder() {
+        sparkMax.getEncoder().setPosition(0);
     }
 
     @Override
     public void configureDashboard() {
         rootNamespace.putData("Close Telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
         rootNamespace.putData("Open Telescopic", new MoveGenericSubsystem(this, UP_SPEED));
+        rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
+        rootNamespace.putNumber("encoder:", sparkMax.getEncoder()::getPosition);
     }
 }

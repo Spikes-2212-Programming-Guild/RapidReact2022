@@ -11,6 +11,7 @@ public class IntakePlacerDefaultCommand extends CommandBase {
 
     public IntakePlacerDefaultCommand() {
         intakePlacer = IntakePlacer.getInstance();
+        addRequirements(intakePlacer);
     }
 
     @Override
@@ -24,6 +25,11 @@ public class IntakePlacerDefaultCommand extends CommandBase {
                 intakePlacer.move(0);
             }
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 
     @Override
