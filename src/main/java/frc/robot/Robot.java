@@ -26,6 +26,8 @@ public class Robot extends TimedRobot {
     private Transfer transfer;
     private IntakePlacer intakePlacer;
     private IntakeRoller intakeRoller;
+    private ClimberWinch climberWinch;
+
     private RootNamespace rootNamespace;
 
     @Override
@@ -36,12 +38,14 @@ public class Robot extends TimedRobot {
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
         transfer = Transfer.getInstance();
+        climberWinch = ClimberWinch.getInstance();
 
         drivetrain.configureDashboard();
         intakePlacer.configureDashboard();
         intakeRoller.configureDashboard();
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
+        climberWinch.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
@@ -68,6 +72,7 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
+        climberWinch.periodic();
 
         rootNamespace.update();
         CommandScheduler.getInstance().run();

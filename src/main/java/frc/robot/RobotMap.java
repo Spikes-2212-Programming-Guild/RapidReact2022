@@ -18,6 +18,9 @@ public class RobotMap {
 
         int TRANSFER_STRAP_VICTOR_1 = 8;
         int TRANSFER_STRAP_VICTOR_2 = 9;
+
+        int CLIMBER_WINCH_SPARK_MAX_1 = 12;
+        int CLIMBER_WINCH_SPARK_MAX_2 = 13;
     }
 
     public interface DIO {
