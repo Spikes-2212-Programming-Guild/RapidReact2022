@@ -35,7 +35,7 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(transfer, () -> -transfer.MOVE_SPEED.get())
         ));
 
-        //reverse the roller and intakeTTransfer to return the cargo that is in the intakeToTransfer
+        //reverse the roller and intakeToTransfer to return the cargo that is in the intakeToTransfer
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED)
