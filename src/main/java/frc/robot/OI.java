@@ -6,10 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.ReleaseCargo;
-import frc.robot.subsystems.IntakePlacer;
-import frc.robot.subsystems.IntakeRoller;
-import frc.robot.subsystems.IntakeToTransfer;
-import frc.robot.subsystems.Transfer;
+import frc.robot.subsystems.*;
 
 public class OI /* GEVALD */ {
 
@@ -25,13 +22,17 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+        xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().UP_SPEED));
+        xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().DOWN_SPEED));
 
+        //reverse all the subsystems, to return cargos
         xbox.getLeftButton().whileHeld(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED),
                 new MoveGenericSubsystem(transfer, () -> -transfer.MOVE_SPEED.get())
         ));
 
+        //reverse the roller and intakeTTransfer to return the cargo that is in the intakeToTransfer
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED)
