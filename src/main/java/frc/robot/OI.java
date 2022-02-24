@@ -3,6 +3,7 @@ package frc.robot;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.util.XboxControllerWrapper;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.ReleaseCargo;
@@ -22,8 +23,10 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().UP_SPEED));
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().DOWN_SPEED));
+        xbox.getYellowButton().whenPressed(new InstantCommand(() -> ClimberWinch.getInstance().stop()));
 
         //reverse all the subsystems, to return cargos
         xbox.getLeftButton().whileHeld(new ParallelCommandGroup(
