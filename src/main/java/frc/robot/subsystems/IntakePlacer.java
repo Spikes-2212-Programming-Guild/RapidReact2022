@@ -15,7 +15,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.1;
-    public static final double IDLE_SPEED = 0.3;
+    public static final double IDLE_SPEED = 0.2;
 
     private static IntakePlacer instance;
 
