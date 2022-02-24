@@ -39,8 +39,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        return (sparkMax.getEncoder().getPosition() < ENCODER_UP_POS.get() && speed > 0) ||
-                (sparkMax.getEncoder().getPosition() > ENCODER_DOWN_TOLERANCE.get() && speed < 0);
+        return (speed > 0 && sparkMax.getEncoder().getPosition() < ENCODER_UP_POS.get()) ||
+                (speed < 0 && sparkMax.getEncoder().getPosition() > ENCODER_DOWN_TOLERANCE.get());
     }
 
     public void resetEncoder() {
@@ -52,6 +52,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         rootNamespace.putData("Close Telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
         rootNamespace.putData("Open Telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
-        rootNamespace.putNumber("encoder:", sparkMax.getEncoder()::getPosition);
+        rootNamespace.putNumber("encoder", sparkMax.getEncoder()::getPosition);
     }
 }
