@@ -1,25 +1,27 @@
 package frc.robot.commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakePlacer;
 
 
-public class IntakePlacerDefaultCommand extends MoveGenericSubsystem {
+public class IntakePlacerDefaultCommand extends CommandBase {
+
+    private final IntakePlacer intakePlacer;
 
     public IntakePlacerDefaultCommand() {
-        super(IntakePlacer.getInstance(), IntakePlacer.IDLE_SPEED);
+        intakePlacer = IntakePlacer.getInstance();
     }
 
     @Override
     public void execute() {
-        IntakePlacer intakePlacer = (IntakePlacer) subsystem;
         if (intakePlacer.getShouldBeUp() && intakePlacer.isDown()) {
             new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED).schedule();
         } else {
             if (intakePlacer.getShouldBeUp()) {
-                subsystem.move(speedSupplier.get());
+                intakePlacer.move(IntakePlacer.IDLE_SPEED);
             } else {
-                subsystem.move(0);
+                intakePlacer.move(0);
             }
         }
     }
@@ -27,5 +29,10 @@ public class IntakePlacerDefaultCommand extends MoveGenericSubsystem {
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        intakePlacer.stop();
     }
 }
