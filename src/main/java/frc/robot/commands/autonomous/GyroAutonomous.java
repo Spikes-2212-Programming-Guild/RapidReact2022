@@ -28,7 +28,7 @@ public class GyroAutonomous extends SequentialCommandGroup {
                                 new DriveArcade(drivetrain, DRIVE_SPEED_TO_CARGO, 0)
                         ).withInterrupt(IntakeToTransfer.getInstance()::getLimit)
                 ),
-                new ReturnByGyro(drivetrain, 0),
+                new ReturnByGyro(drivetrain, 0).withTimeout(3),
                 new DriveArcade(drivetrain, DRIVE_SPEED_TO_HUB, 0) {
                     @Override
                     public void end(boolean interrupted) {
