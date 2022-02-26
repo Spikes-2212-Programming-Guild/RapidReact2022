@@ -32,6 +32,6 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, MIN_SPEED));
-        rootNamespace.putBoolean("oriented to cargo", () -> MoveToCargo.getCargoX() < 12 && MoveToCargo.getCargoX() > 8);
+        rootNamespace.putBoolean("oriented to cargo", () -> MoveToCargo.getCargoX() <= 13 && MoveToCargo.getCargoX() >= 7);
     }
 }
