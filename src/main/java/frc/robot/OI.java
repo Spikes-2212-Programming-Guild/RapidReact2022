@@ -23,8 +23,8 @@ public class OI /* GEVALD */ {
      * <b>Green Button</b>: Climber Down<br>
      * <b>Yellow Button</b>: Climber Up<br>
      * <b>Blue Button</b>: Climber STOP<br>
-     * <b>Down Button</b>: Reverse all<br>
-     * <b>Left Button</b>: Reverse IntakeToTransfer and Intake
+     * <b>D-Pad Down Button</b>: Reverse all<br>
+     * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake
      */
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
