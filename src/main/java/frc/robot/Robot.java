@@ -26,6 +26,8 @@ public class Robot extends TimedRobot {
     private Transfer transfer;
     private IntakePlacer intakePlacer;
     private IntakeRoller intakeRoller;
+    private ClimberWinch climberWinch;
+
     private RootNamespace rootNamespace;
 
     @Override
@@ -36,20 +38,21 @@ public class Robot extends TimedRobot {
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
         transfer = Transfer.getInstance();
+        climberWinch = ClimberWinch.getInstance();
 
         drivetrain.configureDashboard();
         intakePlacer.configureDashboard();
         intakeRoller.configureDashboard();
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
+        climberWinch.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
-        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
-        rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
+        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
 
         intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
@@ -68,6 +71,7 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
+        climberWinch.periodic();
 
         rootNamespace.update();
         CommandScheduler.getInstance().run();
@@ -102,6 +106,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         drivetrain.resetPigeon();
+        climberWinch.resetEncoder();
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);

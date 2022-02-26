@@ -5,12 +5,14 @@ import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import frc.robot.subsystems.Drivetrain;
 
+import java.util.function.Supplier;
+
 public class MoveToCargo extends DriveArcadeWithPID {
 
-    public static final double CARGO_MOVE_VALUE = 0.4;
+    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.4;
 
-    public MoveToCargo(Drivetrain drivetrain) {
-        super(drivetrain, () -> -MoveToCargo.getCargoX(), 10, CARGO_MOVE_VALUE, drivetrain.getCameraPIDSettings(),
+    public MoveToCargo(Drivetrain drivetrain, Supplier<Double> speed) {
+        super(drivetrain, () -> -MoveToCargo.getCargoX(), () -> 10.0, speed, drivetrain.getCameraPIDSettings(),
                 drivetrain.getFFSettings());
     }
 

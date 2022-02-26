@@ -10,7 +10,7 @@ public class RobotMap {
         int DRIVETRAIN_RIGHT_TALON_2 = 4;
         int PIGEON_TALON = DRIVETRAIN_LEFT_TALON_2;
 
-        int INTAKE_ROLLER_TALON = 5;
+        int INTAKE_ROLLER_VICTOR = 5;
 
         int INTAKE_PLACER_VICTOR = 6;
 
@@ -18,6 +18,9 @@ public class RobotMap {
 
         int TRANSFER_STRAP_VICTOR_1 = 8;
         int TRANSFER_STRAP_VICTOR_2 = 9;
+
+        int CLIMBER_WINCH_SPARK_MAX_1 = 12;
+        int CLIMBER_WINCH_SPARK_MAX_2 = 13;
     }
 
     public interface DIO {
