@@ -8,11 +8,8 @@ import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.IntakePlacerDefaultCommand;
-import frc.robot.commands.MoveToCargo;
-import frc.robot.commands.ReleaseCargo;
-import frc.robot.commands.autonomous.GyroAutonomous;
+import frc.robot.commands.*;
+import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -56,7 +53,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
-        rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
 
         intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
