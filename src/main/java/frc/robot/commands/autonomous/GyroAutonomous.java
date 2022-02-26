@@ -9,7 +9,6 @@ import frc.robot.subsystems.IntakeToTransfer;
 
 public class GyroAutonomous extends SequentialCommandGroup {
 
-    public static final double DRIVE_SPEED_TO_CARGO = 0.35;
     public static final double DRIVE_SPEED_TO_HUB = -0.7;
 
     public static final double RETREAT_DRIVE_SPEED = 0.7;
@@ -21,8 +20,8 @@ public class GyroAutonomous extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new IntakeCargo(),
                         new SequentialCommandGroup(
-                                new MoveToCargo(drivetrain),
-                                new DriveArcade(drivetrain, DRIVE_SPEED_TO_CARGO, 0)
+                                new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE),
+                                new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)
                         ).withInterrupt(IntakeToTransfer.getInstance()::getLimit)
                 ),
                 new ReturnByGyro(drivetrain, 0).withTimeout(3),

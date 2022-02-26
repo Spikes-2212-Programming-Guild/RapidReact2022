@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
-        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
+        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
 
         intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }

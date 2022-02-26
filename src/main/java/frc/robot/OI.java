@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.MoveToCargo;
 import frc.robot.commands.ReleaseCargo;
 import frc.robot.subsystems.*;
 
@@ -15,6 +16,17 @@ public class OI /* GEVALD */ {
     private final Joystick right = new Joystick(1);
     private final XboxControllerWrapper xbox = new XboxControllerWrapper(2);
 
+    /**
+     * <b>Right Trigger</b>: Intake cargo<br>
+     * <b>Right Bumper</b>: Intake placer up<br>
+     * <b>Left Trigger</b>: Release Cargo<br>
+     * <b>Left Bumper</b>: Aim To Cargo<br>
+     * <b>Green Button</b>: Climber Down<br>
+     * <b>Yellow Button</b>: Climber Up<br>
+     * <b>Blue Button</b>: Climber STOP<br>
+     * <b>Down Button</b>: Reverse all<br>
+     * <b>Left Button</b>: Reverse IntakeToTransfer and Intake
+     */
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
@@ -23,6 +35,7 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+        xbox.getLBButton().whileHeld(new MoveToCargo(Drivetrain.getInstance(), () -> -right.getY()));
 
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().UP_SPEED));
