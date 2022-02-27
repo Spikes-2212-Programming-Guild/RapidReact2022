@@ -31,7 +31,7 @@ public class OI /* GEVALD */ {
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         Transfer transfer = Transfer.getInstance();
 
-        JoystickButton trigger = new JoystickButton(left, 0);
+        JoystickButton trigger = new JoystickButton(left, 1);
         trigger.whileHeld(new MoveToCargo(Drivetrain.getInstance(), () -> -right.getY()));
 
         xbox.getRTButton().whenActive(new IntakeCargo());
