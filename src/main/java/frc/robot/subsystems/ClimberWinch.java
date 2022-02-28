@@ -49,8 +49,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("Close Telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
-        rootNamespace.putData("Open Telescopic", new MoveGenericSubsystem(this, UP_SPEED));
+        rootNamespace.putData("close telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
+        rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
         rootNamespace.putNumber("encoder", sparkMax.getEncoder()::getPosition);
     }
