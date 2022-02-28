@@ -44,7 +44,7 @@ public class IntakeCargo extends SequentialCommandGroup {
                     public boolean isFinished() {
                         return intakeToTransfer.getLimit();
                     }
-                }.withTimeout(transfer.getTransferMoveTimeout()));
+                }.withTimeout(transfer.TRANSFER_MOVE_TIMEOUT.get()));
     }
 
     @Override

@@ -51,10 +51,6 @@ public class Transfer extends MotoredGenericSubsystem {
         return entranceSensor.get();
     }
 
-    public double getTransferMoveTimeout() {
-        return TRANSFER_MOVE_TIMEOUT.get();
-    }
-
     @Override
     public void configureDashboard() {
         rootNamespace.putData("transfer", new MoveGenericSubsystem(this, MOVE_SPEED));
