@@ -105,7 +105,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        drivetrain.resetPigeon();
         climberWinch.resetEncoder();
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
