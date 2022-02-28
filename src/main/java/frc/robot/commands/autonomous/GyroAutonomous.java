@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
@@ -10,6 +11,7 @@ import frc.robot.subsystems.IntakeToTransfer;
 public class GyroAutonomous extends SequentialCommandGroup {
 
     public static final double DRIVE_SPEED_TO_HUB = -0.7;
+    public static final double DRIVE_SPEED_GYRO = -0.5;
 
     public static final double RETREAT_DRIVE_SPEED = 0.7;
     public static final double RETREAT_DRIVE_ROTATE = -0.3;
@@ -29,7 +31,8 @@ public class GyroAutonomous extends SequentialCommandGroup {
                                 new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)
                         ).withInterrupt(IntakeToTransfer.getInstance()::getLimit)
                 ),
-                new ReturnByGyro(drivetrain, 0).withTimeout(RETURN_BY_GYRO_TIMEOUT),
+                new DriveArcadeWithPID(drivetrain, () -> -drivetrain.getYaw(), 0, DRIVE_SPEED_GYRO,
+                        drivetrain.getGyroPIDSettings(), drivetrain.getFFSettings()).withTimeout(RETURN_BY_GYRO_TIMEOUT),
                 new DriveArcade(drivetrain, DRIVE_SPEED_TO_HUB, 0) {
                     @Override
                     public void end(boolean interrupted) {
