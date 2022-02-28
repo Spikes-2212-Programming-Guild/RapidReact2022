@@ -14,8 +14,9 @@ import java.util.function.Supplier;
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
-    public final Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.3);
-    public final Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.25);
+    public static final double UP_SPEED = 0.25;
+    public static final double DOWN_SPEED = -0.3;
+
     public final Supplier<Double> ENCODER_UP_POS = rootNamespace.addConstantDouble("encoder up position", 140);
     public final Supplier<Double> ENCODER_DOWN_TOLERANCE = rootNamespace.addConstantDouble("encoder down tolerance", 10);
 
@@ -33,7 +34,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     }
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
-        super("climber winch", leftWinch, rightWinch);
+        super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
         sparkMax = rightWinch;
     }
 

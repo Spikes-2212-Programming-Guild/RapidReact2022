@@ -30,6 +30,7 @@ public class OI /* GEVALD */ {
         IntakeRoller roller = IntakeRoller.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         Transfer transfer = Transfer.getInstance();
+        ClimberWinch climberWinch = ClimberWinch.getInstance();
 
         JoystickButton trigger = new JoystickButton(left, 1);
         trigger.whileHeld(new MoveToCargo(Drivetrain.getInstance(), () -> -right.getY()));
@@ -38,9 +39,9 @@ public class OI /* GEVALD */ {
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
 
-        xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().DOWN_SPEED));
-        xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(ClimberWinch.getInstance(), ClimberWinch.getInstance().UP_SPEED));
-        xbox.getBlueButton().whenPressed(new InstantCommand(() -> ClimberWinch.getInstance().stop()));
+        xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
+        xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
+        xbox.getBlueButton().whenPressed(new InstantCommand(climberWinch::stop));
 
         //reverse all the subsystems, to return cargos
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
