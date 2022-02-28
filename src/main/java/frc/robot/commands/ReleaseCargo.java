@@ -9,13 +9,16 @@ import frc.robot.subsystems.Transfer;
 
 public class ReleaseCargo extends SequentialCommandGroup {
 
+    public static final double RELEASE_FIRST_CARGO_TIMEOUT = 0.3;
+
     public ReleaseCargo() {
-        super(
+        Transfer transfer = Transfer.getInstance();
+        addCommands(
                 new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MIN_SPEED),
-                new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().FIRST_CARGO_RELEASE_SPEED).withTimeout(0.3),
+                new MoveGenericSubsystem(transfer, transfer.FIRST_CARGO_RELEASE_SPEED).withTimeout(RELEASE_FIRST_CARGO_TIMEOUT),
                 new ParallelCommandGroup(
                         new MoveGenericSubsystem(IntakeToTransfer.getInstance(), IntakeToTransfer.SPEED),
-                        new MoveGenericSubsystem(Transfer.getInstance(), Transfer.getInstance().SECOND_CARGO_RELEASE_SPEED)
+                        new MoveGenericSubsystem(transfer, transfer.SECOND_CARGO_RELEASE_SPEED)
                 )
         );
     }
