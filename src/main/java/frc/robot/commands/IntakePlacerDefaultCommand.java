@@ -28,11 +28,6 @@ public class IntakePlacerDefaultCommand extends CommandBase {
     }
 
     @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
     public void end(boolean interrupted) {
         intakePlacer.stop();
     }
