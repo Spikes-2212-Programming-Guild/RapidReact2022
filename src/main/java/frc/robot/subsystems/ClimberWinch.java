@@ -17,8 +17,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     public static final double UP_SPEED = 0.25;
     public static final double DOWN_SPEED = -0.3;
 
-    public final Supplier<Double> ENCODER_UP_POS = rootNamespace.addConstantDouble("encoder up position", 140);
-    public final Supplier<Double> ENCODER_DOWN_TOLERANCE = rootNamespace.addConstantDouble("encoder down tolerance", 10);
+    public final Supplier<Double> ENCODER_UP_SETPOINT = rootNamespace.addConstantDouble("encoder up setpoint", 140);
+    public final Supplier<Double> ENCODER_DOWN_SETPOINT = rootNamespace.addConstantDouble("encoder down setpoint", 10);
 
     private static ClimberWinch instance;
 
@@ -40,8 +40,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     @Override
     public boolean canMove(double speed) {
-        return (speed > 0 && sparkMax.getEncoder().getPosition() < ENCODER_UP_POS.get()) ||
-                (speed < 0 && sparkMax.getEncoder().getPosition() > ENCODER_DOWN_TOLERANCE.get());
+        return (speed > 0 && sparkMax.getEncoder().getPosition() < ENCODER_UP_SETPOINT.get()) ||
+                (speed < 0 && sparkMax.getEncoder().getPosition() > ENCODER_DOWN_SETPOINT.get());
     }
 
     public void resetEncoder() {
