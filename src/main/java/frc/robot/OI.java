@@ -41,7 +41,7 @@ public class OI /* GEVALD */ {
 
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
-        xbox.getBlueButton().whenPressed(new InstantCommand(climberWinch::stop));
+        xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
 
         //reverse all the subsystems, to return cargos
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
