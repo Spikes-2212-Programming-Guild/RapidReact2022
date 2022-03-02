@@ -10,15 +10,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.IntakePlacerDefaultCommand;
-import frc.robot.commands.MoveToCargo;
-import frc.robot.commands.ReleaseCargo;
-import frc.robot.commands.autonomous.GyroAutonomous;
-import frc.robot.commands.autonomous.YeetAndRetreat;
+import frc.robot.commands.*;
+import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
-
-import java.util.function.Supplier;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
