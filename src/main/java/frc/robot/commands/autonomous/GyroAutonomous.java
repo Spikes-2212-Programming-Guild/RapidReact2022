@@ -18,7 +18,6 @@ public class GyroAutonomous extends SequentialCommandGroup {
     public static final double RETREAT_DRIVE_DURATION = 2.5;
 
     public static final double RETURN_BY_GYRO_TIMEOUT = 3;
-    public static final double GET_OVER_STALL_TIMEOUT = 0.2;
     public static final double DRIVE_UNTIL_HIT_HUB_TIMEOUT = 3;
     public static final double RELEASE_CARGO_TIMEOUT = 3;
 
@@ -31,13 +30,9 @@ public class GyroAutonomous extends SequentialCommandGroup {
                                 new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)
                         ).withInterrupt(IntakeToTransfer.getInstance()::getLimit)
                 ),
+                //Moves the robot back to its original position using the gyro sensor.
                 new DriveArcadeWithPID(drivetrain, () -> -drivetrain.getYaw(), 0, DRIVE_SPEED_GYRO,
                         drivetrain.getGyroPIDSettings(), drivetrain.getFFSettings()).withTimeout(RETURN_BY_GYRO_TIMEOUT),
-                new DriveArcade(drivetrain, DRIVE_SPEED_TO_HUB, 0) {
-                    @Override
-                    public void end(boolean interrupted) {
-                    }
-                }.withTimeout(GET_OVER_STALL_TIMEOUT),
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
                 new ReleaseCargo().withTimeout(RELEASE_CARGO_TIMEOUT),
                 new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)

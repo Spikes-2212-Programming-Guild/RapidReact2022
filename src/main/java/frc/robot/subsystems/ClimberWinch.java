@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,7 +23,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     private static ClimberWinch instance;
 
-    private final CANSparkMax sparkMax;
+    private final RelativeEncoder encoder;
 
     public static ClimberWinch getInstance() {
         if (instance == null) {
@@ -35,17 +36,17 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
-        sparkMax = rightWinch;
+        encoder = rightWinch.getEncoder();
     }
 
     @Override
     public boolean canMove(double speed) {
-        return (speed > 0 && sparkMax.getEncoder().getPosition() < ENCODER_UP_SETPOINT.get()) ||
-                (speed < 0 && sparkMax.getEncoder().getPosition() > ENCODER_DOWN_SETPOINT.get());
+        return (speed > 0 && encoder.getPosition() < ENCODER_UP_SETPOINT.get()) ||
+                (speed < 0 && encoder.getPosition() > ENCODER_DOWN_SETPOINT.get());
     }
 
     public void resetEncoder() {
-        sparkMax.getEncoder().setPosition(0);
+        encoder.setPosition(0);
     }
 
     @Override
@@ -53,6 +54,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         rootNamespace.putData("close telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
         rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
-        rootNamespace.putNumber("encoder position", sparkMax.getEncoder()::getPosition);
+        rootNamespace.putNumber("encoder position", encoder::getPosition);
     }
 }

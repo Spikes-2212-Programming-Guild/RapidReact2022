@@ -9,7 +9,7 @@ import frc.robot.subsystems.Transfer;
 
 public class ReleaseCargo extends SequentialCommandGroup {
 
-    public static final double RELEASE_FIRST_CARGO_TIMEOUT = 0.3;
+    public static final double RELEASE_FIRST_CARGO_TIMEOUT = 0.5;
 
     public ReleaseCargo() {
         Transfer transfer = Transfer.getInstance();

@@ -32,8 +32,6 @@ public class Robot extends TimedRobot {
 
     private RootNamespace rootNamespace;
 
-    private Command autoCommand;
-
     @Override
     public void robotInit() {
         oi = new OI();
@@ -57,8 +55,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
-        rootNamespace.putData("yeet and retreat auto", new InstantCommand(() -> autoCommand = new YeetAndRetreat()));
-        rootNamespace.putData("gyro auto", new InstantCommand(() -> autoCommand = new GyroAutonomous(drivetrain)));
 
         intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
@@ -98,7 +94,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         drivetrain.resetEncoders();
         drivetrain.resetPigeon();
-        autoCommand.schedule();
+        new GyroAutonomous(drivetrain).schedule();
+//        new YeetAndRetreat().schedule();
     }
 
     /**

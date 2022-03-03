@@ -16,11 +16,24 @@ public class DriveUntilHitHub extends DriveArcade {
     /**
      * A value between the stall current and running current of the motors
      */
-    private static final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 19);
-    private static final Supplier<Double> MOVEMENT_SPEED = rootNamespace.addConstantDouble("movement speed", -0.6);
+    private static final Supplier<Double> STALL_CURRENT
+            = rootNamespace.addConstantDouble("stall current", 19);
+    private static final Supplier<Double> MOVEMENT_SPEED
+            = rootNamespace.addConstantDouble("movement speed", -0.7);
+    private static final Supplier<Double> GET_OVER_STALL_TIMEOUT
+            = rootNamespace.addConstantDouble("get over stall timeout", 0.2);
 
     public DriveUntilHitHub(Drivetrain drivetrain) {
         super(drivetrain, MOVEMENT_SPEED, () -> 0.0);
+    }
+
+    @Override
+    public void initialize() {
+        new DriveArcade(tankDrivetrain, MOVEMENT_SPEED, () -> 0.0) {
+            @Override
+            public void end(boolean interrupted) {
+            }
+        }.withTimeout(GET_OVER_STALL_TIMEOUT.get());
     }
 
     @Override
