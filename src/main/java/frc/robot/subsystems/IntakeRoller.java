@@ -13,8 +13,8 @@ import frc.robot.commands.MoveToCargo;
  */
 public class IntakeRoller extends MotoredGenericSubsystem {
 
-    public static final double MAX_SPEED = 0.6;
-    public static final double MIN_SPEED = -0.6;
+    public static final double MAX_SPEED = 0.5;
+    public static final double MIN_SPEED = -0.5;
 
     private static IntakeRoller instance;
 

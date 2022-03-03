@@ -33,7 +33,7 @@ public class RobotMap {
         int INTAKE_PLACER_UPPER_LIMIT = 0;
         int INTAKE_PLACER_LOWER_LIMIT = 1;
 
-        int TRANSFER_ENTRANCE_LIGHT_SENSOR = 2;
+        int TRANSFER_ENTRANCE_LIGHT_SENSOR = 8;
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
     }
