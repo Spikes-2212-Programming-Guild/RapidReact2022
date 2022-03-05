@@ -22,6 +22,7 @@ public class OI /* GEVALD */ {
      * <b>Green Button</b>: Climber Down<br>
      * <b>Yellow Button</b>: Climber Up<br>
      * <b>Blue Button</b>: Climber Stop<br>
+     * <b>Red Button</b>: Roller Stop<br>
      * <b>D-Pad Down Button</b>: Reverse all<br>
      * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake
      */
@@ -31,8 +32,8 @@ public class OI /* GEVALD */ {
         Transfer transfer = Transfer.getInstance();
         ClimberWinch climberWinch = ClimberWinch.getInstance();
 
-        JoystickButton trigger = new JoystickButton(left, 1);
-        trigger.whileHeld(new MoveToCargo(Drivetrain.getInstance(), () -> -right.getY()));
+        JoystickButton trigger = new JoystickButton(right, 1);
+        trigger.whileHeld(new ReleaseCargo());
 
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
@@ -41,6 +42,7 @@ public class OI /* GEVALD */ {
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
+        xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
 
         //reverse all the subsystems, to return cargos
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
@@ -54,6 +56,12 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED)
         ));
+
+        xbox.getRightButton().whileHeld(new ParallelCommandGroup(
+                new MoveGenericSubsystem(roller, IntakeRoller.MIN_SPEED),
+                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED),
+                new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED.get()).withInterrupt(transfer::getEntranceSensor)
+        ).withInterrupt(() -> (intakeToTransfer.getLimit() && transfer.getEntranceSensor())));
 
     }
 
