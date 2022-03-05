@@ -4,6 +4,7 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.util.XboxControllerWrapper;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -23,7 +24,9 @@ public class OI /* GEVALD */ {
      * <b>Yellow Button</b>: Climber Up<br>
      * <b>Blue Button</b>: Climber Stop<br>
      * <b>D-Pad Down Button</b>: Reverse all<br>
-     * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake
+     * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake<br>
+     * <b>Xbox left joystick button</b>: climb to 3<br>
+     * <b>Xbox right joystick button</b>: climb to 4
      */
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
@@ -41,6 +44,9 @@ public class OI /* GEVALD */ {
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
+
+        xbox.getLeftStickButton().whenPressed(new ClimbTo3());
+        xbox.getRightStickButton().whenPressed(new ClimbTo4());
 
         //reverse all the subsystems, to return cargos
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
