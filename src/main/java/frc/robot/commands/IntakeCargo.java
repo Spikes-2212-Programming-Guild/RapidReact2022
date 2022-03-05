@@ -38,13 +38,8 @@ public class IntakeCargo extends SequentialCommandGroup {
                                 return (!hasCargo && transfer.getEntranceSensor()) || (hasCargo && intakeToTransfer.getLimit());
                             }
                         }
-                ),
-                new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return intakeToTransfer.getLimit();
-                    }
-                }.withTimeout(transfer.getTransferMoveTimeout()));
+                )
+        );
     }
 
     @Override

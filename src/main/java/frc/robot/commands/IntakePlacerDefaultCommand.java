@@ -11,6 +11,7 @@ public class IntakePlacerDefaultCommand extends CommandBase {
 
     public IntakePlacerDefaultCommand() {
         intakePlacer = IntakePlacer.getInstance();
+        addRequirements(intakePlacer);
     }
 
     @Override
