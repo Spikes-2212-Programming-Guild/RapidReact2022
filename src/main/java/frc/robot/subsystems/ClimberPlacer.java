@@ -5,6 +5,7 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.commands.DropBothPlacers;
 import frc.robot.RobotMap;
+import frc.robot.commands.DropPlacer;
 
 import java.util.function.Supplier;
 
@@ -13,13 +14,14 @@ import java.util.function.Supplier;
  */
 public class ClimberPlacer extends MotoredGenericSubsystem {
 
-    private static final double MIN_SPEED = -0.6;
-    private static final double MAX_SPEED = 0.6;
+    public static final double MIN_SPEED = -0.6;
+    public static final double MAX_SPEED = 0.6;
 
     private final Supplier<Double> stallCurrent = rootNamespace.addConstantDouble("stall current", 10);
 
     public final Supplier<Double> DROP_SPEED = rootNamespace.addConstantDouble("drop speed", 0.5);
 
+    private final String side;
     private final DigitalInput frontLimit;
     private final DigitalInput backLimit;
     private final WPI_TalonSRX talon;
@@ -44,6 +46,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private ClimberPlacer(String side, WPI_TalonSRX talon, int frontLimitPort, int backLimitPort) {
         super(MIN_SPEED, MAX_SPEED, side + " climber placer", talon);
+        this.side = side;
         this.talon = talon;
         this.frontLimit = new DigitalInput(frontLimitPort);
         this.backLimit = new DigitalInput(backLimitPort);
@@ -56,7 +59,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("DropBothPlacers", new DropBothPlacers());
+        rootNamespace.putData("Drop " + side + "placer", new DropPlacer(this));
+        rootNamespace.putData("Drop both placers", new DropBothPlacers());
     }
 
     public boolean isStalling() {

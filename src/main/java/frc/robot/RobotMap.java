@@ -40,6 +40,7 @@ public class RobotMap {
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
 
+        // @TODO: change to real ports
         int CLIMBER_PLACER_LEFT_LIMIT_FRONT = -1;
         int CLIMBER_PLACER_LEFT_LIMIT_BACK = -1;
         int CLIMBER_PLACER_RIGHT_LIMIT_FRONT = -1;

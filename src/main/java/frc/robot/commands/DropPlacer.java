@@ -12,7 +12,7 @@ public class DropPlacer extends MoveGenericSubsystem {
     private final ClimberPlacer placer;
 
     private static final RootNamespace rootNamespace = new RootNamespace("drop placers");
-    public static final Supplier<Double> initialWaitTime = rootNamespace.addConstantDouble("initial wait time", 0.25);
+    public static final Supplier<Double> INITIAL_WAIT_TIME = rootNamespace.addConstantDouble("initial wait time", 0.25);
 
     private double startTime;
 
@@ -32,6 +32,6 @@ public class DropPlacer extends MoveGenericSubsystem {
     }
 
     private boolean initialTimePassed() {
-        return Timer.getFPGATimestamp() - startTime > initialWaitTime.get();
+        return Timer.getFPGATimestamp() - startTime > INITIAL_WAIT_TIME.get();
     }
 }
