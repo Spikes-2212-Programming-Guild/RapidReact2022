@@ -59,8 +59,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("Drop " + side + "placer", new DropPlacer(this));
-        rootNamespace.putData("Drop both placers", new DropBothPlacers());
+        rootNamespace.putData("drop " + side + " placer", new DropPlacer(this));
+        rootNamespace.putData("drop both placers", new DropBothPlacers());
     }
 
     public boolean isStalling() {

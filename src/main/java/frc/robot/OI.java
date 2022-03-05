@@ -25,8 +25,7 @@ public class OI /* GEVALD */ {
      * <b>Blue Button</b>: Climber Stop<br>
      * <b>D-Pad Down Button</b>: Reverse all<br>
      * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake<br>
-     * <b>Xbox left joystick button</b>: climb to 3<br>
-     * <b>Xbox right joystick button</b>: climb to 4
+     * <b>Xbox Left Joystick Button</b>: Move to next bar
      */
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
@@ -45,8 +44,7 @@ public class OI /* GEVALD */ {
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
 
-        xbox.getLeftStickButton().whenPressed(new ClimbTo3());
-        xbox.getRightStickButton().whenPressed(new ClimbTo4());
+        xbox.getLeftStickButton().whenPressed(new MoveToNextBar());
 
         //reverse all the subsystems, to return cargos
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(

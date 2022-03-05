@@ -32,11 +32,6 @@ public class Robot extends TimedRobot {
 
     private RootNamespace rootNamespace;
 
-
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
     @Override
     public void robotInit() {
         oi = new OI();
@@ -49,7 +44,6 @@ public class Robot extends TimedRobot {
         leftClimberPlacer = ClimberPlacer.getLeftInstance();
         rightClimberPlacer = ClimberPlacer.getRightInstance();
 
-
         drivetrain.configureDashboard();
         intakePlacer.configureDashboard();
         intakeRoller.configureDashboard();
@@ -57,8 +51,7 @@ public class Robot extends TimedRobot {
         transfer.configureDashboard();
         climberWinch.configureDashboard();
         leftClimberPlacer.configureDashboard();
-        rightClimberPlacer = ClimberPlacer.getRightInstance();
-
+        rightClimberPlacer.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo());
