@@ -4,10 +4,14 @@
 
 package frc.robot;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.ClimberPlacer;
-import frc.robot.Subsystems.ClimberWinch;
+import frc.robot.commands.*;
+import frc.robot.commands.autonomous.*;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,8 +21,17 @@ import frc.robot.Subsystems.ClimberWinch;
  */
 public class Robot extends TimedRobot {
 
+    private OI oi;
+    private Drivetrain drivetrain;
+    private IntakeToTransfer intakeToTransfer;
+    private Transfer transfer;
+    private IntakePlacer intakePlacer;
+    private IntakeRoller intakeRoller;
     private ClimberWinch climberWinch;
     private ClimberPlacer leftClimberPlacer, rightClimberPlacer;
+
+    private RootNamespace rootNamespace;
+
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -26,14 +39,35 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
+        oi = new OI();
+        drivetrain = Drivetrain.getInstance();
+        intakePlacer = IntakePlacer.getInstance();
+        intakeRoller = IntakeRoller.getInstance();
+        intakeToTransfer = IntakeToTransfer.getInstance();
+        transfer = Transfer.getInstance();
         climberWinch = ClimberWinch.getInstance();
-        climberWinch.configureDashboard();
         leftClimberPlacer = ClimberPlacer.getLeftInstance();
+        rightClimberPlacer = ClimberPlacer.getRightInstance();
+
+
+        drivetrain.configureDashboard();
+        intakePlacer.configureDashboard();
+        intakeRoller.configureDashboard();
+        intakeToTransfer.configureDashboard();
+        transfer.configureDashboard();
+        climberWinch.configureDashboard();
         leftClimberPlacer.configureDashboard();
         rightClimberPlacer = ClimberPlacer.getRightInstance();
-        rightClimberPlacer.configureDashboard();
+
+
+        rootNamespace = new RootNamespace("robot namespace");
+        rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("release cargo", new ReleaseCargo());
+        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
+        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
+        rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
+
+        intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
 
     /**
@@ -45,14 +79,17 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
-        CommandScheduler.getInstance().run();
+        drivetrain.periodic();
+        intakePlacer.periodic();
+        intakeRoller.periodic();
+        intakeToTransfer.periodic();
+        transfer.periodic();
         climberWinch.periodic();
         leftClimberPlacer.periodic();
         rightClimberPlacer.periodic();
+
+        rootNamespace.update();
+        CommandScheduler.getInstance().run();
     }
 
     /**
@@ -68,6 +105,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        drivetrain.resetEncoders();
+        drivetrain.resetPigeon();
+        new GyroAutonomous(drivetrain).schedule();
+//        new YeetAndRetreat().schedule();
     }
 
     /**
@@ -79,10 +120,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
+        drivetrain.resetPigeon();
+        climberWinch.resetEncoder();
+
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+        drivetrain.setDefaultCommand(driveArcade);
     }
 
     /**
@@ -94,7 +136,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
-        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
 
