@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
 import java.util.function.Supplier;
 
 /**
- * Controls the climber winch which controls the height of the telescopic arms.
+ * Controls the telescopic arms that are responsible for climbing.
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 

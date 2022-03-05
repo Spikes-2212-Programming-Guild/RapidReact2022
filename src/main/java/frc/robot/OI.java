@@ -21,7 +21,7 @@ public class OI /* GEVALD */ {
      * <b>Left Trigger</b>: Release Cargo<br>
      * <b>Green Button</b>: Climber Down<br>
      * <b>Yellow Button</b>: Climber Up<br>
-     * <b>Blue Button</b>: Climber STOP<br>
+     * <b>Blue Button</b>: Climber Stop<br>
      * <b>D-Pad Down Button</b>: Reverse all<br>
      * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake
      */
