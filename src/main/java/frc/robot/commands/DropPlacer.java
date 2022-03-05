@@ -1,9 +1,9 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Subsystems.ClimberPlacer;
+import frc.robot.subsystems.ClimberPlacer;
 
 import java.util.function.Supplier;
 

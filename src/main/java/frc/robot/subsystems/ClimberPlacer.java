@@ -1,9 +1,9 @@
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.Commands.DropBothPlacers;
+import frc.robot.commands.DropBothPlacers;
 import frc.robot.RobotMap;
 
 import java.util.function.Supplier;
@@ -24,15 +24,12 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     private final DigitalInput backLimit;
     private final WPI_TalonSRX talon;
 
-    private final Supplier<Boolean> hookLimitSupplier;
-
     private static ClimberPlacer leftInstance, rightInstance;
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
             leftInstance = new ClimberPlacer("left", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_LEFT),
-                    RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK,
-                    ClimberWinch.getInstance()::isLeftHooked);
+                    RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK);
         }
         return leftInstance;
     }
@@ -40,24 +37,21 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
             rightInstance = new ClimberPlacer("right", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT),
-                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK,
-                    ClimberWinch.getInstance()::isRightHooked);
+                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
         }
         return rightInstance;
     }
 
-    private ClimberPlacer(String side, WPI_TalonSRX talon, int frontLimitPort, int backLimitPort, Supplier<Boolean> hookLimitSupplier) {
+    private ClimberPlacer(String side, WPI_TalonSRX talon, int frontLimitPort, int backLimitPort) {
         super(MIN_SPEED, MAX_SPEED, side + " climber placer", talon);
         this.talon = talon;
         this.frontLimit = new DigitalInput(frontLimitPort);
         this.backLimit = new DigitalInput(backLimitPort);
-        this.hookLimitSupplier = hookLimitSupplier;
     }
 
     @Override
     public boolean canMove(double speed) {
-        return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0) &&
-                !hookLimitSupplier.get();
+        return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0);
     }
 
     @Override
