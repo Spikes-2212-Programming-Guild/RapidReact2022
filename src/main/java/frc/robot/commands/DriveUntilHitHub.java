@@ -17,12 +17,12 @@ public class DriveUntilHitHub extends SequentialCommandGroup {
     /**
      * A value between the stall current and running current of the motors
      */
-    private static final Supplier<Double> STALL_CURRENT
-            = rootNamespace.addConstantDouble("stall current", 19);
-    private static final Supplier<Double> MOVEMENT_SPEED
-            = rootNamespace.addConstantDouble("movement speed", -0.7);
-    private static final Supplier<Double> GET_OVER_STALL_TIMEOUT
-            = rootNamespace.addConstantDouble("get over stall timeout", 0.2);
+    public static final Supplier<Double> STALL_CURRENT =
+            rootNamespace.addConstantDouble("stall current", 19);
+    public static final Supplier<Double> MOVEMENT_SPEED =
+            rootNamespace.addConstantDouble("movement speed", -0.7);
+    public static final Supplier<Double> GET_OVER_STALL_TIMEOUT =
+            rootNamespace.addConstantDouble("get over stall timeout", 0.2);
 
     public DriveUntilHitHub(Drivetrain drivetrain) {
         super(

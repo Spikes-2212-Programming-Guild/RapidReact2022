@@ -16,7 +16,6 @@ public class Transfer extends MotoredGenericSubsystem {
     public final Supplier<Double> MOVE_SPEED = rootNamespace.addConstantDouble("move speed", -0.4);
     public final Supplier<Double> FIRST_CARGO_RELEASE_SPEED = rootNamespace.addConstantDouble("release speed", -0.8);
     public final Supplier<Double> SECOND_CARGO_RELEASE_SPEED = rootNamespace.addConstantDouble("second cargo release speed", -0.6);
-    public final Supplier<Double> TRANSFER_MOVE_TIMEOUT = rootNamespace.addConstantDouble("transfer move timeout", 0.05);
 
     /**
      * A light sensor that sends a signal while a cargo is held at the bottom of the timing straps.
