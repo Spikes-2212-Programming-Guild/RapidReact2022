@@ -19,9 +19,9 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     public static final double DOWN_SPEED = -0.3;
 
     public final Supplier<Double> ENCODER_UP_LIMIT =
-            rootNamespace.addConstantDouble("encoder up setpoint", 140);
+            rootNamespace.addConstantDouble("encoder up limit", 140);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
-            rootNamespace.addConstantDouble("encoder down setpoint", 1);
+            rootNamespace.addConstantDouble("encoder down limit", 1);
 
     private static ClimberWinch instance;
 
