@@ -56,13 +56,6 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED)
         ));
-
-        xbox.getRightButton().whileHeld(new ParallelCommandGroup(
-                new MoveGenericSubsystem(roller, IntakeRoller.MIN_SPEED),
-                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED),
-                new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED.get()).withInterrupt(transfer::getEntranceSensor)
-        ).withInterrupt(() -> (intakeToTransfer.getLimit() && transfer.getEntranceSensor())));
-
     }
 
     public double getRightY() {
