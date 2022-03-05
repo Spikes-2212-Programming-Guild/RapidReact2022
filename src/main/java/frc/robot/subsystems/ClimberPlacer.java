@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -30,16 +31,20 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
-            leftInstance = new ClimberPlacer("left", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_LEFT),
-                    RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK);
+            WPI_TalonSRX talon = new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_LEFT);
+            talon.setNeutralMode(NeutralMode.Brake);
+            leftInstance = new ClimberPlacer("left", talon, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT,
+                    RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK);
         }
         return leftInstance;
     }
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
-            rightInstance = new ClimberPlacer("right", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT),
-                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
+            WPI_TalonSRX talon = new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT);
+            talon.setNeutralMode(NeutralMode.Brake);
+            rightInstance = new ClimberPlacer("right", talon, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT,
+                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
         }
         return rightInstance;
     }

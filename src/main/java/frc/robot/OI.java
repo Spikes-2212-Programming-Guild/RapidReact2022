@@ -32,17 +32,26 @@ public class OI /* GEVALD */ {
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         Transfer transfer = Transfer.getInstance();
         ClimberWinch climberWinch = ClimberWinch.getInstance();
+        ClimberPlacer leftPlacer = ClimberPlacer.getLeftInstance();
+        ClimberPlacer rightPlacer = ClimberPlacer.getRightInstance();
 
-        JoystickButton trigger = new JoystickButton(left, 1);
-        trigger.whileHeld(new MoveToCargo(Drivetrain.getInstance(), () -> -right.getY()));
+        JoystickButton trigger = new JoystickButton(right, 1);
+        trigger.whileHeld(new ReleaseCargo());
 
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+        xbox.getLBButton().whileHeld(new ParallelCommandGroup(
+                new MoveGenericSubsystem(roller, IntakeRoller.MIN_SPEED),
+                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED),
+                new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED.get()).withInterrupt(transfer::getEntranceSensor)
+        ).withInterrupt(() -> (intakeToTransfer.getLimit() && transfer.getEntranceSensor())));
 
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
-        xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
+        xbox.getBlueButton().whenPressed(new ParallelCommandGroup(new MoveGenericSubsystem(climberWinch, 0),
+                new MoveGenericSubsystem(leftPlacer, 0), new MoveGenericSubsystem(rightPlacer, 0)));
+        xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
 
         xbox.getLeftStickButton().whenPressed(new MoveToNextBar());
 
@@ -54,11 +63,18 @@ public class OI /* GEVALD */ {
         ));
 
         //reverse the roller and intakeToTransfer to return the cargo that is in the intakeToTransfer
-        xbox.getLeftButton().whileHeld(new ParallelCommandGroup(
+        xbox.getUpButton().whileHeld(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED)
         ));
 
+        xbox.getLeftButton().whileHeld(new ParallelCommandGroup(
+                new MoveGenericSubsystem(leftPlacer, ClimberPlacer.MIN_SPEED),
+                new MoveGenericSubsystem(rightPlacer, ClimberPlacer.MIN_SPEED)
+        ));
+        xbox.getRightButton().whileHeld(new ParallelCommandGroup(
+                new MoveGenericSubsystem(leftPlacer, ClimberPlacer.MIN_SPEED),
+                new MoveGenericSubsystem(rightPlacer, ClimberPlacer.MIN_SPEED)));
     }
 
     public double getRightY() {
