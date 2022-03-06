@@ -16,21 +16,21 @@ public class OI /* GEVALD */ {
     private static final XboxControllerWrapper xbox = new XboxControllerWrapper(2);
 
     /**
-     * <b>Trigger of Left Joystick</b>: Reverse Transfer<br>
-     * <b>Trigger of Right Joystick</b>: Release Cargo<br>
-     * <b>Right Trigger</b>: Intake Cargo<br>
-     * <b>Right Bumper</b>: Intake Placer Up<br>
-     * <b>Left Trigger</b>: Release Cargo<br>
-     * <b>Left Bumper</b>: Intake Two Cargos<br>
-     * <b>Green Button</b>: Climber Down<br>
-     * <b>Yellow Button</b>: Climber Up<br>
-     * <b>Blue Button</b>: Stop Climber<br>
-     * <b>Red Button</b>: Stop Roller<br>
-     * <b>D-Pad Down Button</b>: Reverse All<br>
-     * <b>D-Pad Up Button</b>: Reverse IntakeToTransfer And Intake<br>
-     * <b>D-Pad Left Button</b>: Climber Placer Down<br>
-     * <b>D-Pad Right Button</b>: Climber Placer Up<br>
-     * <b>Xbox Left Joystick Button</b>: Move To Next Bar
+     * <b>Trigger of Left Joystick</b>: Reverse transfer<br>
+     * <b>Trigger of Right Joystick</b>: Release cargo<br>
+     * <b>Right Trigger</b>: Intake cargo<br>
+     * <b>Right Bumper</b>: Intake placer up<br>
+     * <b>Left Trigger</b>: Release cargo<br>
+     * <b>Left Bumper</b>: Intake two cargos<br>
+     * <b>Green Button</b>: Climber down<br>
+     * <b>Yellow Button</b>: Climber up<br>
+     * <b>Blue Button</b>: Stop climber<br>
+     * <b>Red Button</b>: Stop roller<br>
+     * <b>D-Pad Down Button</b>: Reverse all<br>
+     * <b>D-Pad Up Button</b>: Reverse IntakeToTransfer and Intake<br>
+     * <b>D-Pad Left Button</b>: Climber placer down<br>
+     * <b>D-Pad Right Button</b>: Climber placer up<br>
+     * <b>Xbox Left Joystick Button</b>: Move to next bar
      */
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
