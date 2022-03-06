@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
-import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.commands.MoveBothPlacersToNextBar;
 import frc.robot.RobotMap;
 import frc.robot.commands.MovePlacerToNextBar;
 
