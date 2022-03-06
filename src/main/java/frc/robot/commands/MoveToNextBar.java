@@ -11,6 +11,12 @@ import java.util.function.Supplier;
 
 /**
  * Moves the robot to the next bar. <br>
+ * Steps: <br>
+ * 1. Move the winch up to release the hooks from the bar.<br>
+ * 2. Move the placers downwards.<br>
+ * 3. Extend the winch to it's full extent.<br>
+ * 4. Raise the placers until they hit the next bar and go into a stall.<br>
+ * 5. Close the winch to move the robot to the next bar.<br>
  * Must start the command <b>ONLY</b> when you are already on a bar.
  */
 public class MoveToNextBar extends SequentialCommandGroup {
