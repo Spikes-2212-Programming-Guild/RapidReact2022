@@ -18,13 +18,13 @@ public class OI /* GEVALD */ {
     private final XboxControllerWrapper xbox = new XboxControllerWrapper(2);
 
     /**
-     * <b>Trigger of Left Joystick</b>: Aim To Cargo<br>
+     * <b>Trigger of Left Joystick</b>: Aim to cargo<br>
      * <b>Right Trigger</b>: Intake cargo<br>
      * <b>Right Bumper</b>: Intake placer up<br>
-     * <b>Left Trigger</b>: Release Cargo<br>
-     * <b>Green Button</b>: Climber Down<br>
-     * <b>Yellow Button</b>: Climber Up<br>
-     * <b>Blue Button</b>: Climber Stop<br>
+     * <b>Left Trigger</b>: Release cargo<br>
+     * <b>Green Button</b>: Climber down<br>
+     * <b>Yellow Button</b>: Climber up<br>
+     * <b>Blue Button</b>: Climber stop<br>
      * <b>D-Pad Down Button</b>: Reverse all<br>
      * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake<br>
      * <b>Xbox Left Joystick Button</b>: Move to next bar

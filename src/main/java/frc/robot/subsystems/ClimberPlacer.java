@@ -22,60 +22,38 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
 
     private final String side;
-    private final DigitalInput frontLimit;
-    private final DigitalInput backLimit;
     private final WPI_TalonSRX talon;
 
     private static ClimberPlacer leftInstance, rightInstance;
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
-            leftInstance = new ClimberPlacer("left", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_LEFT),
-                    RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_LEFT_LIMIT_BACK);
+            leftInstance = new ClimberPlacer("left", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_LEFT));
         }
         return leftInstance;
     }
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
-            rightInstance = new ClimberPlacer("right", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT),
-                    RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_FRONT, RobotMap.DIO.CLIMBER_PLACER_RIGHT_LIMIT_BACK);
+            rightInstance = new ClimberPlacer("right", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT));
         }
         return rightInstance;
     }
 
-    private ClimberPlacer(String side, WPI_TalonSRX talon, int frontLimitPort, int backLimitPort) {
+    private ClimberPlacer(String side, WPI_TalonSRX talon) {
         super(MIN_SPEED, MAX_SPEED, side + " climber placer", talon);
         this.side = side;
         this.talon = talon;
-        this.frontLimit = new DigitalInput(frontLimitPort);
-        this.backLimit = new DigitalInput(backLimitPort);
-    }
-
-    @Override
-    public boolean canMove(double speed) {
-        return !(frontLimit.get() && speed < 0) && !(backLimit.get() && speed > 0);
     }
 
     @Override
     public void configureDashboard() {
         rootNamespace.putData("drop " + side + " placer", new MovePlacerToNextBar(this));
         rootNamespace.putData("drop both placers", new MoveBothPlacersToNextBar());
+        rootNamespace.putNumber(side + " stator current", talon::getStatorCurrent);
     }
 
     public boolean isStalling() {
         return Math.abs(talon.getStatorCurrent()) > stallCurrent.get();
-    }
-
-    public WPI_TalonSRX getTalon() {
-        return talon;
-    }
-
-    public boolean getFrontLimit() {
-        return frontLimit.get();
-    }
-
-    public boolean getBackLimit() {
-        return backLimit.get();
     }
 }
