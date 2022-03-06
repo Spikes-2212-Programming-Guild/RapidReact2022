@@ -23,6 +23,7 @@ public class MovePlacerToNextBar extends SequentialCommandGroup {
                 new MoveGenericSubsystem(placer, placer.RAISE_SPEED) {
                     @Override
                     public boolean isFinished() {
+                        // Checks if the placer hit the next bar
                         return placer.isStalling();
                     }
                 }
