@@ -10,9 +10,8 @@ import frc.robot.subsystems.ClimberWinch;
 import java.util.function.Supplier;
 
 /**
- * Moves the winch up a little to release the hooks. Then the command moves the hooks down towards the ground. Then the
- * command extends the winch to it's full length and moves it up towards the bar until it is stalled. Then the winch
- * closes and takes the robot to the next bar.
+ * Moves the robot to the next bar. <br>
+ * Must start the command <b>ONLY</b> when you are already on a bar.
  */
 public class MoveToNextBar extends SequentialCommandGroup {
 
