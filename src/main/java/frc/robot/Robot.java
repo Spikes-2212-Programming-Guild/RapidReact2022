@@ -60,7 +60,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
         rootNamespace.putData("drop both placers", new MoveBothPlacersToNextBar());
 
-
         intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
 
