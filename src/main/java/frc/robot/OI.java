@@ -22,6 +22,7 @@ public class OI /* GEVALD */ {
      * <b>Green Button</b>: Climber down<br>
      * <b>Yellow Button</b>: Climber up<br>
      * <b>Blue Button</b>: Climber stop<br>
+     * <b>Red Button</b>: Roller stop<br>
      * <b>D-Pad Down Button</b>: Reverse all<br>
      * <b>D-Pad Left Button</b>: Reverse IntakeToTransfer and Intake<br>
      * <b>Xbox Left Joystick Button</b>: Move to next bar
@@ -32,8 +33,8 @@ public class OI /* GEVALD */ {
         Transfer transfer = Transfer.getInstance();
         ClimberWinch climberWinch = ClimberWinch.getInstance();
 
-        JoystickButton trigger = new JoystickButton(left, 1);
-        trigger.whileHeld(new MoveToCargo(Drivetrain.getInstance(), () -> -right.getY()));
+        JoystickButton trigger = new JoystickButton(right, 1);
+        trigger.whileHeld(new ReleaseCargo());
 
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
@@ -42,6 +43,7 @@ public class OI /* GEVALD */ {
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
+        xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
 
         xbox.getLeftStickButton().whenPressed(new MoveToNextBar());
 
@@ -57,7 +59,6 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED)
         ));
-
     }
 
     public double getRightY() {
