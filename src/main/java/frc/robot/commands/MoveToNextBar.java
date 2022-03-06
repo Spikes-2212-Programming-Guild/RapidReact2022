@@ -18,7 +18,7 @@ public class MoveToNextBar extends SequentialCommandGroup {
     private static final RootNamespace rootNamespace = new RootNamespace("move to next bar");
 
     private static final Supplier<Double> RELEASE_HOOKS_TIMEOUT = rootNamespace.addConstantDouble("release hooks timeout", 1);
-    private static final Supplier<Double> MOVE_PLACERS_DOWN_TIMEOUT = rootNamespace.addConstantDouble("move placers down timeout", 1);
+    private static final Supplier<Double> RAISE_PLACER_TIMEOUT = rootNamespace.addConstantDouble("raise placer timeout", 1);
 
     public MoveToNextBar() {
         ClimberWinch climberWinch = ClimberWinch.getInstance();
@@ -27,7 +27,7 @@ public class MoveToNextBar extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new MoveGenericSubsystem(ClimberPlacer.getLeftInstance(), ClimberPlacer.MIN_SPEED),
                         new MoveGenericSubsystem(ClimberPlacer.getRightInstance(), ClimberPlacer.MIN_SPEED)
-                ).withTimeout(MOVE_PLACERS_DOWN_TIMEOUT.get()),
+                ).withTimeout(RAISE_PLACER_TIMEOUT.get()),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED),
                 new MoveBothPlacersToNextBar(),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED)

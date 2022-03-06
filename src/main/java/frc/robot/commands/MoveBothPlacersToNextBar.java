@@ -6,7 +6,7 @@ import frc.robot.subsystems.ClimberPlacer;
 public class MoveBothPlacersToNextBar extends ParallelCommandGroup {
 
     public MoveBothPlacersToNextBar() {
-        addCommands(
+        super(
                 new MovePlacerToNextBar(ClimberPlacer.getLeftInstance()),
                 new MovePlacerToNextBar(ClimberPlacer.getRightInstance())
         );
