@@ -10,7 +10,9 @@ import frc.robot.subsystems.ClimberWinch;
 import java.util.function.Supplier;
 
 /**
- * Moves the dynamic climbers upwards until they hit the next bar.
+ * Moves the winch up a little to release the hooks. Then the command moves the hooks down towards the ground. Then the
+ * command extends the winch to it's full length and moves it up towards the bar until it is stalled. Then the winch
+ * closes and takes the robot to the next bar.
  */
 public class MoveToNextBar extends SequentialCommandGroup {
 
@@ -28,7 +30,7 @@ public class MoveToNextBar extends SequentialCommandGroup {
                         new MoveGenericSubsystem(ClimberPlacer.getRightInstance(), ClimberPlacer.MIN_SPEED)
                 ).withTimeout(MOVE_PLACERS_DOWN_TIMEOUT.get()),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED),
-                new DropBothPlacers(),
+                new MoveBothPlacersToNextBar(),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED)
         );
     }

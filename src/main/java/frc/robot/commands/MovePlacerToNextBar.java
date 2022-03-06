@@ -7,7 +7,7 @@ import frc.robot.subsystems.ClimberPlacer;
 
 import java.util.function.Supplier;
 
-public class DropPlacer extends MoveGenericSubsystem {
+public class MovePlacerToNextBar extends MoveGenericSubsystem {
 
     private final ClimberPlacer placer;
 
@@ -16,8 +16,8 @@ public class DropPlacer extends MoveGenericSubsystem {
 
     private double startTime;
 
-    public DropPlacer(ClimberPlacer placer) {
-        super(placer, placer.DROP_SPEED);
+    public MovePlacerToNextBar(ClimberPlacer placer) {
+        super(placer, placer.RAISE_SPEED);
         this.placer = placer;
     }
 

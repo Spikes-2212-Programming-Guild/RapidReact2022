@@ -3,9 +3,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.commands.DropBothPlacers;
+import frc.robot.commands.MoveBothPlacersToNextBar;
 import frc.robot.RobotMap;
-import frc.robot.commands.DropPlacer;
+import frc.robot.commands.MovePlacerToNextBar;
 
 import java.util.function.Supplier;
 
@@ -19,7 +19,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private final Supplier<Double> stallCurrent = rootNamespace.addConstantDouble("stall current", 10);
 
-    public final Supplier<Double> DROP_SPEED = rootNamespace.addConstantDouble("drop speed", 0.5);
+    public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
 
     private final String side;
     private final DigitalInput frontLimit;
@@ -59,8 +59,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("drop " + side + " placer", new DropPlacer(this));
-        rootNamespace.putData("drop both placers", new DropBothPlacers());
+        rootNamespace.putData("drop " + side + " placer", new MovePlacerToNextBar(this));
+        rootNamespace.putData("drop both placers", new MoveBothPlacersToNextBar());
     }
 
     public boolean isStalling() {

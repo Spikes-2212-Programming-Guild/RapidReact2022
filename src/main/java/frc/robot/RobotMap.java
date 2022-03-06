@@ -22,6 +22,7 @@ public class RobotMap {
         int CLIMBER_WINCH_SPARK_MAX_1 = 12;
         int CLIMBER_WINCH_SPARK_MAX_2 = 13;
 
+        // @TODO: change to real ports
         int CLIMBER_PLACER_TALON_LEFT = -1;
         int CLIMBER_PLACER_TALON_RIGHT = -1;
     }
