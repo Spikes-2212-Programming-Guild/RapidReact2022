@@ -49,7 +49,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("drop " + side + " placer", new MovePlacerToNextBar(this));
-        rootNamespace.putData("drop both placers", new MoveBothPlacersToNextBar());
         rootNamespace.putNumber(side + " stator current", talon::getStatorCurrent);
     }
 
