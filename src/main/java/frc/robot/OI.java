@@ -82,8 +82,8 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(rightPlacer, ClimberPlacer.MIN_SPEED)
         ));
         xbox.getRightButton().whileHeld(new ParallelCommandGroup(
-                new MoveGenericSubsystem(leftPlacer, ClimberPlacer.MIN_SPEED),
-                new MoveGenericSubsystem(rightPlacer, ClimberPlacer.MIN_SPEED)));
+                new MoveGenericSubsystem(leftPlacer, ClimberPlacer.MAX_SPEED),
+                new MoveGenericSubsystem(rightPlacer, ClimberPlacer.MAX_SPEED)));
     }
 
     public double getRightY() {
