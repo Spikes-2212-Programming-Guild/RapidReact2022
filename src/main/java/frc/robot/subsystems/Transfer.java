@@ -39,7 +39,7 @@ public class Transfer extends MotoredGenericSubsystem {
     }
 
     public boolean getEntranceSensor() {
-        return entranceSensor.get();
+        return !entranceSensor.get();
     }
 
     @Override
