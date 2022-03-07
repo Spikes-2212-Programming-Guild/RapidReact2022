@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import frc.robot.RobotMap;
@@ -15,7 +16,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = -0.6;
     public static final double MAX_SPEED = 0.6;
 
-    private final Supplier<Double> stallCurrent = rootNamespace.addConstantDouble("stall current", 10);
+    private final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 10);
 
     public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
 
@@ -51,6 +52,10 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public boolean isStalling() {
-        return Math.abs(talon.getStatorCurrent()) > stallCurrent.get();
+        return Math.abs(talon.getStatorCurrent()) > STALL_CURRENT.get();
+    }
+
+    public void setNeutralMode(NeutralMode neutralMode) {
+        talon.setNeutralMode(neutralMode);
     }
 }
