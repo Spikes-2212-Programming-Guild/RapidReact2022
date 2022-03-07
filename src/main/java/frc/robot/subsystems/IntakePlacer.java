@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 import frc.robot.RobotMap;
 
 /**
@@ -13,6 +14,7 @@ import frc.robot.RobotMap;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
+    public static final double LATCH_DEGREES_TO_RELEASE = 20;
     public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.1;
     public static final double IDLE_SPEED = 0.2;
@@ -24,6 +26,8 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     private final DigitalInput upperLimit;
     private boolean shouldBeUp;
+
+    private final Servo latch;
 
     /**
      * The lower limit of the subsystem. When it is pressed, the intake system is horizontal.
@@ -42,6 +46,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
         this.shouldBeUp = upperLimit.get();
+        this.latch = new Servo(RobotMap.PWM.INTAKE_PLACER_STOPPER);
     }
 
     @Override
@@ -66,6 +71,14 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
+    }
+
+    public void releaseLatch() {
+        latch.setAngle(LATCH_DEGREES_TO_RELEASE);
+    }
+
+    public void closeLatch() {
+        latch.setAngle(0);
     }
 
     public boolean getShouldBeUp() {

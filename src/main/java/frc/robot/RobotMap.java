@@ -34,4 +34,9 @@ public class RobotMap {
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
     }
+
+    public interface PWM {
+        // @todo: change to real port
+        int INTAKE_PLACER_STOPPER = -1;
+    }
 }
