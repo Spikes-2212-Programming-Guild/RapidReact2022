@@ -8,7 +8,6 @@ import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ClimberPlacer;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
@@ -59,6 +58,7 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
+        rootNamespace.putData("drop both placers", new MoveBothPlacersToNextBar());
 
         intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }

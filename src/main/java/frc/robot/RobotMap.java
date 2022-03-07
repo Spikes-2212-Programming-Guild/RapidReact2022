@@ -22,6 +22,7 @@ public class RobotMap {
         int CLIMBER_WINCH_SPARK_MAX_1 = 12;
         int CLIMBER_WINCH_SPARK_MAX_2 = 13;
 
+        // @TODO: change to real ports
         int CLIMBER_PLACER_TALON_LEFT = -1;
         int CLIMBER_PLACER_TALON_RIGHT = -1;
     }
@@ -39,11 +40,5 @@ public class RobotMap {
         int TRANSFER_ENTRANCE_LIGHT_SENSOR = 2;
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
-
-        // @TODO: change to real ports
-        int CLIMBER_PLACER_LEFT_LIMIT_FRONT = -1;
-        int CLIMBER_PLACER_LEFT_LIMIT_BACK = -1;
-        int CLIMBER_PLACER_RIGHT_LIMIT_FRONT = -1;
-        int CLIMBER_PLACER_RIGHT_LIMIT_BACK = -1;
     }
 }
