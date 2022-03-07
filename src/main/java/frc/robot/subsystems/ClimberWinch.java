@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
@@ -26,6 +27,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private static ClimberWinch instance;
 
     private final RelativeEncoder encoder;
+    private final DigitalInput hallEffect;
 
     public static ClimberWinch getInstance() {
         if (instance == null) {
@@ -39,6 +41,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
         encoder = rightWinch.getEncoder();
+        hallEffect = new DigitalInput(RobotMap.DIO.CLIMBER_WINCH_HALL_EFFECT);
     }
 
     @Override
@@ -57,5 +60,9 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
         rootNamespace.putNumber("encoder position", encoder::getPosition);
+    }
+
+    public boolean getHallEffect() {
+        return hallEffect.get();
     }
 }

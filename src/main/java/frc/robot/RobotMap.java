@@ -36,5 +36,8 @@ public class RobotMap {
         int TRANSFER_ENTRANCE_LIGHT_SENSOR = 2;
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
+
+        //@TODO change
+        int CLIMBER_WINCH_HALL_EFFECT = -1;
     }
 }
