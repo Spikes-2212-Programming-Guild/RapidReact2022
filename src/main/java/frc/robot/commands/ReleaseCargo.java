@@ -13,7 +13,6 @@ public class ReleaseCargo extends SequentialCommandGroup {
     public ReleaseCargo() {
         Transfer transfer = Transfer.getInstance();
         addCommands(
-                new MoveIntakePlacerDown(),
                 new MoveGenericSubsystem(transfer, transfer.FIRST_CARGO_RELEASE_SPEED).withTimeout(RELEASE_FIRST_CARGO_TIMEOUT),
                 new ParallelCommandGroup(
                         new MoveGenericSubsystem(IntakeToTransfer.getInstance(), IntakeToTransfer.SPEED),
