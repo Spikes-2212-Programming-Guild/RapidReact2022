@@ -16,6 +16,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.1;
+    public static final double SERVO_START_ANGLE = 0;
     public static final double SERVO_TARGET_ANGLE = 20;
 
     private static IntakePlacer instance;
