@@ -118,7 +118,6 @@ public class Robot extends TimedRobot {
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
-
     }
 
     /**
