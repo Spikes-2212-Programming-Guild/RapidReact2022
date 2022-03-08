@@ -5,6 +5,7 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
 /**
@@ -66,6 +67,8 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
+        rootNamespace.putData("move servo", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE)));
+        rootNamespace.putData("reset servo", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE)));
     }
 
     public void setServoAngle(double angle) {
