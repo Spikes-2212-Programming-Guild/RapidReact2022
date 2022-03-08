@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 import frc.robot.RobotMap;
 
 /**
@@ -15,15 +16,19 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.1;
-    public static final double IDLE_SPEED = 0.2;
+    public static final double SERVO_TARGET_ANGLE = 20;
 
     private static IntakePlacer instance;
+
+    /**
+     * Controls the mechanical brake that keeps this subsystem vertical.
+     */
+    private final Servo servo;
 
     /**
      * The upper limit of the subsystem. When it is pressed, the intake system is vertical.
      */
     private final DigitalInput upperLimit;
-    private boolean shouldBeUp;
 
     /**
      * The lower limit of the subsystem. When it is pressed, the intake system is horizontal.
@@ -41,13 +46,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         super(MIN_SPEED, MAX_SPEED, "intake placer", new WPI_VictorSPX(RobotMap.CAN.INTAKE_PLACER_VICTOR));
         upperLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_UPPER_LIMIT);
         lowerLimit = new DigitalInput(RobotMap.DIO.INTAKE_PLACER_LOWER_LIMIT);
-        this.shouldBeUp = upperLimit.get();
-    }
-
-    @Override
-    protected void apply(double speed) {
-        shouldBeUp = speed != 0 ? speed > 0 : shouldBeUp;
-        super.apply(speed);
+        servo = new Servo(RobotMap.PWM.INTAKE_PLACER_SERVO);
     }
 
     /**
@@ -68,8 +67,8 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
     }
 
-    public boolean getShouldBeUp() {
-        return shouldBeUp;
+    public void setServoAngle(double angle) {
+        servo.setAngle(angle);
     }
 
     public boolean isUp() {

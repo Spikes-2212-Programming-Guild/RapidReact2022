@@ -37,4 +37,9 @@ public class RobotMap {
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
     }
+
+    public interface PWM {
+
+        int INTAKE_PLACER_SERVO = 5;
+    }
 }
