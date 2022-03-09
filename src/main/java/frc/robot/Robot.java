@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.*;
@@ -33,6 +36,13 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         oi = new OI();
+
+        CameraServer.startAutomaticCapture();
+
+        CvSink cvSink = CameraServer.getVideo();
+
+        CvSource outputStream = CameraServer.putVideo("Back Camera", 720, 1280);
+
         drivetrain = Drivetrain.getInstance();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
