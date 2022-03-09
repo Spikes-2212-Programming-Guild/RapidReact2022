@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
  */
 public class IntakeToTransfer extends MotoredGenericSubsystem {
 
-    public static final double SPEED = 0.7;
+    public static final double SPEED = 0.8;
 
     private static IntakeToTransfer instance;
 

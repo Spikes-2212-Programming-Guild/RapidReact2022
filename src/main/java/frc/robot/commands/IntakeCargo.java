@@ -11,12 +11,10 @@ public class IntakeCargo extends SequentialCommandGroup {
 
     public IntakeCargo() {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
-        IntakePlacer intakePlacer = IntakePlacer.getInstance();
         Transfer transfer = Transfer.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
-        addRequirements(intakeRoller, intakePlacer, transfer, intakeToTransfer);
         addCommands(
-                new MoveIntakePlacerDown(),
+                new MoveIntakePlacerDown().withTimeout(1),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MoveGenericSubsystem(intakeRoller, IntakeRoller.MIN_SPEED) {

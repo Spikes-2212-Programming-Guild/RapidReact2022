@@ -38,6 +38,12 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+        xbox.getButtonStart().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), 0) {
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+        });
 
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));

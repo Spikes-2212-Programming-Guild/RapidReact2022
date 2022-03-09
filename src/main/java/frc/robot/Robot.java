@@ -90,8 +90,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         drivetrain.resetEncoders();
         drivetrain.resetPigeon();
-        new GyroAutonomous(drivetrain).schedule();
-//        new YeetAndRetreat().schedule();
+//        new GyroAutonomous(drivetrain).schedule();
+        new YeetAndRetreat().schedule();
     }
 
     /**
@@ -105,6 +105,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         drivetrain.resetPigeon();
         climberWinch.resetEncoder();
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE);
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
