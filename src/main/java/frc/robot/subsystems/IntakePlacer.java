@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
+import java.util.function.Supplier;
+
 /**
  * Controls the position of the {@code IntakeRoller}.
  *
@@ -17,9 +19,10 @@ public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.5;
     public static final double MIN_SPEED = -0.1;
-    public static final double SERVO_START_ANGLE = 0;
-    public static final double SERVO_TARGET_ANGLE = 20;
+    public static final double SERVO_START_ANGLE = 90;
+    public static final double SERVO_TARGET_ANGLE = 0;
 
+    public final Supplier<Double> TARGET = rootNamespace.addConstantDouble("TARGET", 90);
     private static IntakePlacer instance;
 
     /**
@@ -69,6 +72,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
         rootNamespace.putData("move servo", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE)));
         rootNamespace.putData("reset servo", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE)));
+        rootNamespace.putData("move servo to target", new InstantCommand(() -> setServoAngle(TARGET.get())));
     }
 
     public void setServoAngle(double angle) {
