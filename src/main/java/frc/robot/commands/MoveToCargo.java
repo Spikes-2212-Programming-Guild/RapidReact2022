@@ -24,7 +24,7 @@ public class MoveToCargo extends DriveArcadeWithPID {
             return contourInfo.getNumber("x");
         }
         catch (Exception e) {
-            return 0;
+            return SETPOINT;
         }
     }
 }
