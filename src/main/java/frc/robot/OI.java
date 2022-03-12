@@ -51,6 +51,7 @@ public class OI /* GEVALD */ {
         //stops the climber
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
 
+        //stops the roller
         xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
 
         //reverse all the subsystems, to return cargos
