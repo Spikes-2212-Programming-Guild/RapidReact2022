@@ -41,9 +41,7 @@ public class OI /* GEVALD */ {
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
 
         //lowers the climber
-        xbox.getGreenButton().whenPressed(
-                new MoveGenericSubsystemWithPID(climberWinch, climberWinch.ENCODER_DOWN_LIMIT,
-                        climberWinch::getPosition, climberWinch.getPIDSettings(), climberWinch.getFFSettings()));
+        xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
 
         //raises the climber
         xbox.getYellowButton().whenPressed(
