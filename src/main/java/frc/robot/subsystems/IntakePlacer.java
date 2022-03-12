@@ -62,7 +62,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        rootNamespace.putBoolean("can move", !(isDown() && speed < 0) && !(isUp() && speed > 0));
         return !(isDown() && speed < 0) && !(isUp() && speed > 0);
     }
 
