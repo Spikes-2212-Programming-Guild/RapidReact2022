@@ -55,12 +55,7 @@ public class OI /* GEVALD */ {
         });
 
         xbox.getGreenButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
-        xbox.getYellowButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED) {
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
-        });
+        xbox.getYellowButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED);
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
         xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0) {
             @Override
