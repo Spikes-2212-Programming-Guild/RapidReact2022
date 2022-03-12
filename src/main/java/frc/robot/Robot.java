@@ -39,9 +39,7 @@ public class Robot extends TimedRobot {
         oi = new OI();
 
         CameraServer.startAutomaticCapture();
-
         CvSink cvSink = CameraServer.getVideo();
-
         CvSource outputStream = CameraServer.putVideo("back camera", 720, 1280);
 
         drivetrain = Drivetrain.getInstance();
