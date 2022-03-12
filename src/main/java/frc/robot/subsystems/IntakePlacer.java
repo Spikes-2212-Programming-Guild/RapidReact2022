@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
-import java.util.function.Supplier;
-
 /**
  * Controls the position of the {@code IntakeRoller}.
  *
