@@ -10,7 +10,7 @@ public class YeetAndRetreat extends SequentialCommandGroup {
     public static final double RELEASE_DURATION = 1.0;
     public static final double DRIVE_SPEED = 0.7;
     public static final double DRIVE_ROTATE = 0;
-    public static final double DRIVE_DURATION = 0.8;
+    public static final double DRIVE_DURATION = 1;
 
     public YeetAndRetreat() {
         super(

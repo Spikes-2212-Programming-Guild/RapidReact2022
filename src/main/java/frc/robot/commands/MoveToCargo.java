@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class MoveToCargo extends DriveArcadeWithPID {
 
-    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.4;
+    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.53;
     public static final double SETPOINT = 10.0;
 
     public MoveToCargo(Drivetrain drivetrain, Supplier<Double> speed) {

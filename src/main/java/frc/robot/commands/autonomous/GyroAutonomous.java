@@ -2,10 +2,12 @@ package frc.robot.commands.autonomous;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.IntakePlacer;
 import frc.robot.subsystems.IntakeToTransfer;
 
 public class GyroAutonomous extends SequentialCommandGroup {
@@ -24,6 +26,7 @@ public class GyroAutonomous extends SequentialCommandGroup {
     public GyroAutonomous(Drivetrain drivetrain) {
         super(
                 new ParallelCommandGroup(
+                        new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(90)).withTimeout(5),
                         new IntakeCargo(),
                         new SequentialCommandGroup(
                                 new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE),

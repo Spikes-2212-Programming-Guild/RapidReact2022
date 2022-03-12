@@ -11,6 +11,7 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
@@ -63,6 +64,8 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
+        rootNamespace.putData("open sevro", new InstantCommand(() -> intakePlacer.setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE)));
+        rootNamespace.putData("close servo", new InstantCommand(() -> intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE)));
     }
 
     /**
@@ -82,6 +85,7 @@ public class Robot extends TimedRobot {
         climberWinch.periodic();
 
         rootNamespace.update();
+
         CommandScheduler.getInstance().run();
     }
 
@@ -100,8 +104,9 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         drivetrain.resetEncoders();
         drivetrain.resetPigeon();
-//        new GyroAutonomous(drivetrain).schedule();
-        new YeetAndRetreat().schedule();
+        new GyroAutonomous(drivetrain).schedule();
+//        new YeetAndRetreat().schedule();
+//        new SimpleSix(drivetrain).schedule();
     }
 
     /**

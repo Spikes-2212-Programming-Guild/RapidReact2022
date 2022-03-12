@@ -38,6 +38,13 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+
+        xbox.getLBButton().whenPressed(new ParallelCommandGroup(
+                new MoveGenericSubsystem(roller, IntakeRoller.MIN_SPEED),
+                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED),
+                new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED).withInterrupt(transfer::getEntranceSensor)
+        ).withInterrupt(() -> (intakeToTransfer.getLimit()) && transfer.getEntranceSensor()));
+
         xbox.getButtonStart().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), 0) {
             @Override
             public boolean isFinished() {
@@ -45,8 +52,18 @@ public class OI /* GEVALD */ {
             }
         });
 
-        xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
-        xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
+        xbox.getGreenButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED) {
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
+        xbox.getYellowButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED) {
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
         xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
 
