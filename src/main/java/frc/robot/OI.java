@@ -28,6 +28,7 @@ public class OI /* GEVALD */ {
      */
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
+        IntakePlacer intakePlacer = IntakePlacer.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         Transfer transfer = Transfer.getInstance();
         ClimberWinch climberWinch = ClimberWinch.getInstance();
@@ -36,7 +37,7 @@ public class OI /* GEVALD */ {
         trigger.whileHeld(new ReleaseCargo());
 
         xbox.getRTButton().whenActive(new IntakeCargo());
-        xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
+        xbox.getRBButton().whenPressed(new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
 
         //intakes two cargos
@@ -46,7 +47,7 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED).withInterrupt(transfer::getEntranceSensor)
         ).withInterrupt(() -> (intakeToTransfer.getLimit()) && transfer.getEntranceSensor()));
 
-        xbox.getButtonStart().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), 0) {
+        xbox.getButtonStart().whenPressed(new MoveGenericSubsystem(intakePlacer, 0) {
             @Override
             public boolean isFinished() {
                 return true;
