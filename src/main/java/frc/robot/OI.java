@@ -61,6 +61,7 @@ public class OI /* GEVALD */ {
         //stops the climberWinch
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
 
+        //stops the roller
         xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0) {
             @Override
             public boolean isFinished() {
