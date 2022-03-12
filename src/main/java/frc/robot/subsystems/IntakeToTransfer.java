@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
  */
 public class IntakeToTransfer extends MotoredGenericSubsystem {
 
-    public static final double SPEED = 0.7;
+    public static final double SPEED = 0.8;
 
     private static IntakeToTransfer instance;
 
@@ -26,7 +26,7 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
 
     private IntakeToTransfer(WPI_VictorSPX victor) {
         super("intake to transfer", victor);
-        this.limit = new DigitalInput(RobotMap.DIO.INTAKE_TO_TRANSFER_LIMIT);
+        this.limit = new BustedDigitalInput(RobotMap.DIO.INTAKE_TO_TRANSFER_LIMIT);
     }
 
     public boolean getLimit() {
