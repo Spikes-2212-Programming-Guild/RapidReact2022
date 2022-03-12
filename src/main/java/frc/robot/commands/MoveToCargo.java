@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  */
 public class MoveToCargo extends DriveArcadeWithPID {
 
-    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.53;
+    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.55;
     public static final double SETPOINT = 10.0;
     public static final double MOVE_TO_CARGO_TIMEOUT = 7;
 
