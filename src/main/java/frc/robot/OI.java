@@ -38,6 +38,7 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+
         //intakes two cargos
         xbox.getLBButton().whenPressed(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MIN_SPEED),
