@@ -6,8 +6,12 @@ package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
@@ -33,6 +37,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         oi = new OI();
+
+        CameraServer.startAutomaticCapture();
+        CvSink cvSink = CameraServer.getVideo();
+        CvSource outputStream = CameraServer.putVideo("back camera", 720, 1280);
+
         drivetrain = Drivetrain.getInstance();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
@@ -72,6 +81,7 @@ public class Robot extends TimedRobot {
         climberWinch.periodic();
 
         rootNamespace.update();
+
         CommandScheduler.getInstance().run();
     }
 
@@ -92,6 +102,7 @@ public class Robot extends TimedRobot {
         drivetrain.resetPigeon();
         new GyroAutonomous(drivetrain).schedule();
 //        new YeetAndRetreat().schedule();
+//        new SimpleSix(drivetrain).schedule();
     }
 
     /**
@@ -105,6 +116,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         drivetrain.resetPigeon();
         climberWinch.resetEncoder();
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE);
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
