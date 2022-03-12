@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
-import java.util.function.Supplier;
-
 /**
  * Controls the position of the {@code IntakeRoller}.
  *
@@ -62,6 +60,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
+        rootNamespace.putBoolean("can move", !(isDown() && speed < 0) && !(isUp() && speed > 0));
         return !(isDown() && speed < 0) && !(isUp() && speed > 0);
     }
 

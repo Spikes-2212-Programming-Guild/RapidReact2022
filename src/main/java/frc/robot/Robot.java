@@ -62,8 +62,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
-        rootNamespace.putData("open sevro", new InstantCommand(() -> intakePlacer.setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE)));
-        rootNamespace.putData("close servo", new InstantCommand(() -> intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE)));
     }
 
     /**
