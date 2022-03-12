@@ -5,6 +5,9 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.control.FeedForwardSettings;
+import com.spikes2212.control.PIDSettings;
+import com.spikes2212.dashboard.Namespace;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
@@ -22,6 +25,21 @@ public class ClimberWinch extends MotoredGenericSubsystem {
             rootNamespace.addConstantDouble("encoder up limit", 140);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
             rootNamespace.addConstantDouble("encoder down limit", 1);
+
+    private final Namespace pidNamespace = rootNamespace.addChild("pid");
+    private final Supplier<Double> kP = pidNamespace.addConstantDouble("kP", 1);
+    private final Supplier<Double> kI = pidNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kD = pidNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> TOLERANCE = pidNamespace.addConstantDouble("TOLERANCE", 0);
+    private final Supplier<Double> WAIT_TIME = pidNamespace.addConstantDouble("WAIT_TIME", 1);
+    private final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
+
+    private final Namespace ffNamespace = rootNamespace.addChild("feed forward");
+    private final Supplier<Double> kS = ffNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kV = ffNamespace.addConstantDouble("kV", 0);
+    private final Supplier<Double> kA = ffNamespace.addConstantDouble("kA", 0);
+    private final Supplier<Double> kG = ffNamespace.addConstantDouble("kG", 0);
+    private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA, kG);
 
     private static ClimberWinch instance;
 
@@ -57,5 +75,17 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
         rootNamespace.putNumber("encoder position", encoder::getPosition);
+    }
+
+    public double getPosition() {
+        return encoder.getPosition();
+    }
+
+    public PIDSettings getPIDSettings() {
+        return pidSettings;
+    }
+
+    public FeedForwardSettings getFFSettings() {
+        return ffSettings;
     }
 }

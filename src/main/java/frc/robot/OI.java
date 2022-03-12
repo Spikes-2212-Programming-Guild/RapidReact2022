@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystemWithPID;
 import com.spikes2212.util.XboxControllerWrapper;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -39,9 +40,18 @@ public class OI /* GEVALD */ {
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
 
-        xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
-        xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
+        //lowers the climber
+        xbox.getGreenButton().whenPressed(
+                new MoveGenericSubsystemWithPID(climberWinch, climberWinch.ENCODER_DOWN_LIMIT,
+                        climberWinch::getPosition, climberWinch.getPIDSettings(), climberWinch.getFFSettings()));
+
+        //raises the climber
+        xbox.getYellowButton().whenPressed(
+                new MoveGenericSubsystemWithPID(climberWinch, climberWinch.ENCODER_UP_LIMIT,
+                        climberWinch::getPosition, climberWinch.getPIDSettings(), climberWinch.getFFSettings()));
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
+
+        //stops the climber
         xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
 
         //reverse all the subsystems, to return cargos
