@@ -22,7 +22,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public static final double SERVO_START_ANGLE = 110;
     public static final double SERVO_TARGET_ANGLE = 0;
 
-    public final Supplier<Double> TARGET = rootNamespace.addConstantDouble("TARGET", 90);
     private static IntakePlacer instance;
 
     /**
@@ -63,7 +62,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        rootNamespace.putBoolean("Can Move", !(isDown() && speed < 0) && !(isUp() && speed > 0));
+        rootNamespace.putBoolean("can move", !(isDown() && speed < 0) && !(isUp() && speed > 0));
         return !(isDown() && speed < 0) && !(isUp() && speed > 0);
     }
 
@@ -73,7 +72,6 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
         rootNamespace.putData("move servo", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE)));
         rootNamespace.putData("reset servo", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE)));
-        rootNamespace.putData("move servo to target", new InstantCommand(() -> setServoAngle(TARGET.get())));
     }
 
     public void setServoAngle(double angle) {

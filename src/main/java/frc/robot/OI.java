@@ -38,7 +38,7 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo());
         xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
-
+        //intakes two cargos
         xbox.getLBButton().whenPressed(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MIN_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED),
@@ -65,7 +65,12 @@ public class OI /* GEVALD */ {
             }
         });
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
-        xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
+        xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0) {
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+        });
 
         //reverse all the subsystems, to return cargos
         xbox.getDownButton().whileHeld(new ParallelCommandGroup(
