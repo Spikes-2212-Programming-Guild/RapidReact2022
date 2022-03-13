@@ -57,7 +57,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     }
 
     public boolean isStalling() {
-        return Math.abs(encoder.getVelocity()) < ENCODER_VELOCITY_TOLERANCE.get();
+        return Math.abs(encoder.getVelocity()) <= ENCODER_VELOCITY_TOLERANCE.get();
     }
 
     public void setIdleMode(IdleMode idleMode) {
