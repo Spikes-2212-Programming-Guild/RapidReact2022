@@ -18,7 +18,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = -0.6;
     public static final double MAX_SPEED = 0.6;
 
-    private final Supplier<Double> ENCODER_VELOCITY_TOLERANCE = rootNamespace.addConstantDouble("velocity tolerance", 14.5);
+    private final Supplier<Double> ENCODER_VELOCITY_TOLERANCE =
+            rootNamespace.addConstantDouble("velocity tolerance", 0);
 
     public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
 
