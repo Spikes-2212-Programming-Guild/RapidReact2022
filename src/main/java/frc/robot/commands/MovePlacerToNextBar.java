@@ -16,6 +16,11 @@ public class MovePlacerToNextBar extends SequentialCommandGroup {
 
     public MovePlacerToNextBar(ClimberPlacer placer) {
         super(
+                /*
+                  When the placer starts moving, its initial speed will be close to 0, and thus the placer will be
+                  considered in stall. As a result, we first want to move the placer in order for it to obtain
+                  velocity.
+                 */
                 new MoveGenericSubsystem(placer, placer.RAISE_SPEED) {
                     @Override
                     public void end(boolean interrupted) {}
