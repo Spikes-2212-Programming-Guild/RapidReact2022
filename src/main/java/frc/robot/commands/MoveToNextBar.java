@@ -48,8 +48,8 @@ public class MoveToNextBar extends SequentialCommandGroup {
                 new MoveBothPlacersToNextBar(),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED).withTimeout(HOOK_BAR_TIMEOUT.get()),
                 new InstantCommand(() -> {
-                    leftPlacer.setIdleMode(IdleMode.kCoast);
-                    rightPlacer.setIdleMode(IdleMode.kCoast);
+                    leftPlacer.setIdleMode(IdleMode.kBrake);
+                    rightPlacer.setIdleMode(IdleMode.kBrake);
                 }),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED)
         );

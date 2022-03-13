@@ -11,15 +11,15 @@ public class MovePlacerToNextBar extends SequentialCommandGroup {
 
     private static final RootNamespace rootNamespace = new RootNamespace("move placers to next bar");
 
-    public static final Supplier<Double> START_TIMEOUT =
-            rootNamespace.addConstantDouble("start timeout", 0.2);
+    public static final Supplier<Double> INITIAL_MOVE_DURATION =
+            rootNamespace.addConstantDouble("initial move duration", 0.2);
 
     public MovePlacerToNextBar(ClimberPlacer placer) {
         super(
                 new MoveGenericSubsystem(placer, placer.RAISE_SPEED) {
                     @Override
                     public void end(boolean interrupted) {}
-                }.withTimeout(START_TIMEOUT.get()),
+                }.withTimeout(INITIAL_MOVE_DURATION.get()),
                 new MoveGenericSubsystem(placer, placer.RAISE_SPEED) {
                     @Override
                     public boolean isFinished() {
