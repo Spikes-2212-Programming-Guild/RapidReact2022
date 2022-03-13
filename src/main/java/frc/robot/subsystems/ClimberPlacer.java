@@ -31,7 +31,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
-            leftInstance = new ClimberPlacer("left", new CANSparkMax(RobotMap.CAN.CLIMBER_PLACER_SPARK_MAX_LEFT, CANSparkMaxLowLevel.MotorType.kBrushless));
+            leftInstance = new ClimberPlacer("left", new CANSparkMax(RobotMap.CAN.CLIMBER_PLACER_SPARK_MAX_LEFT,
+                    CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return leftInstance;
     }
