@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -41,14 +42,14 @@ public class MoveToNextBar extends SequentialCommandGroup {
                 ).withTimeout(DROP_PLACERS_TIMEOUT.get()),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED),
                 new InstantCommand(() -> {
-                    leftPlacer.setNeutralMode(NeutralMode.Brake);
-                    rightPlacer.setNeutralMode(NeutralMode.Brake);
+                    leftPlacer.setIdleMode(IdleMode.kBrake);
+                    rightPlacer.setIdleMode(IdleMode.kBrake);
                 }),
                 new MoveBothPlacersToNextBar(),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED).withTimeout(HOOK_BAR_TIMEOUT.get()),
                 new InstantCommand(() -> {
-                    leftPlacer.setNeutralMode(NeutralMode.Coast);
-                    rightPlacer.setNeutralMode(NeutralMode.Coast);
+                    leftPlacer.setIdleMode(IdleMode.kBrake);
+                    rightPlacer.setIdleMode(IdleMode.kBrake);
                 }),
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED)
         );

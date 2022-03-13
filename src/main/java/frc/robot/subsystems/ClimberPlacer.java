@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.MovePlacerToNextBar;
@@ -16,46 +18,49 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = -0.6;
     public static final double MAX_SPEED = 0.6;
 
-    private final Supplier<Double> STALL_CURRENT = rootNamespace.addConstantDouble("stall current", 10);
+    private final Supplier<Double> ENCODER_VELOCITY_TOLERANCE =
+            rootNamespace.addConstantDouble("velocity tolerance", 0);
 
     public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
 
     private final String side;
-    private final WPI_TalonSRX talon;
+    private final CANSparkMax sparkMax;
+    private final RelativeEncoder encoder;
 
     private static ClimberPlacer leftInstance, rightInstance;
 
     public static ClimberPlacer getLeftInstance() {
         if (leftInstance == null) {
-            leftInstance = new ClimberPlacer("left", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_LEFT));
+            leftInstance = new ClimberPlacer("left", new CANSparkMax(RobotMap.CAN.CLIMBER_PLACER_SPARK_MAX_LEFT,
+                    CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return leftInstance;
     }
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
-            rightInstance = new ClimberPlacer("right", new WPI_TalonSRX(RobotMap.CAN.CLIMBER_PLACER_TALON_RIGHT));
+            rightInstance = new ClimberPlacer("right", new CANSparkMax(RobotMap.CAN.CLIMBER_PLACER_SPARK_MAX_RIGHT, CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return rightInstance;
     }
 
-    private ClimberPlacer(String side, WPI_TalonSRX talon) {
-        super(MIN_SPEED, MAX_SPEED, side + " climber placer", talon);
+    private ClimberPlacer(String side, CANSparkMax sparkMax) {
+        super(MIN_SPEED, MAX_SPEED, side + " climber placer", sparkMax);
         this.side = side;
-        this.talon = talon;
+        this.sparkMax = sparkMax;
+        this.encoder = sparkMax.getEncoder();
     }
 
     @Override
     public void configureDashboard() {
         rootNamespace.putData("drop " + side + " placer", new MovePlacerToNextBar(this));
-        rootNamespace.putNumber(side + " stator current", talon::getStatorCurrent);
     }
 
     public boolean isStalling() {
-        return Math.abs(talon.getStatorCurrent()) > STALL_CURRENT.get();
+        return Math.abs(encoder.getVelocity()) <= ENCODER_VELOCITY_TOLERANCE.get();
     }
 
-    public void setNeutralMode(NeutralMode neutralMode) {
-        talon.setNeutralMode(neutralMode);
+    public void setIdleMode(IdleMode idleMode) {
+        sparkMax.setIdleMode(idleMode);
     }
 }
