@@ -7,9 +7,7 @@ import frc.robot.subsystems.ClimberPlacer;
 public class SetPlacersIdleMode extends InstantCommand {
 
     public SetPlacersIdleMode(IdleMode idleMode) {
-        ClimberPlacer leftClimberPlacer = ClimberPlacer.getLeftInstance();
-        ClimberPlacer rightClimberPlacer = ClimberPlacer.getRightInstance();
-        leftClimberPlacer.setIdleMode(idleMode);
-        rightClimberPlacer.setIdleMode(idleMode);
+        ClimberPlacer.getLeftInstance().setIdleMode(idleMode);
+        ClimberPlacer.getRightInstance().setIdleMode(idleMode);
     }
 }
