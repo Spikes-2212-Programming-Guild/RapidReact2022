@@ -21,7 +21,8 @@ public class CloseTelescopic extends SequentialCommandGroup {
                 new SetPlacersIdleMode(IdleMode.kCoast),
                 new InstantCommand(() -> winch.setIdleMode(IdleMode.kCoast)),
                 new MoveGenericSubsystem(winch, ClimberWinch.DOWN_SPEED),
-                new SetPlacersIdleMode(IdleMode.kBrake)
+                new SetPlacersIdleMode(IdleMode.kBrake),
+                new InstantCommand(() -> winch.setIdleMode(IdleMode.kBrake))
         );
     }
 }
