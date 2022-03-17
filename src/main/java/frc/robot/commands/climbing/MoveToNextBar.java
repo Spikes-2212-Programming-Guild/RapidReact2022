@@ -13,7 +13,7 @@ import frc.robot.subsystems.ClimberWinch;
  * 2. Moves the placers downwards.<br>
  * 3. Extends the winch to it's full extent.<br>
  * 4. Raises the placers until they hit the next bar and go into a stall.<br>
- * 5. Closes the winch while keeping the placers next to the bar to move the robot to the next bar.<br>
+ * 5. Closes the winch while keeping the placers next to the bar to move the robot to it.<br>
  * Must start the command <b>ONLY</b> when you are already on a bar.
  */
 public class MoveToNextBar extends SequentialCommandGroup {
