@@ -4,7 +4,7 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import frc.robot.subsystems.ClimberPlacer;
 
 /**
- * Moves a {@code ClimberPlacer} instance until it reaches the next bar.
+ * Moves a {@code ClimberPlacer} until it reaches the next bar.
  *
  * @see ClimberPlacer
  */
