@@ -12,13 +12,13 @@ public class MoveIntakePlacerDown extends MoveGenericSubsystem {
     @Override
     public void initialize() {
         IntakePlacer intakePlacer = (IntakePlacer) subsystem;
-        intakePlacer.setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE);
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get());
     }
 
     @Override
     public void end(boolean interrupted) {
         IntakePlacer intakePlacer = (IntakePlacer) subsystem;
-        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE);
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
         super.end(interrupted);
     }
 }

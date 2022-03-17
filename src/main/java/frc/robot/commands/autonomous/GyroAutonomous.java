@@ -26,7 +26,7 @@ public class GyroAutonomous extends SequentialCommandGroup {
 
     public GyroAutonomous(Drivetrain drivetrain) {
         super(
-                new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE)
+                new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get())
                 ).withTimeout(MOVE_SERVO_DOWN_TIMEOUT),
                 new ParallelCommandGroup(
                         new IntakeCargo(),

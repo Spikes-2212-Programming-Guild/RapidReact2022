@@ -79,6 +79,7 @@ public class Robot extends TimedRobot {
         intakeToTransfer.periodic();
         transfer.periodic();
         climberWinch.periodic();
+        IntakePlacer.namespace.update();
 
         rootNamespace.update();
 
@@ -116,7 +117,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         drivetrain.resetPigeon();
         climberWinch.resetEncoder();
-        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE);
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
