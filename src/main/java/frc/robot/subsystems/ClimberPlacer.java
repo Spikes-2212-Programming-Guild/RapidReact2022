@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.MovePlacerToNextBar;
+import frc.robot.commands.climbing.MovePlacerToNextBar;
 
 import java.util.function.Supplier;
 
@@ -20,6 +20,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public final Supplier<Double> ENCODER_DOWN_POSITION =
             rootNamespace.addConstantDouble("encoder down position", 0);
+    public final Supplier<Double> ENCODER_DOWN_TOLERANCE =
+            rootNamespace.addConstantDouble("encoder down tolerance", 0);
     public final Supplier<Double> ENCODER_TO_NEXT_BAR_POSITION =
             rootNamespace.addConstantDouble("encoder to next bar position", 0);
     public final Supplier<Double> ENCODER_TO_NEXT_BAR_TOLERANCE =
@@ -64,6 +66,10 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public boolean hasHitNextBar() {
         return Math.abs(ENCODER_TO_NEXT_BAR_POSITION.get() - encoder.getPosition()) <=
                 ENCODER_TO_NEXT_BAR_TOLERANCE.get();
+    }
+
+    public boolean isDown() {
+        return Math.abs(ENCODER_DOWN_POSITION.get() - encoder.getPosition()) <= ENCODER_DOWN_TOLERANCE.get();
     }
 
     public void setIdleMode(IdleMode idleMode) {

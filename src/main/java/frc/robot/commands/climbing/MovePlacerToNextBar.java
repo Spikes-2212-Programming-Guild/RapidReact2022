@@ -1,11 +1,7 @@
-package frc.robot.commands;
+package frc.robot.commands.climbing;
 
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
-import com.spikes2212.dashboard.RootNamespace;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ClimberPlacer;
-
-import java.util.function.Supplier;
 
 public class MovePlacerToNextBar extends MoveGenericSubsystem {
 
