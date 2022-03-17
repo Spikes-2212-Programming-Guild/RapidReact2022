@@ -31,11 +31,7 @@ public class MoveToNextBar extends SequentialCommandGroup {
                 ),
                 new MoveGenericSubsystem(winch, ClimberWinch.UP_SPEED),
                 new MoveBothPlacersToNextBar(),
-                new ParallelCommandGroup(
-                        new MoveGenericSubsystem(winch, ClimberWinch.DOWN_SPEED),
-                        new PlacerToBarPID(leftPlacer),
-                        new PlacerToBarPID(rightPlacer)
-                ).withInterrupt(() -> winch.getEncoderPosition() <= winch.ENCODER_STATIC_MEET_BAR_POSITION.get()),
+                new HookNextBar(),
                 new CloseTelescopic()
         );
     }

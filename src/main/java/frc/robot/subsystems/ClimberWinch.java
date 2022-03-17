@@ -28,8 +28,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     public final Supplier<Double> ENCODER_RELEASE_BAR_POSITION =
             rootNamespace.addConstantDouble("encoder release bar position", 0);
 
-    private final CANSparkMax leftSparkMax;
-    private final CANSparkMax rightSparkMax;
+    private final CANSparkMax left;
+    private final CANSparkMax right;
     private final RelativeEncoder encoder;
 
     private static ClimberWinch instance;
@@ -46,8 +46,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
         encoder = rightWinch.getEncoder();
-        leftSparkMax = leftWinch;
-        rightSparkMax = rightWinch;
+        left = leftWinch;
+        right = rightWinch;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     }
 
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
-        leftSparkMax.setIdleMode(idleMode);
-        rightSparkMax.setIdleMode(idleMode);
+        left.setIdleMode(idleMode);
+        right.setIdleMode(idleMode);
     }
 }

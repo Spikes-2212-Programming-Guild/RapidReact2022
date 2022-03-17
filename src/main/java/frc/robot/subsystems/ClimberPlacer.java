@@ -80,12 +80,12 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
                 ENCODER_TO_NEXT_BAR_TOLERANCE.get();
     }
 
-    public double getEncoderPosition() {
-        return encoder.getPosition();
-    }
-
     public boolean isDown() {
         return Math.abs(ENCODER_DOWN_POSITION.get() - encoder.getPosition()) <= ENCODER_DOWN_TOLERANCE.get();
+    }
+
+    public double getEncoderPosition() {
+        return encoder.getPosition();
     }
 
     public void setIdleMode(IdleMode idleMode) {
