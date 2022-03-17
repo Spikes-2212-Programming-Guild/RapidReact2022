@@ -18,8 +18,12 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = -0.6;
     public static final double MAX_SPEED = 0.6;
 
-    private final Supplier<Double> ENCODER_VELOCITY_TOLERANCE =
-            rootNamespace.addConstantDouble("velocity tolerance", 0);
+    public final Supplier<Double> ENCODER_DOWN_POSITION =
+            rootNamespace.addConstantDouble("encoder down position", 0);
+    public final Supplier<Double> ENCODER_TO_NEXT_BAR_POSITION =
+            rootNamespace.addConstantDouble("encoder to next bar position", 0);
+    public final Supplier<Double> ENCODER_TO_NEXT_BAR_TOLERANCE =
+            rootNamespace.addConstantDouble("encoder to next bar tolerance", 0);
 
     public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
 
@@ -39,7 +43,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
-            rightInstance = new ClimberPlacer("right", new CANSparkMax(RobotMap.CAN.CLIMBER_PLACER_SPARK_MAX_RIGHT, CANSparkMaxLowLevel.MotorType.kBrushless));
+            rightInstance = new ClimberPlacer("right", new CANSparkMax(RobotMap.CAN.CLIMBER_PLACER_SPARK_MAX_RIGHT,
+                    CANSparkMaxLowLevel.MotorType.kBrushless));
         }
         return rightInstance;
     }
@@ -56,8 +61,9 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         rootNamespace.putData("drop " + side + " placer", new MovePlacerToNextBar(this));
     }
 
-    public boolean isStalling() {
-        return Math.abs(encoder.getVelocity()) <= ENCODER_VELOCITY_TOLERANCE.get();
+    public boolean hasHitNextBar() {
+        return Math.abs(ENCODER_TO_NEXT_BAR_POSITION.get() - encoder.getPosition()) <=
+                ENCODER_TO_NEXT_BAR_TOLERANCE.get();
     }
 
     public void setIdleMode(IdleMode idleMode) {

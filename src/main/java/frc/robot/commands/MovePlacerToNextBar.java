@@ -23,13 +23,14 @@ public class MovePlacerToNextBar extends SequentialCommandGroup {
                  */
                 new MoveGenericSubsystem(placer, placer.RAISE_SPEED) {
                     @Override
-                    public void end(boolean interrupted) {}
+                    public void end(boolean interrupted) {
+                    }
                 }.withTimeout(INITIAL_MOVE_DURATION.get()),
                 new MoveGenericSubsystem(placer, placer.RAISE_SPEED) {
                     @Override
                     public boolean isFinished() {
                         // Checks if the placer hit the next bar
-                        return placer.isStalling();
+                        return placer.hasHitNextBar();
                     }
                 }
         );
