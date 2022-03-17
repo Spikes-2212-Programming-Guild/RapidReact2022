@@ -22,6 +22,8 @@ public class ClimberWinch extends MotoredGenericSubsystem {
             rootNamespace.addConstantDouble("encoder up limit", 140);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
             rootNamespace.addConstantDouble("encoder down limit", 1);
+    public final Supplier<Double> ENCODER_STATIC_MEET_BAR_POSITION =
+            rootNamespace.addConstantDouble("encoder static meet bar position", 0);
 
     private final CANSparkMax leftSparkMax;
     private final CANSparkMax rightSparkMax;
@@ -61,6 +63,10 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
         rootNamespace.putNumber("encoder position", encoder::getPosition);
+    }
+
+    public boolean staticMeetBar() {
+        return encoder.getPosition() <= ENCODER_STATIC_MEET_BAR_POSITION.get();
     }
 
     public void setIdleMode(CANSparkMax.IdleMode idleMode) {
