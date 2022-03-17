@@ -18,6 +18,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     public static final double UP_SPEED = 0.25;
     public static final double DOWN_SPEED = -0.3;
 
+    //@todo calibrate needed values
     public final Supplier<Double> ENCODER_UP_LIMIT =
             rootNamespace.addConstantDouble("encoder up limit", 140);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =

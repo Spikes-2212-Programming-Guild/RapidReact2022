@@ -20,6 +20,9 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = -0.1;
     public static final double MAX_SPEED = 0.6;
 
+    public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
+
+    //@todo calibrate
     public final Supplier<Double> ENCODER_DOWN_POSITION =
             rootNamespace.addConstantDouble("encoder down position", 0);
     public final Supplier<Double> ENCODER_DOWN_TOLERANCE =
@@ -29,8 +32,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public final Supplier<Double> ENCODER_TO_NEXT_BAR_TOLERANCE =
             rootNamespace.addConstantDouble("encoder to next bar tolerance", 0);
 
-    public final Supplier<Double> RAISE_SPEED = rootNamespace.addConstantDouble("raise speed", 0.25);
-
+    //@todo calibrate
     private static final RootNamespace PID = new RootNamespace("climber placer pid");
     private static final Supplier<Double> kP = PID.addConstantDouble("kP", 0);
     private static final Supplier<Double> kI = PID.addConstantDouble("kI", 0);
