@@ -13,7 +13,7 @@ import frc.robot.subsystems.ClimberWinch;
  * 2. Moves the placers downwards.<br>
  * 3. Extends the winch to it's full extent.<br>
  * 4. Raises the placers until they hit the next bar and go into a stall.<br>
- * 5. Closes the winch to move the robot to the next bar.<br>
+ * 5. Closes the winch while keeping the placers next to the bar to move the robot to the next bar.<br>
  * Must start the command <b>ONLY</b> when you are already on a bar.
  */
 public class MoveToNextBar extends SequentialCommandGroup {
@@ -25,14 +25,17 @@ public class MoveToNextBar extends SequentialCommandGroup {
         addCommands(
                 new MoveGenericSubsystem(winch, ClimberWinch.UP_SPEED).withInterrupt(() -> winch.getEncoderPosition() <=
                         winch.ENCODER_RELEASE_BAR_POSITION.get()),
-                new ParallelCommandGroup( //do pid
+                new ParallelCommandGroup(
                         new MoveGenericSubsystem(leftPlacer, ClimberPlacer.MIN_SPEED).withInterrupt(leftPlacer::isDown),
                         new MoveGenericSubsystem(rightPlacer, ClimberPlacer.MIN_SPEED).withInterrupt(rightPlacer::isDown)
                 ),
                 new MoveGenericSubsystem(winch, ClimberWinch.UP_SPEED),
                 new MoveBothPlacersToNextBar(),
-                new MoveGenericSubsystem(winch, ClimberWinch.DOWN_SPEED).withInterrupt(() -> winch.getEncoderPosition()
-                        <= winch.ENCODER_STATIC_MEET_BAR_POSITION.get()), //wat
+                new ParallelCommandGroup(
+                        new MoveGenericSubsystem(winch, ClimberWinch.DOWN_SPEED),
+                        new PlacerToBarPID(leftPlacer),
+                        new PlacerToBarPID(rightPlacer)
+                ).withInterrupt(() -> winch.getEncoderPosition() <= winch.ENCODER_STATIC_MEET_BAR_POSITION.get()),
                 new CloseTelescopic()
         );
     }
