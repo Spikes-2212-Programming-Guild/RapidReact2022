@@ -7,6 +7,7 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
+import frc.robot.commands.climbing.CloseTelescopic;
 
 import java.util.function.Supplier;
 
@@ -20,13 +21,13 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     //@todo calibrate needed values
     public final Supplier<Double> ENCODER_UP_LIMIT =
-            rootNamespace.addConstantDouble("encoder up limit", 90);
+            rootNamespace.addConstantDouble("encoder up limit", 130);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
             rootNamespace.addConstantDouble("encoder down limit", 1);
     public final Supplier<Double> ENCODER_STATIC_MEET_BAR_POSITION =
-            rootNamespace.addConstantDouble("encoder static meet bar position", 0);
+            rootNamespace.addConstantDouble("encoder static meet bar position", 60);
     public final Supplier<Double> ENCODER_RELEASE_BAR_POSITION =
-            rootNamespace.addConstantDouble("encoder release bar position", 0);
+            rootNamespace.addConstantDouble("encoder release bar position", 30);
 
     private final CANSparkMax left;
     private final CANSparkMax right;
@@ -65,7 +66,19 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("close telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
+        rootNamespace.putData("close forever", new MoveGenericSubsystem(this, DOWN_SPEED) {
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
+        rootNamespace.putData("open forever", new MoveGenericSubsystem(this, UP_SPEED) {
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
+        rootNamespace.putData("close telescopic", new CloseTelescopic());
         rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
         rootNamespace.putNumber("encoder position", encoder::getPosition);

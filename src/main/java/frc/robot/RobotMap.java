@@ -19,12 +19,12 @@ public class RobotMap {
         int TRANSFER_STRAP_VICTOR_1 = 8;
         int TRANSFER_STRAP_VICTOR_2 = 9;
 
-        int CLIMBER_WINCH_SPARK_MAX_1 = 12;
-        int CLIMBER_WINCH_SPARK_MAX_2 = 13;
+        int CLIMBER_WINCH_SPARK_MAX_1 = 10;
+        int CLIMBER_WINCH_SPARK_MAX_2 = 11;
 
         // @TODO: change to real ports
-        int CLIMBER_PLACER_SPARK_MAX_LEFT = -1;
-        int CLIMBER_PLACER_SPARK_MAX_RIGHT = -1;
+        int CLIMBER_PLACER_SPARK_MAX_LEFT = 12;
+        int CLIMBER_PLACER_SPARK_MAX_RIGHT = 13;
     }
 
     public interface DIO {
@@ -40,6 +40,10 @@ public class RobotMap {
         int TRANSFER_ENTRANCE_LIGHT_SENSOR = 2;
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
+
+        int CLIMBER_PLACER_LIMIT_LEFT = 8;
+        int CLIMBER_PLACER_LIMIT_RIGHT = 9;
+
     }
 
     public interface PWM {

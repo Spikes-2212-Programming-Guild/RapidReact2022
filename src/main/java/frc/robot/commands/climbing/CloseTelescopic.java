@@ -19,11 +19,17 @@ public class CloseTelescopic extends SequentialCommandGroup {
      */
     public CloseTelescopic() {
         ClimberWinch winch = ClimberWinch.getInstance();
-        addRequirements(winch, ClimberPlacer.getLeftInstance(), ClimberPlacer.getLeftInstance());
+//        addRequirements(ClimberPlacer.getLeftInstance(), ClimberPlacer.getRightInstance());
         addCommands(
                 new SetPlacersIdleMode(IdleMode.kBrake),
-                new MoveGenericSubsystem(winch, ClimberWinch.DOWN_SPEED).withInterrupt(() -> winch.getEncoderPosition()
-                        <= winch.ENCODER_STATIC_MEET_BAR_POSITION.get()),
+//                new MoveGenericSubsystem(winch, ClimberWinch.DOWN_SPEED) {
+//
+//                    @Override
+//                    public boolean isFinished() {
+//                        return super.isFinished() || winch.getEncoderPosition() <=
+//                                winch.ENCODER_STATIC_MEET_BAR_POSITION.get();
+//                    }
+//                }
                 new SetPlacersIdleMode(IdleMode.kCoast),
                 new InstantCommand(() -> winch.setIdleMode(IdleMode.kCoast)),
                 new MoveGenericSubsystem(winch, ClimberWinch.DOWN_SPEED),
