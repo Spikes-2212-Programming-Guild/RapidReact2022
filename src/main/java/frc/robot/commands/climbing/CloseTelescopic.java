@@ -9,6 +9,14 @@ import frc.robot.subsystems.ClimberWinch;
 
 public class CloseTelescopic extends SequentialCommandGroup {
 
+    /**
+     * steps:
+     * 1. sets the placers to brake<br>
+     * 2. moves the robot up until the static meets the bar on the upper part<br>
+     * 3. sets the placers to coast so the bar will slide on the static<br>
+     * 4. moves the robot up<br>
+     * 5. sets the placers and the winch to brake so the robot won't fall<br>
+     */
     public CloseTelescopic() {
         ClimberWinch winch = ClimberWinch.getInstance();
         addRequirements(winch, ClimberPlacer.getLeftInstance(), ClimberPlacer.getLeftInstance());
