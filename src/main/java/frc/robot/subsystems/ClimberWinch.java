@@ -16,11 +16,11 @@ import java.util.function.Supplier;
 public class ClimberWinch extends MotoredGenericSubsystem {
 
     public static final double UP_SPEED = 0.25;
-    public static final double DOWN_SPEED = -0.3;
+    public static final double DOWN_SPEED = -0.5;
 
     //@todo calibrate needed values
     public final Supplier<Double> ENCODER_UP_LIMIT =
-            rootNamespace.addConstantDouble("encoder up limit", 140);
+            rootNamespace.addConstantDouble("encoder up limit", 90);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
             rootNamespace.addConstantDouble("encoder down limit", 1);
     public final Supplier<Double> ENCODER_STATIC_MEET_BAR_POSITION =
@@ -45,9 +45,12 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
-        encoder = rightWinch.getEncoder();
         left = leftWinch;
         right = rightWinch;
+        left.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        right.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        encoder = right.getEncoder();
+
     }
 
     @Override

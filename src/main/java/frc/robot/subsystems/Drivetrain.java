@@ -35,7 +35,7 @@ public class Drivetrain extends TankDrivetrain {
      * One side of the robot is faster than the other. To solve this we slow down one of the sides.
      */
     private static final RootNamespace corrections = new RootNamespace("drivetrain correction");
-    private static final Supplier<Double> rightCorrection = corrections.addConstantDouble("right correction", 1);
+    private static final Supplier<Double> rightCorrection = corrections.addConstantDouble("right correction", 0.95);
     private static final Supplier<Double> leftCorrection = corrections.addConstantDouble("left correction", 1);
 
     private final PigeonWrapper pigeon;

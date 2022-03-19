@@ -6,10 +6,16 @@ package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.*;
-import frc.robot.commands.autonomous.*;
+import frc.robot.commands.IntakeCargo;
+import frc.robot.commands.IntakePlacerDefaultCommand;
+import frc.robot.commands.MoveToCargo;
+import frc.robot.commands.ReleaseCargo;
+import frc.robot.commands.autonomous.GyroAutonomous;
 import frc.robot.commands.climbing.MoveBothPlacersToNextBar;
 import frc.robot.subsystems.*;
 
@@ -35,6 +41,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         oi = new OI();
+
+        CameraServer.startAutomaticCapture();
+        CvSink cvSink = CameraServer.getVideo();
+        CvSource outputStream = CameraServer.putVideo("back camera", 720, 1280);
+
         drivetrain = Drivetrain.getInstance();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
@@ -83,6 +94,7 @@ public class Robot extends TimedRobot {
         rightClimberPlacer.periodic();
 
         rootNamespace.update();
+
         CommandScheduler.getInstance().run();
     }
 
@@ -103,6 +115,7 @@ public class Robot extends TimedRobot {
         drivetrain.resetPigeon();
         new GyroAutonomous(drivetrain).schedule();
 //        new YeetAndRetreat().schedule();
+//        new SimpleSix(drivetrain).schedule();
     }
 
     /**
@@ -116,6 +129,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         drivetrain.resetPigeon();
         climberWinch.resetEncoder();
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE);
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);

@@ -30,6 +30,7 @@ public class OI /* GEVALD */ {
      */
     public OI() {
         IntakeRoller roller = IntakeRoller.getInstance();
+        IntakePlacer intakePlacer = IntakePlacer.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         Transfer transfer = Transfer.getInstance();
         ClimberWinch climberWinch = ClimberWinch.getInstance();
@@ -38,13 +39,37 @@ public class OI /* GEVALD */ {
         trigger.whileHeld(new ReleaseCargo());
 
         xbox.getRTButton().whenActive(new IntakeCargo());
-        xbox.getRBButton().whenPressed(new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED));
+        xbox.getRBButton().whenPressed(new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED));
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
+
+        //intakes two cargos
+        xbox.getLBButton().whenPressed(new ParallelCommandGroup(
+                new MoveGenericSubsystem(roller, IntakeRoller.MIN_SPEED),
+                new MoveGenericSubsystem(intakeToTransfer, IntakeToTransfer.SPEED),
+                new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED).withInterrupt(transfer::getEntranceSensor)
+        ).withInterrupt(() -> (intakeToTransfer.getLimit()) && transfer.getEntranceSensor()));
+
+        //stops the intakePlacer
+        xbox.getButtonStart().whenPressed(new MoveGenericSubsystem(intakePlacer, 0) {
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+        });
 
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
+
+        //stops the climberWinch
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
-        xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0));
+
+        //stops the roller
+        xbox.getRedButton().whenPressed(new MoveGenericSubsystem(roller, 0) {
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+        });
 
         xbox.getLeftStickButton().whenPressed(new MoveToNextBar());
 
