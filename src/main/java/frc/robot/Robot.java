@@ -12,7 +12,6 @@ import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.IntakePlacerDefaultCommand;
 import frc.robot.commands.MoveToCargo;
 import frc.robot.commands.ReleaseCargo;
 import frc.robot.commands.autonomous.GyroAutonomous;
@@ -71,8 +70,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
         rootNamespace.putData("drop both placers", new MoveBothPlacersToNextBar());
-
-        intakePlacer.setDefaultCommand(new IntakePlacerDefaultCommand());
     }
 
     /**
