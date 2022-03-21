@@ -15,8 +15,6 @@ import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.MoveToCargo;
 import frc.robot.commands.ReleaseCargo;
 import frc.robot.commands.autonomous.GyroAutonomous;
-import frc.robot.commands.autonomous.YeetAndRetreat;
-import frc.robot.commands.climbing.MoveBothPlacersToNextBar;
 import frc.robot.subsystems.*;
 
 /**
@@ -70,7 +68,6 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
-        rootNamespace.putData("drop both placers", new MoveBothPlacersToNextBar());
     }
 
     /**

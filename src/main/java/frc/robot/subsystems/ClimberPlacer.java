@@ -11,8 +11,6 @@ import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
-import frc.robot.commands.climbing.MovePlacerToNextBar;
-import frc.robot.commands.climbing.ResetPlacers;
 
 import java.util.function.Supplier;
 
@@ -119,8 +117,6 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
             }
         });
 
-        rootNamespace.putData("reset placers", new ResetPlacers());
-        rootNamespace.putData("drop " + side + " placer", new MovePlacerToNextBar(this));
         rootNamespace.putNumber("encoder position " + side, this::getEncoderPosition);
     }
 }

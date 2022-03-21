@@ -7,7 +7,6 @@ import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
-import frc.robot.commands.climbing.CloseTelescopic;
 
 import java.util.function.Supplier;
 
@@ -92,7 +91,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
                 return false;
             }
         });
-        rootNamespace.putData("close telescopic", new CloseTelescopic());
+        rootNamespace.putData("close telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
         rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
         rootNamespace.putNumber("encoder position", encoder::getPosition);
