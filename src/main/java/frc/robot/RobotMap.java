@@ -48,6 +48,6 @@ public class RobotMap {
 
     public interface PWM {
 
-        int INTAKE_PLACER_SERVO = 5;
+        int INTAKE_PLACER_SERVO = 4;
     }
 }

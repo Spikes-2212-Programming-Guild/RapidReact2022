@@ -21,7 +21,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     //@todo calibrate needed values
     public final Supplier<Double> ENCODER_UP_LIMIT =
-            rootNamespace.addConstantDouble("encoder up limit", 130);
+            rootNamespace.addConstantDouble("encoder up limit", 100);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
             rootNamespace.addConstantDouble("encoder down limit", 1);
     public final Supplier<Double> ENCODER_STATIC_MEET_BAR_POSITION =
@@ -43,6 +43,13 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         }
         return instance;
     }
+//    public static ClimberWinch getInstance() {
+//        if (instance == null) {
+//            instance = new ClimberWinch(
+//                    new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
+//        }
+//        return instance;
+//    }
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
@@ -51,8 +58,15 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         left.setIdleMode(CANSparkMax.IdleMode.kBrake);
         right.setIdleMode(CANSparkMax.IdleMode.kBrake);
         encoder = right.getEncoder();
-
     }
+
+//    private ClimberWinch(CANSparkMax rightWinch) {
+//        s[]\
+//        uper(DOWN_SPEED, UP_SPEED, "climber winch", rightWinch);
+//        right = rightWinch;
+//        right.setIdleMode(CANSparkMax.IdleMode.kBrake);
+//        encoder = right.getEncoder();
+//    }
 
     @Override
     public boolean canMove(double speed) {

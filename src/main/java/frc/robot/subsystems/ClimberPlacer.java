@@ -12,6 +12,7 @@ import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 import frc.robot.commands.climbing.MovePlacerToNextBar;
+import frc.robot.commands.climbing.ResetPlacers;
 
 import java.util.function.Supplier;
 
@@ -22,8 +23,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
 
     private static final RootNamespace root = new RootNamespace("climber placers");
 
-    public static final double MIN_SPEED = -0.1;
-    public static final double MAX_SPEED = 0.2;
+    public static final double MIN_SPEED = -0.05;
+    public static final double MAX_SPEED = 0.05;
 
     public final Supplier<Double> RAISE_SPEED = root.addConstantDouble("raise speed", 0.25);
 
@@ -65,7 +66,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
     public static ClimberPlacer getRightInstance() {
         if (rightInstance == null) {
             rightInstance = new ClimberPlacer("right", new CANSparkMax(RobotMap.CAN.CLIMBER_PLACER_SPARK_MAX_RIGHT,
-                    CANSparkMaxLowLevel.MotorType.kBrushless), new DigitalInput(RobotMap.DIO.CLIMBER_PLACER_LIMIT_LEFT));
+                    CANSparkMaxLowLevel.MotorType.kBrushless), new DigitalInput(RobotMap.DIO.CLIMBER_PLACER_LIMIT_RIGHT));
         }
         return rightInstance;
     }
@@ -91,7 +92,7 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
         return encoder.getPosition();
     }
 
-    public void resetEncoders(){
+    public void resetEncoders() {
         encoder.setPosition(0);
     }
 
@@ -117,6 +118,8 @@ public class ClimberPlacer extends MotoredGenericSubsystem {
                 return false;
             }
         });
+
+        rootNamespace.putData("reset placers", new ResetPlacers());
         rootNamespace.putData("drop " + side + " placer", new MovePlacerToNextBar(this));
         rootNamespace.putNumber("encoder position " + side, this::getEncoderPosition);
     }

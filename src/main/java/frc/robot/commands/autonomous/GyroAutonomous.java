@@ -2,9 +2,11 @@ package frc.robot.commands.autonomous;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.IntakePlacer;
@@ -26,8 +28,8 @@ public class GyroAutonomous extends SequentialCommandGroup {
 
     public GyroAutonomous(Drivetrain drivetrain) {
         super(
-                new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE)
-                ).withTimeout(MOVE_SERVO_DOWN_TIMEOUT),
+                new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get())),
+                new WaitCommand(1),
                 new ParallelCommandGroup(
                         new IntakeCargo(),
                         new SequentialCommandGroup(
@@ -40,7 +42,10 @@ public class GyroAutonomous extends SequentialCommandGroup {
                         drivetrain.getGyroPIDSettings(), drivetrain.getFFSettings()).withTimeout(RETURN_BY_GYRO_TIMEOUT),
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
                 new ReleaseCargo().withTimeout(RELEASE_CARGO_TIMEOUT),
-                new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
+                new ParallelCommandGroup(
+                        new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED),
+                        new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
+                )
         );
     }
 }

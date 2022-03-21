@@ -15,6 +15,7 @@ import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.MoveToCargo;
 import frc.robot.commands.ReleaseCargo;
 import frc.robot.commands.autonomous.GyroAutonomous;
+import frc.robot.commands.autonomous.YeetAndRetreat;
 import frc.robot.commands.climbing.MoveBothPlacersToNextBar;
 import frc.robot.subsystems.*;
 
@@ -126,7 +127,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         drivetrain.resetPigeon();
         climberWinch.resetEncoder();
-        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE);
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
