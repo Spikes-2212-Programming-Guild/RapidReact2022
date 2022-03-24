@@ -12,8 +12,8 @@ public class MoveIntakePlacerDown extends CommandBase {
     private final boolean ignoreLimit;
 
     /**
-     * @param ignoreLimit Represents whether the command should end once the latch has been opened, or wait until the
-     *                    lower limit is hit.
+     * @param ignoreLimit represents whether the command should end once the latch has been opened, or wait until the
+     *                    lower limit is hit
      */
     public MoveIntakePlacerDown(boolean ignoreLimit) {
         this.intakePlacer = IntakePlacer.getInstance();
