@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.6;
-    public static final double MIN_SPEED = -0.3;
+    public static final double MIN_SPEED = -0.1;
     private static final RootNamespace servoNamespace = new RootNamespace("servo");
     public static final Supplier<Double> SERVO_START_ANGLE =
             servoNamespace.addConstantDouble("start angle", 120);
