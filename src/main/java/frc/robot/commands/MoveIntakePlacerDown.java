@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakePlacer;
 
 /**
- * Opens the intake placer's latch the intake placer can move down.
+ * Opens the intake placer's latch so the intake placer can move down.
  */
 public class MoveIntakePlacerDown extends CommandBase {
 
