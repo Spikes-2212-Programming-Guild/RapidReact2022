@@ -60,8 +60,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     }
 
 //    private ClimberWinch(CANSparkMax rightWinch) {
-//        s[]\
-//        uper(DOWN_SPEED, UP_SPEED, "climber winch", rightWinch);
+//        super(DOWN_SPEED, UP_SPEED, "climber winch", rightWinch);
 //        right = rightWinch;
 //        right.setIdleMode(CANSparkMax.IdleMode.kBrake);
 //        encoder = right.getEncoder();
