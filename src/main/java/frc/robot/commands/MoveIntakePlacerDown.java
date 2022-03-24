@@ -3,8 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakePlacer;
 
-/**
- * Opens the intake placer's latch so the intake placer can move down.
+    /**
+ * Opens the intake placer's latch so the intake placer can move down, by rotating a servo that is
+ * connected to the latch.
  */
 public class MoveIntakePlacerDown extends CommandBase {
 
