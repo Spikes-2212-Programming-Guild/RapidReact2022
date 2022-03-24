@@ -25,8 +25,8 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
         return instance;
     }
 
-    private IntakeToTransfer(MotorController motor) {
-        super("intake to transfer", motor);
+    private IntakeToTransfer(WPI_VictorSPX victor) {
+        super("intake to transfer", victor);
         this.limit = new BustedDigitalInput(RobotMap.DIO.INTAKE_TO_TRANSFER_LIMIT);
     }
 
