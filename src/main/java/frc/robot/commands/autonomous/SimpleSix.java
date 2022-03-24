@@ -17,8 +17,9 @@ public class SimpleSix extends SequentialCommandGroup {
     public static final double DRIVE_UNTIL_HIT_HUB_TIMEOUT = 3;
     public static final double RELEASE_CARGO_TIMEOUT = 3;
 
-    public SimpleSix(Drivetrain drivetrain) {
-        super(
+    public SimpleSix() {
+        Drivetrain drivetrain = Drivetrain.getInstance();
+        addCommands(
                 new ParallelCommandGroup(
                         new IntakeCargo(false),
                         new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)

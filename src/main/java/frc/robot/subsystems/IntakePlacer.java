@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
-import frc.robot.commands.IntakePlacerUp;
+import frc.robot.commands.MoveIntakePlacerUp;
 
 import java.util.function.Supplier;
 
@@ -71,7 +71,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
-        rootNamespace.putData("move intake up", new IntakePlacerUp());
+        rootNamespace.putData("move intake up", new MoveIntakePlacerUp());
         rootNamespace.putData("move servo to target", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE.get())));
         rootNamespace.putData("move servo to start", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE.get())));
         rootNamespace.putBoolean("down limit", this::isDown);

@@ -3,8 +3,6 @@ package frc.robot;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.util.XboxControllerWrapper;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
@@ -44,7 +42,7 @@ public class OI /* GEVALD */ {
         xbox.getRTButton().whenActive(new IntakeCargo(false));
         xbox.getRightStickButton().whileHeld(new IntakeCargo(true));
 
-        xbox.getRBButton().whenPressed(new IntakePlacerUp());
+        xbox.getRBButton().whenPressed(new MoveIntakePlacerUp());
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
 
         //intakes two cargos

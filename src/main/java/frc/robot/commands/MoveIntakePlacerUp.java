@@ -4,12 +4,17 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.IntakePlacer;
 
-public class IntakePlacerUp extends MoveGenericSubsystem {
+/**
+ * Moves the IntakePlacer up until: <br>
+ * 1. The upper limit is hit. <br>
+ * 2. {@value TIMEOUT} seconds have passed since the upper limit was hit.
+ */
+public class MoveIntakePlacerUp extends MoveGenericSubsystem {
 
     private static final double TIMEOUT = 0.3;
     private double meetLimitTime;
 
-    public IntakePlacerUp() {
+    public MoveIntakePlacerUp() {
         super(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED);
     }
 
