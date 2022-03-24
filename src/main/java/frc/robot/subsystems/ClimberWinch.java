@@ -43,13 +43,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         }
         return instance;
     }
-//    public static ClimberWinch getInstance() {
-//        if (instance == null) {
-//            instance = new ClimberWinch(
-//                    new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
-//        }
-//        return instance;
-//    }
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
         super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
@@ -58,13 +51,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         setIdleMode(IdleMode.kBrake);
         encoder = right.getEncoder();
     }
-
-//    private ClimberWinch(CANSparkMax rightWinch) {
-//        super(DOWN_SPEED, UP_SPEED, "climber winch", rightWinch);
-//        right = rightWinch;
-//        right.setIdleMode(CANSparkMax.IdleMode.kBrake);
-//        encoder = right.getEncoder();
-//    }
 
     @Override
     public boolean canMove(double speed) {
