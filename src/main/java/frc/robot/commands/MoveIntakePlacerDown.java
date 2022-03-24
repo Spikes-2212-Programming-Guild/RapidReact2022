@@ -12,7 +12,7 @@ public class MoveIntakePlacerDown extends CommandBase {
     private final boolean ignoreLimit;
 
     /**
-     * @param ignoreLimit represents whether the command should end once the latch has been opened, or wait until the
+     * @param ignoreLimit whether the command should end once the latch has been opened, or wait until the
      *                    lower limit is hit
      */
     public MoveIntakePlacerDown(boolean ignoreLimit) {
