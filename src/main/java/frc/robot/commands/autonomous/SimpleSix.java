@@ -20,7 +20,7 @@ public class SimpleSix extends SequentialCommandGroup {
     public SimpleSix(Drivetrain drivetrain) {
         super(
                 new ParallelCommandGroup(
-                        new IntakeCargo(),
+                        new IntakeCargo(false),
                         new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)
                                 .withInterrupt(IntakeToTransfer.getInstance()::getLimit)
                 ).withTimeout(MoveToCargo.MOVE_TO_CARGO_TIMEOUT),

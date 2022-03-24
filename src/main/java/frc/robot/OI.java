@@ -3,6 +3,8 @@ package frc.robot;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.util.XboxControllerWrapper;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
@@ -37,8 +39,10 @@ public class OI /* GEVALD */ {
         JoystickButton trigger = new JoystickButton(right, 1);
         trigger.whileHeld(new ReleaseCargo());
 
-        xbox.getRTButton().whenActive(new IntakeCargo());
-        xbox.getRBButton().whenPressed(new MoveGenericSubsystem(intakePlacer, IntakePlacer.MAX_SPEED));
+        xbox.getRTButton().whenActive(new IntakeCargo(false));
+        xbox.getRightStickButton().whileHeld(new IntakeCargo(true));
+
+        xbox.getRBButton().whenPressed(new IntakePlacerUp());
         xbox.getLTButton().whileActiveOnce(new ReleaseCargo());
 
         //intakes two cargos
@@ -48,21 +52,32 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED).withInterrupt(transfer::getEntranceSensor)
         ).withInterrupt(() -> (intakeToTransfer.getLimit()) && transfer.getEntranceSensor()));
 
-        //stops the intakePlacer
-        xbox.getButtonStart().whenPressed(new MoveGenericSubsystem(intakePlacer, 0) {
-            @Override
-            public boolean isFinished() {
-                return true;
-            }
-        });
-        xbox.getLeftStickButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED) {
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
-        });
+//        xbox.getLeftStickButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED) {
+//            @Override
+//            public boolean isFinished() {
+//                return false;
+//            }
+//        });
+
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
+
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
+
+        xbox.getDownButton().whileHeld(
+                new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return false;
+                    }
+                });
+
+        xbox.getUpButton().whileHeld(
+                new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED) {
+                    @Override
+                    public boolean isFinished() {
+                        return false;
+                    }
+                });
 
         //stops the climberWinch
         xbox.getBlueButton().whenPressed(new MoveGenericSubsystem(climberWinch, 0));
@@ -76,7 +91,7 @@ public class OI /* GEVALD */ {
         });
 
         //reverse all the subsystems, to return cargos
-        xbox.getDownButton().whileHeld(new ParallelCommandGroup(
+        xbox.getRightButton().whileHeld(new ParallelCommandGroup(
                 new MoveGenericSubsystem(roller, IntakeRoller.MAX_SPEED),
                 new MoveGenericSubsystem(intakeToTransfer, -IntakeToTransfer.SPEED),
                 new MoveGenericSubsystem(transfer, () -> -transfer.MOVE_SPEED.get())

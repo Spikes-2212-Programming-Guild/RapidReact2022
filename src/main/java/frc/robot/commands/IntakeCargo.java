@@ -7,16 +7,14 @@ import frc.robot.subsystems.*;
 
 public class IntakeCargo extends SequentialCommandGroup {
 
-    public static final double INTAKE_PLACER_DOWN_TIMEOUT = 4;
-
     private boolean hasCargo;
 
-    public IntakeCargo() {
+    public IntakeCargo(boolean ignorePlacerLimit) {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         Transfer transfer = Transfer.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         addCommands(
-                new MoveIntakePlacerDown().withTimeout(INTAKE_PLACER_DOWN_TIMEOUT),
+                new MoveIntakePlacerDown(ignorePlacerLimit),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MoveGenericSubsystem(intakeRoller, IntakeRoller.MIN_SPEED) {

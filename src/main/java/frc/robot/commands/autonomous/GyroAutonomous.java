@@ -14,7 +14,7 @@ import frc.robot.subsystems.IntakeToTransfer;
 
 public class GyroAutonomous extends SequentialCommandGroup {
 
-    public static final double MOVE_SERVO_DOWN_TIMEOUT = 5;
+    public static final double MOVE_SERVO_DOWN_TIMEOUT = 1;
 
     public static final double DRIVE_SPEED_GYRO = -0.5;
 
@@ -29,9 +29,9 @@ public class GyroAutonomous extends SequentialCommandGroup {
     public GyroAutonomous(Drivetrain drivetrain) {
         super(
                 new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get())),
-                new WaitCommand(1),
+                new WaitCommand(MOVE_SERVO_DOWN_TIMEOUT),
                 new ParallelCommandGroup(
-                        new IntakeCargo(),
+                        new IntakeCargo(false),
                         new SequentialCommandGroup(
                                 new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE),
                                 new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)
@@ -43,7 +43,7 @@ public class GyroAutonomous extends SequentialCommandGroup {
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
                 new ReleaseCargo().withTimeout(RELEASE_CARGO_TIMEOUT),
                 new ParallelCommandGroup(
-                        new MoveGenericSubsystem(IntakePlacer.getInstance(), IntakePlacer.MAX_SPEED),
+                        new IntakePlacerUp(),
                         new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
                 )
         );

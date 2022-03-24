@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.IntakeCargo;
 import frc.robot.commands.MoveToCargo;
 import frc.robot.commands.ReleaseCargo;
-import frc.robot.commands.autonomous.GyroAutonomous;
+import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -63,11 +63,12 @@ public class Robot extends TimedRobot {
         rightClimberPlacer.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
-        rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("intake cargo", new IntakeCargo(false));
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
+        rootNamespace.putBoolean("is in auto", false);
     }
 
     /**
@@ -98,6 +99,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        rootNamespace.putBoolean("is in auto", false);
     }
 
     @Override
@@ -106,10 +108,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        rootNamespace.putBoolean("is in auto", true);
         drivetrain.resetEncoders();
         drivetrain.resetPigeon();
-        new GyroAutonomous(drivetrain).schedule();
-//        new YeetAndRetreat().schedule();
+//        new GyroAutonomous(drivetrain).schedule();
+        new YeetAndRetreat().schedule();
 //        new SimpleSix(drivetrain).schedule();
     }
 
@@ -122,6 +125,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        rootNamespace.putBoolean("is in auto", false);
         drivetrain.resetPigeon();
         climberWinch.resetEncoder();
         intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());

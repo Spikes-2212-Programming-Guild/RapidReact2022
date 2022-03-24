@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
+import frc.robot.commands.IntakePlacerUp;
 
 import java.util.function.Supplier;
 
@@ -19,7 +20,7 @@ import java.util.function.Supplier;
 public class IntakePlacer extends MotoredGenericSubsystem {
 
     public static final double MAX_SPEED = 0.6;
-    public static final double MIN_SPEED = -0.1;
+    public static final double MIN_SPEED = -0.3;
     private static final RootNamespace servoNamespace = new RootNamespace("Servo");
     public static final Supplier<Double> SERVO_START_ANGLE = servoNamespace.addConstantDouble("start angle", 120);
     public static final Supplier<Double> SERVO_TARGET_ANGLE = servoNamespace.addConstantDouble("target angle", 100);
@@ -70,9 +71,10 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
-        rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
+        rootNamespace.putData("move intake up", new IntakePlacerUp());
         rootNamespace.putData("move servo to target", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE.get())));
         rootNamespace.putData("move servo to start", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE.get())));
+        rootNamespace.putBoolean("down limit", this::isDown);
     }
 
     public void setServoAngle(double angle) {

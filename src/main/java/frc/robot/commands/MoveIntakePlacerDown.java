@@ -1,24 +1,34 @@
 package frc.robot.commands;
 
-import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakePlacer;
 
-public class MoveIntakePlacerDown extends MoveGenericSubsystem {
+public class MoveIntakePlacerDown extends CommandBase {
 
-    public MoveIntakePlacerDown() {
-        super(IntakePlacer.getInstance(), IntakePlacer.MIN_SPEED);
+    private final IntakePlacer intakePlacer;
+    private final boolean ignoreLimit;
+
+    public MoveIntakePlacerDown(boolean ignoreLimit) {
+        this.intakePlacer = IntakePlacer.getInstance();
+        this.ignoreLimit = ignoreLimit;
+        addRequirements(intakePlacer);
     }
 
     @Override
     public void initialize() {
-        IntakePlacer intakePlacer = (IntakePlacer) subsystem;
         intakePlacer.setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get());
     }
 
     @Override
+    public boolean isFinished() {
+        if (!ignoreLimit)
+            return intakePlacer.isDown();
+        else
+            return true;
+    }
+
+    @Override
     public void end(boolean interrupted) {
-        IntakePlacer intakePlacer = (IntakePlacer) subsystem;
         intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
-        super.end(interrupted);
     }
 }
