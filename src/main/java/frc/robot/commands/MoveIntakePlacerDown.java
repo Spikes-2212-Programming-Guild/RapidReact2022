@@ -28,10 +28,7 @@ public class MoveIntakePlacerDown extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (!ignoreLimit)
-            return intakePlacer.isDown();
-        else
-            return true;
+        return ignoreLimit || intakePlacer.isDown();
     }
 
     @Override
