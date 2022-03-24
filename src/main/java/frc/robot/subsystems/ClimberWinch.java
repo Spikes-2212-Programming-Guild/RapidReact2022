@@ -24,10 +24,6 @@ public class ClimberWinch extends MotoredGenericSubsystem {
             rootNamespace.addConstantDouble("encoder up limit", 100);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
             rootNamespace.addConstantDouble("encoder down limit", 1);
-    public final Supplier<Double> ENCODER_STATIC_MEET_BAR_POSITION =
-            rootNamespace.addConstantDouble("encoder static meet bar position", 60);
-    public final Supplier<Double> ENCODER_RELEASE_BAR_POSITION =
-            rootNamespace.addConstantDouble("encoder release bar position", 30);
 
     private final CANSparkMax left;
     private final CANSparkMax right;
