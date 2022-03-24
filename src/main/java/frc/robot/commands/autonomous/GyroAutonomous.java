@@ -26,8 +26,9 @@ public class GyroAutonomous extends SequentialCommandGroup {
     public static final double DRIVE_UNTIL_HIT_HUB_TIMEOUT = 3;
     public static final double RELEASE_CARGO_TIMEOUT = 3;
 
-    public GyroAutonomous(Drivetrain drivetrain) {
-        super(
+    public GyroAutonomous() {
+        Drivetrain drivetrain = Drivetrain.getInstance();
+        addCommands(
                 new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get())),
                 new WaitCommand(MOVE_SERVO_DOWN_TIMEOUT),
                 new ParallelCommandGroup(

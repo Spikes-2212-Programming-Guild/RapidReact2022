@@ -111,7 +111,7 @@ public class Robot extends TimedRobot {
         rootNamespace.putBoolean("is in auto", true);
         drivetrain.resetEncoders();
         drivetrain.resetPigeon();
-//        new GyroAutonomous(drivetrain).schedule();
+//        new GyroAutonomous().schedule();
         new YeetAndRetreat().schedule();
 //        new SimpleSix(drivetrain).schedule();
     }
