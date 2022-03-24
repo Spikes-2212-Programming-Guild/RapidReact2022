@@ -40,10 +40,6 @@ public class RobotMap {
         int TRANSFER_ENTRANCE_LIGHT_SENSOR = 2;
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
-
-        int CLIMBER_PLACER_LIMIT_LEFT = 8;
-        int CLIMBER_PLACER_LIMIT_RIGHT = 9;
-
     }
 
     public interface PWM {
