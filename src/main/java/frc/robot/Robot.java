@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
     private IntakePlacer intakePlacer;
     private IntakeRoller intakeRoller;
     private ClimberWinch climberWinch;
-    private ClimberPlacer leftClimberPlacer, rightClimberPlacer;
 
     private RootNamespace rootNamespace;
 
@@ -48,8 +47,6 @@ public class Robot extends TimedRobot {
         intakeToTransfer = IntakeToTransfer.getInstance();
         transfer = Transfer.getInstance();
         climberWinch = ClimberWinch.getInstance();
-        leftClimberPlacer = ClimberPlacer.getLeftInstance();
-        rightClimberPlacer = ClimberPlacer.getRightInstance();
 
         drivetrain.configureDashboard();
         intakePlacer.configureDashboard();
@@ -57,8 +54,6 @@ public class Robot extends TimedRobot {
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
         climberWinch.configureDashboard();
-        leftClimberPlacer.configureDashboard();
-        rightClimberPlacer.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
         rootNamespace.putData("intake cargo", new IntakeCargo(false));
@@ -84,8 +79,6 @@ public class Robot extends TimedRobot {
         intakeToTransfer.periodic();
         transfer.periodic();
         climberWinch.periodic();
-        leftClimberPlacer.periodic();
-        rightClimberPlacer.periodic();
 
         rootNamespace.update();
 
