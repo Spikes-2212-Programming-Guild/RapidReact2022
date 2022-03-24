@@ -12,6 +12,11 @@ public class YeetAndRetreat extends SequentialCommandGroup {
     public static final double DRIVE_SPEED = 0.7;
     public static final double DRIVE_ROTATE = 0;
     public static final double DRIVE_DURATION = 1.2212;
+
+    /**
+     * The time the robot waits between releasing the cargo and driving away. It is there to limit the interference
+     * between our the alliance's teams' autonomous.
+     */
     public static final double WAIT_DURATION = 3;
 
     public YeetAndRetreat() {
