@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
@@ -54,8 +55,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
         left = leftWinch;
         right = rightWinch;
-        left.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        right.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        setIdleMode(IdleMode.kBrake);
         encoder = right.getEncoder();
     }
 
