@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
         drivetrain.resetPigeon();
 //        new GyroAutonomous().schedule();
         new YeetAndRetreat().schedule();
-//        new SimpleSix(drivetrain).schedule();
+//        new SimpleSix().schedule();
     }
 
     /**
