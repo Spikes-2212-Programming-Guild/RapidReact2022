@@ -18,9 +18,9 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
     private final DigitalInput limit;
 
     public static IntakeToTransfer getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new IntakeToTransfer(new WPI_VictorSPX(RobotMap.CAN.INTAKE_TO_TRANSFER_VICTOR));
-        }
+
         return instance;
     }
 
