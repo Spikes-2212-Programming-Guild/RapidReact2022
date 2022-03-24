@@ -23,9 +23,9 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = -0.1;
     private static final RootNamespace servoNamespace = new RootNamespace("servo");
     public static final Supplier<Double> SERVO_START_ANGLE =
-            servoNamespace.addConstantDouble("start angle", 120);
+            servoNamespace.addConstantDouble("start angle", 0);
     public static final Supplier<Double> SERVO_TARGET_ANGLE =
-            servoNamespace.addConstantDouble("target angle", 100);
+            servoNamespace.addConstantDouble("target angle", 90 );
 
     private static IntakePlacer instance;
 
