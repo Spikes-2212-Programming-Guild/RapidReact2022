@@ -3,11 +3,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakePlacer;
 
+/**
+ * Opens the intake placer's latch the intake placer can move down.
+ */
 public class MoveIntakePlacerDown extends CommandBase {
 
     private final IntakePlacer intakePlacer;
     private final boolean ignoreLimit;
 
+    /**
+     * @param ignoreLimit Represents whether the command should end once the latch has been opened, or wait until the
+     *                    lower limit is hit.
+     */
     public MoveIntakePlacerDown(boolean ignoreLimit) {
         this.intakePlacer = IntakePlacer.getInstance();
         this.ignoreLimit = ignoreLimit;
