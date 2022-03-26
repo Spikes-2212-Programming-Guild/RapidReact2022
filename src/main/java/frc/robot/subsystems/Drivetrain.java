@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.command.drivetrains.commands.DriveTank;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
@@ -25,7 +27,7 @@ public class Drivetrain extends TankDrivetrain {
     private static Drivetrain instance;
 
     private final Namespace encoderNamespace = rootNamespace.addChild("encoders");
-//    private final Namespace encodersPIDNamespace = encoderNamespace.addChild("encoders pid");
+    //    private final Namespace encodersPIDNamespace = encoderNamespace.addChild("encoders pid");
     private final Namespace gyroNamespace = rootNamespace.addChild("gyro");
     private final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
     private final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
@@ -60,7 +62,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 2);
-    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 1);
+    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 999);
     private final PIDSettings pidSettingsCamera;
 
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
@@ -70,8 +72,16 @@ public class Drivetrain extends TankDrivetrain {
 
     public static Drivetrain getInstance() {
         if (instance == null) {
+            WPI_TalonSRX leftTalon = new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1);
             WPI_TalonSRX pigeonTalon = new WPI_TalonSRX(RobotMap.CAN.PIGEON_TALON);
             WPI_TalonSRX rightTalon = new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1);
+            WPI_TalonSRX rightTalon2 = new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_2);
+
+            leftTalon.configFactoryDefault();
+            pigeonTalon.configFactoryDefault();
+            rightTalon.configFactoryDefault();
+            rightTalon2.configFactoryDefault();
+
             instance = new Drivetrain(new BustedMotorControllerGroup(
                     leftCorrection,
                     new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
@@ -90,7 +100,7 @@ public class Drivetrain extends TankDrivetrain {
         return instance;
     }
 
-    private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
+    private Drivetrain(MotorControllerGroup leftMotors, MotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
                        WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
@@ -189,5 +199,7 @@ public class Drivetrain extends TankDrivetrain {
         });
         rootNamespace.putNumber("right talon current", rightTalon::getStatorCurrent);
         rootNamespace.putNumber("left talon current", leftTalon::getStatorCurrent);
+
+        rootNamespace.putData("drive forward", new DriveTank(this, 1, 1));
     }
 }

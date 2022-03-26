@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakePlacer;
 
@@ -10,6 +11,8 @@ public class MoveIntakePlacerDown extends CommandBase {
 
     private final IntakePlacer intakePlacer;
     private final boolean ignoreLimit;
+    private double startTime;
+    private final double TIMEOUT = 0.4;
 
     /**
      * @param ignoreLimit Represents whether the command should end once the latch has been opened, or wait until the
@@ -23,7 +26,15 @@ public class MoveIntakePlacerDown extends CommandBase {
 
     @Override
     public void initialize() {
+        intakePlacer.move(0.3);
+        startTime = Timer.getFPGATimestamp();
         intakePlacer.setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get());
+    }
+
+    @Override
+    public void execute() {
+        if (Timer.getFPGATimestamp() > startTime + TIMEOUT)
+            intakePlacer.move(IntakePlacer.ACTIVE_DROP_SPEED);
     }
 
     @Override
@@ -37,5 +48,6 @@ public class MoveIntakePlacerDown extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
+        intakePlacer.stop();
     }
 }

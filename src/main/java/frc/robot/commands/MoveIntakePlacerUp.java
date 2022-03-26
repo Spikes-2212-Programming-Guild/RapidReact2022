@@ -11,7 +11,7 @@ import frc.robot.subsystems.IntakePlacer;
  */
 public class MoveIntakePlacerUp extends MoveGenericSubsystem {
 
-    private static final double TIMEOUT = 0.3;
+    private static final double TIMEOUT = 0;
     private double meetLimitTime;
 
     public MoveIntakePlacerUp() {
@@ -25,7 +25,7 @@ public class MoveIntakePlacerUp extends MoveGenericSubsystem {
 
     @Override
     public boolean isFinished() {
-        if (super.isFinished() && meetLimitTime == 0)
+        if (IntakePlacer.getInstance().isUp() && meetLimitTime == 0)
             meetLimitTime = Timer.getFPGATimestamp();
         return meetLimitTime != 0 && Timer.getFPGATimestamp() >= meetLimitTime + TIMEOUT;
     }

@@ -13,7 +13,7 @@ import frc.robot.subsystems.IntakeToTransfer;
 
 public class GyroAutonomous extends SequentialCommandGroup {
 
-    public static final double MOVE_SERVO_DOWN_TIMEOUT = 1;
+    public static final double MOVE_SERVO_DOWN_TIMEOUT = 2.212;
 
     public static final double DRIVE_SPEED_GYRO = -0.5;
 
@@ -21,7 +21,7 @@ public class GyroAutonomous extends SequentialCommandGroup {
     public static final double RETREAT_DRIVE_ROTATE = -0.3;
     public static final double RETREAT_DRIVE_DURATION = 2.5;
 
-    public static final double RETURN_BY_GYRO_TIMEOUT = 3;
+    public static final double RETURN_BY_GYRO_TIMEOUT = 5;
     public static final double DRIVE_UNTIL_HIT_HUB_TIMEOUT = 3;
     public static final double RELEASE_CARGO_TIMEOUT = 3;
 
