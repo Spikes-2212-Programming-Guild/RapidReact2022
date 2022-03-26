@@ -5,9 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.IntakePlacer;
 
 /**
- * Moves the IntakePlacer up until: <br>
- * 1. The upper limit is hit. <br>
- * 2. {@value TIMEOUT} seconds have passed since the upper limit was hit.
+ * Moves the IntakePlacer up until {@value TIMEOUT} seconds have passed since the upper limit was hit.
  */
 public class MoveIntakePlacerUp extends MoveGenericSubsystem {
 

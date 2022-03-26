@@ -44,7 +44,7 @@ public class GyroAutonomous extends SequentialCommandGroup {
                 new ReleaseCargo().withTimeout(RELEASE_CARGO_TIMEOUT),
                 new ParallelCommandGroup(
                         new MoveIntakePlacerUp(),
-                        new DriveArcade(Drivetrain.getInstance(), RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
+                        new DriveArcade(drivetrain, RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE).withTimeout(RETREAT_DRIVE_DURATION)
                 )
         );
     }
