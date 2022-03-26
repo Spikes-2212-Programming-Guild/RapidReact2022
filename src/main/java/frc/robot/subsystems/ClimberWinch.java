@@ -15,18 +15,14 @@ import java.util.function.Supplier;
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
-    public static final double UP_SPEED = 0.25;
-    public static final double DOWN_SPEED = -0.5;
+    public static final double UP_SPEED = -0.7;
+    public static final double DOWN_SPEED = 0.7;
 
     //@todo calibrate needed values
     public final Supplier<Double> ENCODER_UP_LIMIT =
-            rootNamespace.addConstantDouble("encoder up limit", 100);
+            rootNamespace.addConstantDouble("encoder up limit", -65);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
-            rootNamespace.addConstantDouble("encoder down limit", 1);
-    public final Supplier<Double> ENCODER_STATIC_MEET_BAR_POSITION =
-            rootNamespace.addConstantDouble("encoder static meet bar position", 60);
-    public final Supplier<Double> ENCODER_RELEASE_BAR_POSITION =
-            rootNamespace.addConstantDouble("encoder release bar position", 30);
+            rootNamespace.addConstantDouble("encoder down limit", -2);
 
     private final CANSparkMax left;
     private final CANSparkMax right;
@@ -42,16 +38,9 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         }
         return instance;
     }
-//    public static ClimberWinch getInstance() {
-//        if (instance == null) {
-//            instance = new ClimberWinch(
-//                    new CANSparkMax(RobotMap.CAN.CLIMBER_WINCH_SPARK_MAX_2, CANSparkMaxLowLevel.MotorType.kBrushless));
-//        }
-//        return instance;
-//    }
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
-        super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
+        super(UP_SPEED, DOWN_SPEED, "climber winch", leftWinch, rightWinch);
         left = leftWinch;
         right = rightWinch;
         left.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -59,18 +48,14 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         encoder = right.getEncoder();
     }
 
-//    private ClimberWinch(CANSparkMax rightWinch) {
-//        s[]\
-//        uper(DOWN_SPEED, UP_SPEED, "climber winch", rightWinch);
-//        right = rightWinch;
-//        right.setIdleMode(CANSparkMax.IdleMode.kBrake);
-//        encoder = right.getEncoder();
-//    }
-
     @Override
     public boolean canMove(double speed) {
-        return (speed > 0 && encoder.getPosition() < ENCODER_UP_LIMIT.get()) ||
-                (speed < 0 && encoder.getPosition() > ENCODER_DOWN_LIMIT.get());
+        return (speed < 0 && encoder.getPosition() > ENCODER_UP_LIMIT.get()) ||
+                (speed > 0 && encoder.getPosition() < ENCODER_DOWN_LIMIT.get());
+    }
+
+    public void moveUsingApply(double speed) {
+        apply(speed);
     }
 
     public void resetEncoder() {

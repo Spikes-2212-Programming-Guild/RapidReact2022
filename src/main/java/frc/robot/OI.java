@@ -50,19 +50,17 @@ public class OI /* GEVALD */ {
                 new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED).withInterrupt(transfer::getEntranceSensor)
         ).withInterrupt(() -> (intakeToTransfer.getLimit()) && transfer.getEntranceSensor()));
 
-//        xbox.getLeftStickButton().whileHeld(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED) {
-//            @Override
-//            public boolean isFinished() {
-//                return false;
-//            }
-//        });
-
         xbox.getGreenButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED));
 
         xbox.getYellowButton().whenPressed(new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED));
 
         xbox.getDownButton().whileHeld(
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.DOWN_SPEED) {
+                    @Override
+                    public void execute() {
+                        climberWinch.moveUsingApply(speedSupplier.get());
+                    }
+
                     @Override
                     public boolean isFinished() {
                         return false;
@@ -72,9 +70,15 @@ public class OI /* GEVALD */ {
         xbox.getUpButton().whileHeld(
                 new MoveGenericSubsystem(climberWinch, ClimberWinch.UP_SPEED) {
                     @Override
+                    public void execute() {
+                        climberWinch.moveUsingApply(speedSupplier.get());
+                    }
+
+                    @Override
                     public boolean isFinished() {
                         return false;
                     }
+
                 });
 
         //stops the climberWinch

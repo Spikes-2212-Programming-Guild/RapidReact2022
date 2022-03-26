@@ -11,7 +11,7 @@ import frc.robot.subsystems.IntakePlacer;
  */
 public class MoveIntakePlacerUp extends MoveGenericSubsystem {
 
-    private static final double TIMEOUT = 0;
+    private static final double TIMEOUT = 0.3;
     private double meetLimitTime;
 
     public MoveIntakePlacerUp() {
@@ -20,6 +20,7 @@ public class MoveIntakePlacerUp extends MoveGenericSubsystem {
 
     @Override
     public void initialize() {
+        IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
         meetLimitTime = 0;
     }
 
