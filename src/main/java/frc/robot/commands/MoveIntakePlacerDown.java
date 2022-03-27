@@ -11,20 +11,40 @@ import frc.robot.subsystems.IntakePlacer;
 public class MoveIntakePlacerDown extends CommandBase {
 
     private final IntakePlacer intakePlacer;
+    private final boolean ignoreLimit;
+    private double startTime;
+    private final double TIMEOUT = 0.4;
 
-    public MoveIntakePlacerDown() {
+    /**
+     * @param ignoreLimit Represents whether the command should end once the latch has been opened, or wait until the
+     *                    lower limit is hit.
+     */
+    public MoveIntakePlacerDown(boolean ignoreLimit) {
         this.intakePlacer = IntakePlacer.getInstance();
+        this.ignoreLimit = ignoreLimit;
         addRequirements(intakePlacer);
     }
 
     @Override
     public void initialize() {
+        intakePlacer.move(0.3);
+        startTime = Timer.getFPGATimestamp();
         intakePlacer.setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get());
     }
 
     @Override
+    public void execute() {
+        if (Timer.getFPGATimestamp() > startTime + TIMEOUT)
+//            intakePlacer.move(IntakePlacer.ACTIVE_DROP_SPEED);
+            intakePlacer.stop();
+    }
+
+    @Override
     public boolean isFinished() {
-        return intakePlacer.isDown();
+        if (!ignoreLimit)
+            return intakePlacer.isDown();
+        else
+            return true;
     }
 
     @Override

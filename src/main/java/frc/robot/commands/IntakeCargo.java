@@ -13,9 +13,9 @@ public class IntakeCargo extends SequentialCommandGroup {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
         Transfer transfer = Transfer.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
-        if (!ignorePlacerLimit) {
-            addCommands(new MoveIntakePlacerDown());
-        }
+//        if (!ignorePlacerLimit) {
+        addCommands(new MoveIntakePlacerDown(ignorePlacerLimit));
+//        }
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(

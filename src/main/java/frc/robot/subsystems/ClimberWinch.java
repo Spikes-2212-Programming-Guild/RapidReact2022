@@ -20,9 +20,9 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     //@todo calibrate needed values
     public final Supplier<Double> ENCODER_UP_LIMIT =
-            rootNamespace.addConstantDouble("encoder up limit", -65);
+            rootNamespace.addConstantDouble("encoder up limit", 65);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
-            rootNamespace.addConstantDouble("encoder down limit", -2);
+            rootNamespace.addConstantDouble("encoder down limit", 2);
 
     private final CANSparkMax left;
     private final CANSparkMax right;
@@ -45,7 +45,7 @@ public class ClimberWinch extends MotoredGenericSubsystem {
         right = rightWinch;
         left.setIdleMode(CANSparkMax.IdleMode.kBrake);
         right.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        encoder = right.getEncoder();
+        encoder = left.getEncoder();
     }
 
     @Override
