@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.RobotMap;
 
 /**
@@ -18,9 +19,9 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
     private final DigitalInput limit;
 
     public static IntakeToTransfer getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new IntakeToTransfer(new WPI_VictorSPX(RobotMap.CAN.INTAKE_TO_TRANSFER_VICTOR));
-        }
+
         return instance;
     }
 

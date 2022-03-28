@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import frc.robot.subsystems.Drivetrain;
@@ -14,11 +15,12 @@ public class MoveToCargo extends DriveArcadeWithPID {
 
     public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.55;
     public static final double SETPOINT = 10.0;
-    public static final double MOVE_TO_CARGO_TIMEOUT = 7;
+    public static final double MOVE_TO_CARGO_TIMEOUT = 4.2212;
+
 
     public MoveToCargo(Drivetrain drivetrain, Supplier<Double> speed) {
-        super(drivetrain, () -> -MoveToCargo.getCargoX(), () -> SETPOINT, speed, drivetrain.getCameraPIDSettings(),
-                drivetrain.getFFSettings());
+        super(drivetrain, MoveToCargo::getCargoX, () -> SETPOINT, speed, drivetrain.getCameraPIDSettings(),
+                FeedForwardSettings.EMPTY_FFSETTINGS);
     }
 
     /**
@@ -28,7 +30,7 @@ public class MoveToCargo extends DriveArcadeWithPID {
         try {
             RootNamespace imageProcess = new RootNamespace("Image Processing");
             Namespace contourInfo = imageProcess.addChild("contour 0");
-            return contourInfo.getNumber("x");
+            return -contourInfo.getNumber("x");
         } catch (Exception e) {
             return SETPOINT;
         }

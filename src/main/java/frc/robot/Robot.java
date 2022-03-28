@@ -11,7 +11,6 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
@@ -57,11 +56,13 @@ public class Robot extends TimedRobot {
         climberWinch.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
-        rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("intake cargo", new IntakeCargo(false));
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
+        rootNamespace.putBoolean("is in auto", false);
+        rootNamespace.putNumber("Move To Cargo Source", MoveToCargo::getCargoX);
     }
 
     /**
@@ -90,6 +91,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        rootNamespace.putBoolean("is in auto", false);
     }
 
     @Override
@@ -98,11 +100,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        drivetrain.resetEncoders();
+        rootNamespace.putBoolean("is in auto", true);
         drivetrain.resetPigeon();
-        new GyroAutonomous(drivetrain).schedule();
+        new GyroAutonomous().schedule();
 //        new YeetAndRetreat().schedule();
-//        new SimpleSix(drivetrain).schedule();
+//        new SimpleSix().schedule();
     }
 
     /**
@@ -114,9 +116,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        rootNamespace.putBoolean("is in auto", false);
         drivetrain.resetPigeon();
         climberWinch.resetEncoder();
-        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE);
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
