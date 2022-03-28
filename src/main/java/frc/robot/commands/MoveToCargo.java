@@ -32,7 +32,7 @@ public class MoveToCargo extends DriveArcadeWithPID {
             Namespace contourInfo = imageProcess.addChild("contour 0");
             return -contourInfo.getNumber("x");
         } catch (Exception e) {
-            return -SETPOINT;
+            return SETPOINT;
         }
     }
 }
