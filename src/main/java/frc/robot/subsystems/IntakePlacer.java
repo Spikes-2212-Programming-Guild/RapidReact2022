@@ -76,6 +76,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
         rootNamespace.putData("move servo to target", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE.get())));
         rootNamespace.putData("move servo to start", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE.get())));
         rootNamespace.putBoolean("down limit", this::isDown);
+        rootNamespace.putBoolean("up limit", this::isUp);
     }
 
     public void setServoAngle(double angle) {
