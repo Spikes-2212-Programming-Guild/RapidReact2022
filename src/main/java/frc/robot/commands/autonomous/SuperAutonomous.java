@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 public class SuperAutonomous extends SequentialCommandGroup {
 
-    private static final RootNamespace rootNamespace = new RootNamespace("Super auto calibration");
+    private static final RootNamespace rootNamespace = new RootNamespace("super auto");
     private static final Supplier<Double> SEEK_ROTATE_VALUE = rootNamespace.addConstantDouble("Seek rotate value", 0.31415);
 
     private final Drivetrain drivetrain;
