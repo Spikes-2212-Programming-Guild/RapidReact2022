@@ -73,13 +73,6 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 999);
     private final PIDSettings pidSettingsCamera;
 
-    private final Supplier<Double> kPLimelight = limelightPIDNamespace.addConstantDouble("kP", 0.0133);
-    private final Supplier<Double> kILimelight = limelightPIDNamespace.addConstantDouble("kI", 0);
-    private final Supplier<Double> kDLimelight = limelightPIDNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> toleranceLimelight = limelightPIDNamespace.addConstantDouble("tolerance", 10);
-    private final Supplier<Double> waitTimeLimelight = limelightPIDNamespace.addConstantDouble("wait time", 1);
-    private final PIDSettings pidSettingsLimelight;
-
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
     private final Supplier<Double> kV = FeedForwardNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kA = FeedForwardNamespace.addConstantDouble("kA", 0);
@@ -125,8 +118,6 @@ public class Drivetrain extends TankDrivetrain {
                 this.toleranceEncoders, this.waitTimeEncoders);
         this.pidSettingsCamera = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
                 this.toleranceCamera, this.waitTimeCamera);
-        this.pidSettingsLimelight = new PIDSettings(this.kPLimelight, this.kILimelight, this.kDLimelight,
-                this.toleranceLimelight, this.waitTimeLimelight);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
         this.odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
         this.field2d = new Field2d();
@@ -172,10 +163,6 @@ public class Drivetrain extends TankDrivetrain {
 
     public PIDSettings getGyroPIDSettings() {
         return pidSettingsGyro;
-    }
-
-    public PIDSettings getLimelightPIDSettings() {
-        return pidSettingsLimelight;
     }
 
     public PIDSettings getCameraPIDSettings() {
