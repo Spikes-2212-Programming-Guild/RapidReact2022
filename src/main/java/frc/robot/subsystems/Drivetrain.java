@@ -11,8 +11,11 @@ import com.spikes2212.util.BustedMotorControllerGroup;
 import com.spikes2212.util.Limelight;
 import com.spikes2212.util.PigeonWrapper;
 import com.spikes2212.util.TalonEncoder;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
 
@@ -47,6 +50,8 @@ public class Drivetrain extends TankDrivetrain {
     private final WPI_TalonSRX leftTalon, rightTalon;
     private final TalonEncoder leftEncoder, rightEncoder;
     private final Limelight limelight;
+    private final DifferentialDriveOdometry odometry;
+    private final Field2d field2d;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
     private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
@@ -125,6 +130,8 @@ public class Drivetrain extends TankDrivetrain {
         this.pidSettingsLimelight = new PIDSettings(this.kPLimelight, this.kILimelight, this.kDLimelight,
                 this.toleranceLimelight, this.waitTimeLimelight);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
+        this.odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
+        this.field2d = new Field2d();
     }
 
     public void resetEncoders() {
@@ -139,6 +146,7 @@ public class Drivetrain extends TankDrivetrain {
     @Override
     public void periodic() {
         rootNamespace.update();
+        field2d.setRobotPose(odometry.getPoseMeters());
     }
 
     public double getYaw() {
@@ -193,6 +201,7 @@ public class Drivetrain extends TankDrivetrain {
      */
     @Override
     public void configureDashboard() {
+        rootNamespace.putData("field 2d", field2d);
         encoderNamespace.putNumber("left distance", leftEncoder::getPosition);
         encoderNamespace.putNumber("right distance", rightEncoder::getPosition);
         encoderNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders) {
@@ -210,7 +219,6 @@ public class Drivetrain extends TankDrivetrain {
         });
         rootNamespace.putNumber("right talon current", rightTalon::getStatorCurrent);
         rootNamespace.putNumber("left talon current", leftTalon::getStatorCurrent);
-
         rootNamespace.putData("drive forward", new DriveTank(this, 1, 1));
     }
 }
