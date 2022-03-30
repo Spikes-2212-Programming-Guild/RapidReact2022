@@ -3,7 +3,7 @@
     "name": "SpikesLib2",
     "version": "v2.0.5",
     "uuid": "018a8f54-8662-11ec-a8a3-0242ac120002",
-    "jsonUrl": "htxtps://raw.githubusercontent.com/Spikes-2212-Programming-Guild/SpikesLib2/master/SpikesLib2.json",
+    "jsonUrl": "https://raw.githubusercontent.com/Spikes-2212-Programming-Guild/SpikesLib2/master/SpikesLib2.json",
     "mavenUrls": [
         "https://jitpack.io"
     ],
