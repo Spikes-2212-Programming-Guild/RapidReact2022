@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.command.drivetrains.commands.DriveTank;
-import com.spikes2212.command.genericsubsystem.TalonSubsystem;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
@@ -15,8 +14,6 @@ import com.spikes2212.util.TalonEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -30,7 +27,6 @@ public class Drivetrain extends TankDrivetrain {
      * The wheel moves 15.24 * PI (it's perimeter) each 360 ticks (in meters).
      */
     private static final double DISTANCE_PER_PULSE = 15.24 * Math.PI / 360.0 / 100;
-    public static final int LIMELIGHT_PIPELINE = 1;
 
     private static Drivetrain instance;
 
@@ -123,7 +119,6 @@ public class Drivetrain extends TankDrivetrain {
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.limelight = limelight;
-        this.limelight.setPipeline(LIMELIGHT_PIPELINE);
         this.pidSettingsGyro = new PIDSettings(this.kPGyro, this.kIGyro, this.kDGyro, this.toleranceGyro,
                 this.waitTimeGyro);
         this.pidSettingsEncoders = new PIDSettings(this.kPEncoders, this.kIEncoders, this.kDEncoders,
