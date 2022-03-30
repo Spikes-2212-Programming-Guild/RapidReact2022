@@ -10,10 +10,10 @@ import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.BustedMotorControllerGroup;
 import com.spikes2212.util.Limelight;
 import com.spikes2212.util.PigeonWrapper;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
@@ -24,7 +24,6 @@ public class Drivetrain extends TankDrivetrain {
 
     private static Drivetrain instance;
 
-    private final Namespace encoderNamespace = rootNamespace.addChild("encoders");
     private final Namespace gyroNamespace = rootNamespace.addChild("gyro");
     private final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
     private final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
