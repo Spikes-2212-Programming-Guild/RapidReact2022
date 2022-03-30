@@ -24,6 +24,7 @@ public class Drivetrain extends TankDrivetrain {
      * The wheel moves 15.24 * PI (it's perimeter) each 360 ticks (in meters).
      */
     private static final double DISTANCE_PER_PULSE = 15.24 * Math.PI / 360.0 / 100;
+    public static final int LIMELIGHT_PIPELINE = 1;
 
     private static Drivetrain instance;
 
@@ -114,6 +115,7 @@ public class Drivetrain extends TankDrivetrain {
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.limelight = limelight;
+        this.limelight.setPipeline(LIMELIGHT_PIPELINE);
         this.pidSettingsGyro = new PIDSettings(this.kPGyro, this.kIGyro, this.kDGyro, this.toleranceGyro,
                 this.waitTimeGyro);
         this.pidSettingsEncoders = new PIDSettings(this.kPEncoders, this.kIEncoders, this.kDEncoders,
