@@ -57,7 +57,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("kP", 0);
     private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("tolerance", 0.25);
     private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("wait time", 1);
     private final PIDSettings pidSettingsEncoders;
 
