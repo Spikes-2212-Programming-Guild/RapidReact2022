@@ -76,7 +76,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kPLimelight = limelightPIDNamespace.addConstantDouble("kP", 0.0133);
     private final Supplier<Double> kILimelight = limelightPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDLimelight = limelightPIDNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> toleranceLimelight = limelightPIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> toleranceLimelight = limelightPIDNamespace.addConstantDouble("tolerance", 10);
     private final Supplier<Double> waitTimeLimelight = limelightPIDNamespace.addConstantDouble("wait time", 1);
     private final PIDSettings pidSettingsLimelight;
 
