@@ -19,8 +19,10 @@ public class SuperAutonomous extends SequentialCommandGroup {
     private static final RootNamespace rootNamespace = new RootNamespace("super auto");
     private static final Supplier<Double> SEEK_ROTATE_VALUE = rootNamespace.addConstantDouble("seek rotate value", 0.5);
     private static final Supplier<Double> SEEK_HUB_TOLERANCE = rootNamespace.addConstantDouble("seek hub tolerance", 18);
+
     private static final double AIM_TO_HUB_MOVE_VALUE = 0.55;
-    private static final double AIM_TO_HUB_SETPOINT = 0.0;
+    private static final Supplier<Double> AIM_TO_HUB_WAIT_TIME = rootNamespace.addConstantDouble("aim to hub wait time", 1.0);
+    private static final PIDSettings aimToHubPIDSettings = Drivetrain.getInstance().getCameraPIDSettings();
 
     public static final double SEEK_CARGO_TOLERANCE = 90;
 
@@ -28,6 +30,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     public SuperAutonomous() {
         this.drivetrain = Drivetrain.getInstance();
+        aimToHubPIDSettings.setWaitTime(AIM_TO_HUB_WAIT_TIME);
     }
 
     private DriveTankWithPID returnByEncoders() {
