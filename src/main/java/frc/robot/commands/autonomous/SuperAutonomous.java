@@ -13,7 +13,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     private static final RootNamespace rootNamespace = new RootNamespace("super auto");
     private static final Supplier<Double> SEEK_ROTATE_VALUE = rootNamespace.addConstantDouble("seek rotate value", 0.4);
-    private static final Supplier<Double> SEEK_ROTATE_TOLERANCE = rootNamespace.addConstantDouble("seek rotate tolerance", 20);
+    private static final Supplier<Double> SEEK_ROTATE_TOLERANCE = rootNamespace.addConstantDouble("seek rotate tolerance", 18);
 
     private final Drivetrain drivetrain;
 
