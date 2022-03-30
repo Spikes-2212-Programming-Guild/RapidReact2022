@@ -35,7 +35,6 @@ public class Drivetrain extends TankDrivetrain {
     private final Namespace gyroNamespace = rootNamespace.addChild("gyro");
     private final Namespace gyroPIDNamespace = gyroNamespace.addChild("gyro pid");
     private final Namespace cameraPIDNamespace = rootNamespace.addChild("camera pid");
-    private final Namespace limelightPIDNamespace = rootNamespace.addChild("limelight pid");
     private final Namespace FeedForwardNamespace = rootNamespace.addChild("feed forward");
 
     /**
