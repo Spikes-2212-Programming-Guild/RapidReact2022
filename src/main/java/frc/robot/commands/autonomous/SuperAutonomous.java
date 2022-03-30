@@ -1,10 +1,12 @@
 package frc.robot.commands.autonomous;
 
+import com.spikes2212.command.drivetrains.commands.DriveTankWithPID;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Drivetrain;
 
 import java.util.function.Supplier;
@@ -19,6 +21,12 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     public SuperAutonomous() {
         this.drivetrain = Drivetrain.getInstance();
+    }
+
+    private DriveTankWithPID returnByEncoders() {
+        return new DriveTankWithPID(drivetrain, drivetrain.getEncodersPIDSettings(), drivetrain.getEncodersPIDSettings(),
+                drivetrain.getLeftDistance() / 2, drivetrain.getRightDistance() / 2,
+                drivetrain::getLeftDistance, drivetrain::getRightDistance);
     }
 
     private Command seekHub() {

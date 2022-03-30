@@ -107,6 +107,16 @@ public class Drivetrain extends TankDrivetrain {
         return yaw;
     }
 
+    //@todo
+    public double getLeftDistance() {
+        return 0;
+    }
+
+    //@todo
+    public double getRightDistance() {
+        return 0;
+    }
+
     public WPI_TalonSRX getLeftTalon() {
         return leftTalon;
     }
@@ -121,6 +131,11 @@ public class Drivetrain extends TankDrivetrain {
 
     public PIDSettings getCameraPIDSettings() {
         return pidSettingsCamera;
+    }
+
+    //@todo
+    public PIDSettings getEncodersPIDSettings() {
+        return null;
     }
 
     public FeedForwardSettings getFFSettings() {
