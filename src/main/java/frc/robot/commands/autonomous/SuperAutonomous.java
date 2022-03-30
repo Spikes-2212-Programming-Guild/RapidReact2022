@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class SuperAutonomous extends SequentialCommandGroup {
 
     private static final RootNamespace rootNamespace = new RootNamespace("super auto");
-    private static final Supplier<Double> SEEK_HUB_ROTATE_VALUE = rootNamespace.addConstantDouble("seek hub rotate value", 0.4);
+    private static final Supplier<Double> SEEK_HUB_ROTATE_VALUE = rootNamespace.addConstantDouble("seek hub rotate value", 0.5);
     private static final Supplier<Double> SEEK_HUB_TOLERANCE = rootNamespace.addConstantDouble("seek hub tolerance", 18);
     public static final double SEEK_CARGO_TOLERANCE = 90;
 
