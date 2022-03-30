@@ -54,7 +54,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> waitTimeGyro = gyroPIDNamespace.addConstantDouble("wait time", 0.1);
     private final PIDSettings pidSettingsGyro;
 
-    private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kPEncoders = encodersPIDNamespace.addConstantDouble("kP", 0.1);
     private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("tolerance", 0.25);
@@ -68,11 +68,11 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 999);
     private final PIDSettings pidSettingsCamera;
 
-    private final Supplier<Double> kPLimelight = limelightPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kPLimelight = limelightPIDNamespace.addConstantDouble("kP", 0.1);
     private final Supplier<Double> kILimelight = limelightPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDLimelight = limelightPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceLimelight = limelightPIDNamespace.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> waitTimeLimelight = limelightPIDNamespace.addConstantDouble("wait time", 0);
+    private final Supplier<Double> waitTimeLimelight = limelightPIDNamespace.addConstantDouble("wait time", 1);
     private final PIDSettings pidSettingsLimelight;
 
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
