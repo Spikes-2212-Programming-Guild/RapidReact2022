@@ -1,10 +1,10 @@
 package frc.robot.commands.autonomous;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
-import com.spikes2212.command.drivetrains.commands.DriveTankWithPID;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.Limelight;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -25,7 +25,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
     public static final double SEEK_CARGO_TOLERANCE = 90;
     public static final double SEEK_CARGO_TIMEOUT = 1;
 
-    public static final double RETURN_BY_ENCODERS_TIMEOUT = 1;
+    public static final double RETURN_HALFWAY_TIMEOUT = 1;
 
     public static final double SEEK_HUB_TIMEOUT = 1;
 
@@ -35,14 +35,26 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     private final Drivetrain drivetrain;
 
+    /**
+     * The time in which the robot has started to move towards the second cargo it intakes.
+     */
+    private double secondCargoStartTime;
+
+    /**
+     * The time in which the robot finished intaking the second cargo.
+     */
+    private double secondCargoFinishTime;
+
     public SuperAutonomous() {
         this.drivetrain = Drivetrain.getInstance();
         addCommands(
                 releaseCargoAndLatch(),
                 moveToCargoWithIntake().withTimeout(INTAKE_FIRST_CARGO_TIMEOUT),
                 seekCargo().withTimeout(SEEK_CARGO_TIMEOUT),
+                new InstantCommand(() -> secondCargoStartTime = Timer.getFPGATimestamp()),
                 moveToCargoWithIntake().withTimeout(INTAKE_SECOND_CARGO_TIMEOUT),
-                returnByEncoders().withTimeout(RETURN_BY_ENCODERS_TIMEOUT),
+                new InstantCommand(() -> secondCargoFinishTime = Timer.getFPGATimestamp()),
+                returnByHalf(),
                 seekHub().withTimeout(SEEK_HUB_TIMEOUT),
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
                 new ReleaseCargo().withTimeout(SECOND_RELEASE_CARGO_TIMEOUT)
@@ -62,10 +74,9 @@ public class SuperAutonomous extends SequentialCommandGroup {
                 new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
     }
 
-    private DriveTankWithPID returnByEncoders() {
-        return new DriveTankWithPID(drivetrain, drivetrain.getEncodersPIDSettings(), drivetrain.getEncodersPIDSettings(),
-                drivetrain.getLeftDistance() / 2, drivetrain.getRightDistance() / 2,
-                drivetrain::getLeftDistance, drivetrain::getRightDistance);
+    private ParallelRaceGroup returnByHalf() {
+        return new DriveArcade(drivetrain, () -> -MoveToCargo.CARGO_MOVE_VALUE.get(), () -> 0.0).withTimeout(
+                0.5 * (secondCargoFinishTime - secondCargoStartTime));
     }
 
     private Command seekHub() {
