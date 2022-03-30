@@ -18,17 +18,13 @@ public class SuperAutonomous extends SequentialCommandGroup {
     private final Drivetrain drivetrain;
 
     public SuperAutonomous() {
-        drivetrain = Drivetrain.getInstance();
+        this.drivetrain = Drivetrain.getInstance();
     }
 
     private Command seekHub() {
         Limelight limelight = drivetrain.getLimelight();
-        return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE) {
-            @Override
-            public boolean isFinished() {
-                return -SEEK_ROTATE_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTarget()
-                        && limelight.getHorizontalOffsetFromTarget() <= SEEK_ROTATE_TOLERANCE.get();
-            }
-        };
+        return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE).withInterrupt(() ->
+                -SEEK_ROTATE_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTarget() &&
+                limelight.getHorizontalOffsetFromTarget() <= SEEK_ROTATE_TOLERANCE.get());
     }
 }
