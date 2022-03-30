@@ -78,7 +78,7 @@ public class Drivetrain extends TankDrivetrain {
         return instance;
     }
 
-    private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
+    private Drivetrain(MotorControllerGroup leftMotors, MotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
                        WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon, Limelight limelight) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
