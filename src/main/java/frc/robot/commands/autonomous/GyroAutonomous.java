@@ -32,8 +32,8 @@ public class GyroAutonomous extends SequentialCommandGroup {
                 new WaitCommand(MOVE_SERVO_DOWN_TIMEOUT),
                 new ParallelCommandGroup(
                         new IntakeCargo(false),
-                        new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE)
-                ).withTimeout(MoveToCargo.MOVE_TO_CARGO_TIMEOUT),
+                        new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE)
+                ).withTimeout(MoveToCargoWithIntake.MOVE_TO_CARGO_TIMEOUT),
                 //Moves the robot back to its original position using the gyro sensor.
                 new DriveArcadeWithPID(drivetrain, () -> -drivetrain.getYaw(), 0, DRIVE_SPEED_GYRO,
                         drivetrain.getGyroPIDSettings(), drivetrain.getFFSettings()).withTimeout(RETURN_BY_GYRO_TIMEOUT),
