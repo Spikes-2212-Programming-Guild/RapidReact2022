@@ -10,6 +10,7 @@ import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.BustedMotorControllerGroup;
 import com.spikes2212.util.Limelight;
 import com.spikes2212.util.PigeonWrapper;
+import com.spikes2212.util.TalonEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -43,7 +44,7 @@ public class Drivetrain extends TankDrivetrain {
 
     private final PigeonWrapper pigeon;
     private final WPI_TalonSRX leftTalon, rightTalon;
-    private final Encoder leftEncoder, rightEncoder;
+    private final TalonEncoder leftEncoder, rightEncoder;
     private final Limelight limelight;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
@@ -57,7 +58,7 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kIEncoders = encodersPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDEncoders = encodersPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceEncoders = encodersPIDNamespace.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("wait time", 0);
+    private final Supplier<Double> waitTimeEncoders = encodersPIDNamespace.addConstantDouble("wait time", 1);
     private final PIDSettings pidSettingsEncoders;
 
     private final Supplier<Double> kPCamera = cameraPIDNamespace.addConstantDouble("kP", 0.0065);
@@ -108,8 +109,8 @@ public class Drivetrain extends TankDrivetrain {
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftTalon = leftTalon;
         this.rightTalon = rightTalon;
-        this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_NEG);
-        this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
+        this.leftEncoder = new TalonEncoder(leftTalon, DISTANCE_PER_PULSE);
+        this.rightEncoder = new TalonEncoder(rightTalon, DISTANCE_PER_PULSE);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.limelight = limelight;
@@ -145,20 +146,12 @@ public class Drivetrain extends TankDrivetrain {
         return yaw;
     }
 
-    public double getRightDistance() {
-        return rightEncoder.getDistance();
-    }
-
-    public double getRightTicks() {
-        return rightEncoder.get();
-    }
-
     public double getLeftDistance() {
-        return leftEncoder.getDistance();
+        return leftEncoder.getPosition();
     }
 
-    public double getLeftTicks() {
-        return leftEncoder.get();
+    public double getRightDistance() {
+        return rightEncoder.getDistancePerPulse();
     }
 
     public WPI_TalonSRX getLeftTalon() {
@@ -198,10 +191,8 @@ public class Drivetrain extends TankDrivetrain {
      */
     @Override
     public void configureDashboard() {
-        encoderNamespace.putNumber("left ticks", leftEncoder::get);
-        encoderNamespace.putNumber("right ticks", rightEncoder::get);
-        encoderNamespace.putNumber("left distance", leftEncoder::getDistance);
-        encoderNamespace.putNumber("right distance", rightEncoder::getDistance);
+        encoderNamespace.putNumber("left distance", leftEncoder::getPosition);
+        encoderNamespace.putNumber("right distance", rightEncoder::getPosition);
         encoderNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders) {
             @Override
             public boolean runsWhenDisabled() {
