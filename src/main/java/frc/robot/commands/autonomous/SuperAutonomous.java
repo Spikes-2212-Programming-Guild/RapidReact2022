@@ -33,18 +33,12 @@ public class SuperAutonomous extends SequentialCommandGroup {
         aimToHubPIDSettings.setWaitTime(AIM_TO_HUB_WAIT_TIME);
     }
 
-    private DriveTankWithPID returnByEncoders() {
-        return new DriveTankWithPID(drivetrain, drivetrain.getEncodersPIDSettings(), drivetrain.getEncodersPIDSettings(),
-                drivetrain.getLeftDistance() / 2, drivetrain.getRightDistance() / 2,
-                drivetrain::getLeftDistance, drivetrain::getRightDistance);
-    }
-
     /**
      * @return a command that turns the robot until the angle between the limelight and target is small enough
      */
     private Command seekHub() {
         Limelight limelight = drivetrain.getLimelight();
-        return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE).withInterrupt(() ->
+        return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () ->
                 -SEEK_HUB_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTargetInDegrees() &&
                         limelight.getHorizontalOffsetFromTargetInDegrees() <= SEEK_HUB_TOLERANCE.get());
     }
