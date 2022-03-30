@@ -10,17 +10,13 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
 
-/**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
 
     private OI oi;
@@ -32,6 +28,7 @@ public class Robot extends TimedRobot {
     private ClimberWinch climberWinch;
 
     private RootNamespace rootNamespace;
+    private SendableChooser<Command> autoChooser;
 
     @Override
     public void robotInit() {
@@ -41,54 +38,18 @@ public class Robot extends TimedRobot {
         CvSink cvSink = CameraServer.getVideo();
         CvSource outputStream = CameraServer.putVideo("back camera", 720, 1280);
 
-        drivetrain = Drivetrain.getInstance();
-        intakePlacer = IntakePlacer.getInstance();
-        intakeRoller = IntakeRoller.getInstance();
-        intakeToTransfer = IntakeToTransfer.getInstance();
-        transfer = Transfer.getInstance();
-        climberWinch = ClimberWinch.getInstance();
-
-        drivetrain.configureDashboard();
-        intakePlacer.configureDashboard();
-        intakeRoller.configureDashboard();
-        intakeToTransfer.configureDashboard();
-        transfer.configureDashboard();
-        climberWinch.configureDashboard();
-
-        rootNamespace = new RootNamespace("robot namespace");
-        rootNamespace.putData("intake cargo", new IntakeCargo(false));
-        rootNamespace.putData("release cargo", new ReleaseCargo());
-        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
-        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
-        rootNamespace.putData("move to cargo", new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE));
-        rootNamespace.putBoolean("is in auto", false);
-        rootNamespace.putNumber("move to cargo source", MoveToCargoWithIntake::getCargoX);
+        getSubsystemInstances();
+        configureDashboards();
+        namespaceSetup();
+        autoChooserSetup();
     }
 
-    /**
-     * This function is called every robot packet, no matter the mode. Use this for items like
-     * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-     *
-     * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-     * SmartDashboard integrated updating.
-     */
     @Override
     public void robotPeriodic() {
-        drivetrain.periodic();
-        intakePlacer.periodic();
-        intakeRoller.periodic();
-        intakeToTransfer.periodic();
-        transfer.periodic();
-        climberWinch.periodic();
-
-        rootNamespace.update();
-
+        periodic();
         CommandScheduler.getInstance().run();
     }
 
-    /**
-     * This function is called once each time the robot enters Disabled mode.
-     */
     @Override
     public void disabledInit() {
         rootNamespace.putBoolean("is in auto", false);
@@ -102,14 +63,10 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         rootNamespace.putBoolean("is in auto", true);
         drivetrain.resetPigeon();
-        new GyroAutonomous().schedule();
-//        new YeetAndRetreat().schedule();
-//        new SimpleSix().schedule();
+        autoChooser.getSelected().schedule();
+        autoChooser.close();
     }
 
-    /**
-     * This function is called periodically during autonomous.
-     */
     @Override
     public void autonomousPeriodic() {
     }
@@ -125,9 +82,6 @@ public class Robot extends TimedRobot {
         drivetrain.setDefaultCommand(driveArcade);
     }
 
-    /**
-     * This function is called periodically during operator control.
-     */
     @Override
     public void teleopPeriodic() {
     }
@@ -137,10 +91,55 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
     }
 
-    /**
-     * This function is called periodically during test mode.
-     */
     @Override
     public void testPeriodic() {
+    }
+
+    private void getSubsystemInstances() {
+        drivetrain = Drivetrain.getInstance();
+        intakePlacer = IntakePlacer.getInstance();
+        intakeRoller = IntakeRoller.getInstance();
+        intakeToTransfer = IntakeToTransfer.getInstance();
+        transfer = Transfer.getInstance();
+        climberWinch = ClimberWinch.getInstance();
+    }
+
+    private void configureDashboards() {
+        drivetrain.configureDashboard();
+        intakePlacer.configureDashboard();
+        intakeRoller.configureDashboard();
+        intakeToTransfer.configureDashboard();
+        transfer.configureDashboard();
+        climberWinch.configureDashboard();
+    }
+
+    private void namespaceSetup() {
+        rootNamespace = new RootNamespace("robot namespace");
+        rootNamespace.putData("intake cargo", new IntakeCargo(false));
+        rootNamespace.putData("release cargo", new ReleaseCargo());
+        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
+        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
+        rootNamespace.putData("move to cargo", new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE));
+        rootNamespace.putBoolean("is in auto", false);
+        rootNamespace.putNumber("move to cargo source", MoveToCargoWithIntake::getCargoX);
+    }
+
+    private void autoChooserSetup() {
+        autoChooser = new SendableChooser<>();
+        autoChooser.setDefaultOption("yeet and retreat", new YeetAndRetreat());
+        autoChooser.addOption("gyro autonomous", new GyroAutonomous());
+        autoChooser.addOption("simple six", new SimpleSix());
+        autoChooser.addOption("super autonomous", new SuperAutonomous());
+        rootNamespace.putData("auto chooser", autoChooser);
+    }
+
+    private void periodic() {
+        drivetrain.periodic();
+        intakePlacer.periodic();
+        intakeRoller.periodic();
+        intakeToTransfer.periodic();
+        transfer.periodic();
+        climberWinch.periodic();
+        rootNamespace.update();
     }
 }
