@@ -13,28 +13,25 @@ import java.util.function.Supplier;
  */
 public class AimToHub extends DriveArcadeWithPID {
 
-    private static final int LIMELIGHT_PIPELINE = 1;
-    private static final RootNamespace aimToHubNS = new RootNamespace("aim to hub");
-    private static final Supplier<Double> MOVE_VALUE = aimToHubNS.addConstantDouble("move value", 0);
+    public static final int LIMELIGHT_PIPELINE = 1;
+    public static final RootNamespace aimToHubNS = new RootNamespace("aim to hub");
+    public static final Supplier<Double> MOVE_VALUE = aimToHubNS.addConstantDouble("move value", 0);
 
-    private int initialPipeline;
     private final Limelight limelight;
 
-    public AimToHub(Drivetrain drivetrain, Transfer transfer) {
-       super(drivetrain, transfer.getLimelight()::getHorizontalOffsetFromTarget, () -> 0.0, MOVE_VALUE,
+    public AimToHub(Drivetrain drivetrain) {
+       super(drivetrain, drivetrain.getLimelight()::getHorizontalOffsetFromTarget, () -> 0.0, MOVE_VALUE,
                drivetrain.getLimelightPIDSettings(), drivetrain.getFFSettings());
-       this.limelight = transfer.getLimelight();
+       this.limelight = drivetrain.getLimelight();
     }
 
     @Override
     public void initialize() {
-        initialPipeline = limelight.getPipeline();
         limelight.setPipeline(LIMELIGHT_PIPELINE);
     }
 
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        limelight.setPipeline(initialPipeline);
     }
 }

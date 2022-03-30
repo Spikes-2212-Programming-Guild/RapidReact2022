@@ -7,6 +7,7 @@ import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.BustedMotorControllerGroup;
+import com.spikes2212.util.Limelight;
 import com.spikes2212.util.PigeonWrapper;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -42,6 +43,7 @@ public class Drivetrain extends TankDrivetrain {
     private final PigeonWrapper pigeon;
     private final WPI_TalonSRX leftTalon, rightTalon;
     private final Encoder leftEncoder, rightEncoder;
+    private final Limelight limelight;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
     private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
@@ -92,14 +94,15 @@ public class Drivetrain extends TankDrivetrain {
                     ),
                     pigeonTalon,
                     pigeonTalon,
-                    rightTalon
+                    rightTalon,
+                    new Limelight()
             );
         }
         return instance;
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, BustedMotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
-                       WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
+                       WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon, Limelight limelight) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftTalon = leftTalon;
@@ -108,6 +111,7 @@ public class Drivetrain extends TankDrivetrain {
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_POS, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_NEG);
         this.leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+        this.limelight = limelight;
         this.pidSettingsGyro = new PIDSettings(this.kPGyro, this.kIGyro, this.kDGyro, this.toleranceGyro,
                 this.waitTimeGyro);
         this.pidSettingsEncoders = new PIDSettings(this.kPEncoders, this.kIEncoders, this.kDEncoders,
@@ -178,6 +182,10 @@ public class Drivetrain extends TankDrivetrain {
 
     public FeedForwardSettings getFFSettings() {
         return ffSettings;
+    }
+
+    public Limelight getLimelight() {
+        return limelight;
     }
 
     /**

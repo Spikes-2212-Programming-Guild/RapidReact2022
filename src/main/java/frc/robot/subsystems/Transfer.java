@@ -23,8 +23,6 @@ public class Transfer extends MotoredGenericSubsystem {
      */
     private final DigitalInput entranceSensor;
 
-    private final Limelight limelight;
-
     private static Transfer instance;
 
     public static Transfer getInstance() {
@@ -39,11 +37,6 @@ public class Transfer extends MotoredGenericSubsystem {
     private Transfer(WPI_VictorSPX victor1, WPI_VictorSPX victor2) {
         super("transfer", victor1, victor2);
         this.entranceSensor = new DigitalInput(RobotMap.DIO.TRANSFER_ENTRANCE_LIGHT_SENSOR);
-        this.limelight = new Limelight();
-    }
-
-    public Limelight getLimelight() {
-        return limelight;
     }
 
     public boolean getEntranceSensor() {
