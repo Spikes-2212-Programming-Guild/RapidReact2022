@@ -19,16 +19,8 @@ public class SuperAutonomous extends SequentialCommandGroup {
     private static final RootNamespace rootNamespace = new RootNamespace("super auto");
     private static final Supplier<Double> SEEK_ROTATE_VALUE = rootNamespace.addConstantDouble("seek rotate value", 0.5);
     private static final Supplier<Double> SEEK_HUB_TOLERANCE = rootNamespace.addConstantDouble("seek hub tolerance", 18);
-    private static final Supplier<Double> AIM_TO_HUB_MOVE_VALUE = rootNamespace.addConstantDouble("aim to hub move value", 0.5);
-
-    private static final Namespace aimToHubPIDNamespace = rootNamespace.addChild("aim to hub PID");
-    private static final Supplier<Double> AIM_TO_HUB_KP = rootNamespace.addConstantDouble("kP", 0.0013);
-    private static final Supplier<Double> AIM_TO_HUB_KI = rootNamespace.addConstantDouble("kI", 0.0);
-    private static final Supplier<Double> AIM_TO_HUB_KD = rootNamespace.addConstantDouble("kD", 0.0);
-    private static final Supplier<Double> AIM_TO_HUB_TOLERANCE = rootNamespace.addConstantDouble("tolerance", 45);
-    private static final Supplier<Double> AIM_TO_HUB_WAIT_TIME = rootNamespace.addConstantDouble("wait time", 2);
-    private static final PIDSettings aimToHubPIDSettings = new PIDSettings(AIM_TO_HUB_KP, AIM_TO_HUB_KI, AIM_TO_HUB_KD,
-            AIM_TO_HUB_TOLERANCE, AIM_TO_HUB_WAIT_TIME);
+    private static final double AIM_TO_HUB_MOVE_VALUE = 0.55;
+    private static final double AIM_TO_HUB_SETPOINT = 0.0;
 
     public static final double SEEK_CARGO_TOLERANCE = 90;
 
@@ -56,8 +48,8 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     private DriveArcadeWithPID aimToHub() {
         Limelight limelight = drivetrain.getLimelight();
-        return new DriveArcadeWithPID(drivetrain, limelight::getHorizontalOffsetFromTargetInPixels, () -> 0.0, AIM_TO_HUB_MOVE_VALUE,
-                aimToHubPIDSettings);
+        return new DriveArcadeWithPID(drivetrain, limelight::getHorizontalOffsetFromTargetInPixels, () -> 0.0, () -> AIM_TO_HUB_MOVE_VALUE,
+                drivetrain.getCameraPIDSettings());
     }
 
     /**
