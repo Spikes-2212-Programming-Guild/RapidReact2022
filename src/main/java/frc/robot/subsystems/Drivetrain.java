@@ -39,8 +39,6 @@ public class Drivetrain extends TankDrivetrain {
     private final PigeonWrapper pigeon;
     private final WPI_TalonSRX leftTalon, rightTalon;
     private final Limelight limelight;
-    private final DifferentialDriveOdometry odometry;
-    private final Field2d field2d;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
     private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
@@ -96,18 +94,10 @@ public class Drivetrain extends TankDrivetrain {
         this.pidSettingsCamera = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
                 this.toleranceCamera, this.waitTimeCamera);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
-        this.odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getYaw()));
-        this.field2d = new Field2d();
     }
 
     public void resetPigeon() {
         pigeon.reset();
-    }
-
-    @Override
-    public void periodic() {
-        rootNamespace.update();
-        field2d.setRobotPose(odometry.getPoseMeters());
     }
 
     public double getYaw() {
@@ -141,16 +131,11 @@ public class Drivetrain extends TankDrivetrain {
         return limelight;
     }
 
-    public void setOdometry(double x, double y, double angle) {
-        odometry.resetPosition(new Pose2d(x, y, new Rotation2d(angle)), new Rotation2d(angle));
-    }
-
     /**
      * Initializes namespaces and adds sensor data to dashboard.
      */
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("field 2d", field2d);
         gyroNamespace.putNumber("yaw", this::getYaw);
         gyroNamespace.putData("reset pigeon", new InstantCommand(this::resetPigeon) {
             @Override
