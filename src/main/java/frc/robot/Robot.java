@@ -130,6 +130,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption("gyro autonomous", new GyroAutonomous());
         autoChooser.addOption("simple six", new SimpleSix());
         autoChooser.addOption("super autonomous", new SuperAutonomous());
+        rootNamespace.putData("auto chooser", autoChooser);
     }
 
     private void periodic() {
