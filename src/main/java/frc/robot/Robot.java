@@ -5,15 +5,14 @@
 package frc.robot;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
-import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.IntakeCargo;
-import frc.robot.commands.MoveToCargo;
-import frc.robot.commands.ReleaseCargo;
-import frc.robot.commands.ReturnByGyro;
-import frc.robot.commands.autonomous.GyroAutonomous;
+import frc.robot.commands.*;
+import frc.robot.commands.autonomous.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -30,47 +29,40 @@ public class Robot extends TimedRobot {
     private Transfer transfer;
     private IntakePlacer intakePlacer;
     private IntakeRoller intakeRoller;
+    private ClimberWinch climberWinch;
+
     private RootNamespace rootNamespace;
 
     @Override
     public void robotInit() {
         oi = new OI();
+
+        CameraServer.startAutomaticCapture();
+        CvSink cvSink = CameraServer.getVideo();
+        CvSource outputStream = CameraServer.putVideo("back camera", 720, 1280);
+
         drivetrain = Drivetrain.getInstance();
         intakePlacer = IntakePlacer.getInstance();
         intakeRoller = IntakeRoller.getInstance();
         intakeToTransfer = IntakeToTransfer.getInstance();
         transfer = Transfer.getInstance();
+        climberWinch = ClimberWinch.getInstance();
 
         drivetrain.configureDashboard();
         intakePlacer.configureDashboard();
         intakeRoller.configureDashboard();
         intakeToTransfer.configureDashboard();
         transfer.configureDashboard();
+        climberWinch.configureDashboard();
 
         rootNamespace = new RootNamespace("robot namespace");
-        rootNamespace.putData("intake cargo", new IntakeCargo());
+        rootNamespace.putData("intake cargo", new IntakeCargo(false));
         rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
-        rootNamespace.putData("return by gyro", new ReturnByGyro(drivetrain, 0));
-        rootNamespace.putData("aim to cargo", new MoveToCargo(drivetrain));
-        rootNamespace.putData("gyro auto", new GyroAutonomous(drivetrain));
-
-        intakePlacer.setDefaultCommand(new MoveGenericSubsystem(intakePlacer, IntakePlacer.IDLE_SPEED) {
-            @Override
-            public void execute() {
-                if (intakePlacer.getShouldBeUp() && !intakePlacer.isUp()) {
-                    subsystem.move(speedSupplier.get());
-                } else {
-                    subsystem.move(0);
-                }
-            }
-
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
-        });
+        rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
+        rootNamespace.putBoolean("is in auto", false);
+        rootNamespace.putNumber("Move To Cargo Source", MoveToCargo::getCargoX);
     }
 
     /**
@@ -87,8 +79,10 @@ public class Robot extends TimedRobot {
         intakeRoller.periodic();
         intakeToTransfer.periodic();
         transfer.periodic();
+        climberWinch.periodic();
 
         rootNamespace.update();
+
         CommandScheduler.getInstance().run();
     }
 
@@ -97,6 +91,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        rootNamespace.putBoolean("is in auto", false);
     }
 
     @Override
@@ -105,10 +100,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        drivetrain.resetEncoders();
+        rootNamespace.putBoolean("is in auto", true);
         drivetrain.resetPigeon();
-        new GyroAutonomous(drivetrain).schedule();
-//        new OneCargoAutonomous().schedule();
+        new GyroAutonomous().schedule();
+//        new YeetAndRetreat().schedule();
+//        new SimpleSix().schedule();
     }
 
     /**
@@ -120,12 +116,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-
+        rootNamespace.putBoolean("is in auto", false);
         drivetrain.resetPigeon();
+        climberWinch.resetEncoder();
+        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
 
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
         drivetrain.setDefaultCommand(driveArcade);
@@ -140,7 +134,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
-        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }
 

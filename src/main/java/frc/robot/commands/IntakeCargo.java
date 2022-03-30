@@ -9,14 +9,14 @@ public class IntakeCargo extends SequentialCommandGroup {
 
     private boolean hasCargo;
 
-    public IntakeCargo() {
+    public IntakeCargo(boolean ignorePlacerLimit) {
         IntakeRoller intakeRoller = IntakeRoller.getInstance();
-        IntakePlacer intakePlacer = IntakePlacer.getInstance();
         Transfer transfer = Transfer.getInstance();
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
-        addRequirements(intakeRoller, intakePlacer, transfer, intakeToTransfer);
+//        if (!ignorePlacerLimit) {
+        addCommands(new MoveIntakePlacerDown(ignorePlacerLimit));
+//        }
         addCommands(
-                new MoveGenericSubsystem(intakePlacer, IntakePlacer.MIN_SPEED),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MoveGenericSubsystem(intakeRoller, IntakeRoller.MIN_SPEED) {
@@ -38,13 +38,8 @@ public class IntakeCargo extends SequentialCommandGroup {
                                 return (!hasCargo && transfer.getEntranceSensor()) || (hasCargo && intakeToTransfer.getLimit());
                             }
                         }
-                ),
-                new MoveGenericSubsystem(transfer, transfer.MOVE_SPEED) {
-                    @Override
-                    public boolean isFinished() {
-                        return intakeToTransfer.getLimit();
-                    }
-                }.withTimeout(transfer.getTransferMoveTimeout()));
+                )
+        );
     }
 
     @Override

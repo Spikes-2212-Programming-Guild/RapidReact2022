@@ -37,7 +37,7 @@ public class Drivetrain extends TankDrivetrain {
      * One side of the robot is faster than the other. To solve this we slow down one of the sides.
      */
     private static final RootNamespace corrections = new RootNamespace("drivetrain correction");
-    private static final Supplier<Double> rightCorrection = corrections.addConstantDouble("right correction", 1);
+    private static final Supplier<Double> rightCorrection = corrections.addConstantDouble("right correction", 0.95);
     private static final Supplier<Double> leftCorrection = corrections.addConstantDouble("left correction", 1);
 
     private final PigeonWrapper pigeon;
@@ -63,14 +63,14 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kICamera = cameraPIDNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kDCamera = cameraPIDNamespace.addConstantDouble("kD", 0);
     private final Supplier<Double> toleranceCamera = cameraPIDNamespace.addConstantDouble("tolerance", 2);
-    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 1);
+    private final Supplier<Double> waitTimeCamera = cameraPIDNamespace.addConstantDouble("wait time", 999);
     private final PIDSettings pidSettingsCamera;
 
-    private final Supplier<Double> kPLimelight = cameraPIDNamespace.addConstantDouble("kP", 0);
-    private final Supplier<Double> kILimelight = cameraPIDNamespace.addConstantDouble("kI", 0);
-    private final Supplier<Double> kDLimelight = cameraPIDNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> toleranceLimelight = cameraPIDNamespace.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> waitTimeLimelight = cameraPIDNamespace.addConstantDouble("wait time", 0);
+    private final Supplier<Double> kPLimelight = limelightPIDNamespace.addConstantDouble("kP", 0);
+    private final Supplier<Double> kILimelight = limelightPIDNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kDLimelight = limelightPIDNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> toleranceLimelight = limelightPIDNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> waitTimeLimelight = limelightPIDNamespace.addConstantDouble("wait time", 0);
     private final PIDSettings pidSettingsLimelight;
 
     private final Supplier<Double> kS = FeedForwardNamespace.addConstantDouble("kS", 0.24);
@@ -118,8 +118,8 @@ public class Drivetrain extends TankDrivetrain {
                 this.toleranceEncoders, this.waitTimeEncoders);
         this.pidSettingsCamera = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
                 this.toleranceCamera, this.waitTimeCamera);
-        this.pidSettingsLimelight = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
-                this.toleranceCamera, this.waitTimeCamera);
+        this.pidSettingsLimelight = new PIDSettings(this.kPLimelight, this.kILimelight, this.kDLimelight,
+                this.toleranceLimelight, this.waitTimeLimelight);
         this.ffSettings = new FeedForwardSettings(this.kS, this.kV, this.kA);
     }
 
@@ -175,9 +175,13 @@ public class Drivetrain extends TankDrivetrain {
     public PIDSettings getLimelightPIDSettings() {
         return pidSettingsLimelight;
     }
-  
+
     public PIDSettings getCameraPIDSettings() {
         return pidSettingsCamera;
+    }
+
+    public PIDSettings getEncoderPIDSettings() {
+        return pidSettingsEncoders;
     }
 
     public FeedForwardSettings getFFSettings() {
@@ -209,5 +213,9 @@ public class Drivetrain extends TankDrivetrain {
                 return true;
             }
         });
+        rootNamespace.putNumber("right talon current", rightTalon::getStatorCurrent);
+        rootNamespace.putNumber("left talon current", leftTalon::getStatorCurrent);
+
+        rootNamespace.putData("drive forward", new DriveTank(this, 1, 1));
     }
 }

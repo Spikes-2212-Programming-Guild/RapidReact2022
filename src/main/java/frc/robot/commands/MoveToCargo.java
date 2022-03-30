@@ -1,22 +1,38 @@
 package frc.robot.commands;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import frc.robot.subsystems.Drivetrain;
 
+import java.util.function.Supplier;
+
+/**
+ * Moves to a cargo, while simultaneously aiming the robot to face the cargo.
+ */
 public class MoveToCargo extends DriveArcadeWithPID {
 
-    public static final double CARGO_MOVE_VALUE = 0.4;
+    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.55;
+    public static final double SETPOINT = 10.0;
+    public static final double MOVE_TO_CARGO_TIMEOUT = 4.2212;
 
-    public MoveToCargo(Drivetrain drivetrain) {
-        super(drivetrain, () -> -MoveToCargo.getCargoX(), 10, CARGO_MOVE_VALUE, drivetrain.getCameraPIDSettings(),
-                drivetrain.getFFSettings());
+
+    public MoveToCargo(Drivetrain drivetrain, Supplier<Double> speed) {
+        super(drivetrain, MoveToCargo::getCargoX, () -> SETPOINT, speed, drivetrain.getCameraPIDSettings(),
+                FeedForwardSettings.EMPTY_FFSETTINGS);
     }
 
+    /**
+     * @return the x coordinate of the center of the cargo contour, as received by the image processing.
+     */
     public static double getCargoX() {
-        RootNamespace imageProcess = new RootNamespace("Image Processing");
-        Namespace contourInfo = imageProcess.addChild("contour 0");
-        return contourInfo.getNumber("x");
+        try {
+            RootNamespace imageProcess = new RootNamespace("Image Processing");
+            Namespace contourInfo = imageProcess.addChild("contour 0");
+            return -contourInfo.getNumber("x");
+        } catch (Exception e) {
+            return SETPOINT;
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.RobotMap;
 
 /**
@@ -11,22 +12,22 @@ import frc.robot.RobotMap;
  */
 public class IntakeToTransfer extends MotoredGenericSubsystem {
 
-    public static final double SPEED = 0.7;
+    public static final double SPEED = 0.8;
 
     private static IntakeToTransfer instance;
 
     private final DigitalInput limit;
 
     public static IntakeToTransfer getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new IntakeToTransfer(new WPI_VictorSPX(RobotMap.CAN.INTAKE_TO_TRANSFER_VICTOR));
-        }
+
         return instance;
     }
 
     private IntakeToTransfer(WPI_VictorSPX victor) {
         super("intake to transfer", victor);
-        this.limit = new DigitalInput(RobotMap.DIO.INTAKE_TO_TRANSFER_LIMIT);
+        this.limit = new BustedDigitalInput(RobotMap.DIO.INTAKE_TO_TRANSFER_LIMIT);
     }
 
     public boolean getLimit() {
@@ -36,5 +37,6 @@ public class IntakeToTransfer extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("intake to transfer", new MoveGenericSubsystem(this, SPEED));
+        rootNamespace.putBoolean("limit switch", this::getLimit);
     }
 }
