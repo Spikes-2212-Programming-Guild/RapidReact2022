@@ -12,6 +12,17 @@ import frc.robot.subsystems.*;
 
 import java.util.function.Supplier;
 
+/**
+ * 1. Releases the cargo the robot starts with to the lower hub while lowering to latch to drop the intake placer. <br>
+ * 2. Moves to a cargo using image processing to intake this cargo. <br>
+ * 3. Rotates until the image processing camera locates another cargo. <br>
+ * 4. Moves to this cargo using image processing to intake this cargo. <br>
+ * 5. Returns halfway (between both intaken cargos). <br>
+ * 6. Rotates until the limelight finds the higher hub. <br>
+ * 7. Focuses the middle of the hub. <br>
+ * 8. Drives until it hits the fender. <br>
+ * 9. Release both intaken cargos to the lower hub.
+ */
 public class SuperAutonomous extends SequentialCommandGroup {
 
     private static final RootNamespace rootNamespace = new RootNamespace("super auto");
