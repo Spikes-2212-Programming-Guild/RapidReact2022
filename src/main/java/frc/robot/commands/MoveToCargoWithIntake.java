@@ -15,7 +15,6 @@ public class MoveToCargoWithIntake extends ParallelCommandGroup {
 
     public static final double CARGO_MOVE_VALUE = 0.7;
     public static final double SETPOINT = 10.0;
-    public static final double MOVE_TO_CARGO_TIMEOUT = 4.2212;
 
     public MoveToCargoWithIntake(Drivetrain drivetrain, double speed) {
         super(new IntakeCargo(false),
