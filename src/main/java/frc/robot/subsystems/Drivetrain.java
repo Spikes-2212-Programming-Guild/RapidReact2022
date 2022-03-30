@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.command.drivetrains.commands.DriveTank;
+import com.spikes2212.command.genericsubsystem.TalonSubsystem;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
@@ -11,9 +12,11 @@ import com.spikes2212.util.BustedMotorControllerGroup;
 import com.spikes2212.util.Limelight;
 import com.spikes2212.util.PigeonWrapper;
 import com.spikes2212.util.TalonEncoder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -194,6 +197,10 @@ public class Drivetrain extends TankDrivetrain {
 
     public Limelight getLimelight() {
         return limelight;
+    }
+
+    public void setOdometry(double x, double y, double angle) {
+        odometry.resetPosition(new Pose2d(x, y, new Rotation2d(angle)), new Rotation2d(angle));
     }
 
     /**
