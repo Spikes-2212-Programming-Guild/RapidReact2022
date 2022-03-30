@@ -32,6 +32,11 @@ public class RobotMap {
         int TRANSFER_ENTRANCE_LIGHT_SENSOR = 2;
 
         int INTAKE_TO_TRANSFER_LIMIT = 3;
+
+        int DRIVETRAIN_LEFT_ENCODER_POS = 4;
+        int DRIVETRAIN_LEFT_ENCODER_NEG = 5;
+        int DRIVETRAIN_RIGHT_ENCODER_POS = 6;
+        int DRIVETRAIN_RIGHT_ENCODER_NEG = 7;
     }
 
     public interface PWM {
