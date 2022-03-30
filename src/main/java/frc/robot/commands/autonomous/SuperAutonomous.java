@@ -39,8 +39,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
     private Command seekHub() {
         Limelight limelight = drivetrain.getLimelight();
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () ->
-                -SEEK_HUB_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTargetInDegrees() &&
-                        limelight.getHorizontalOffsetFromTargetInDegrees() <= SEEK_HUB_TOLERANCE.get());
+                Math.abs(limelight.getHorizontalOffsetFromTargetInDegrees()) <= SEEK_HUB_TOLERANCE.get());
     }
 
     private DriveArcadeWithPID aimToHub() {
