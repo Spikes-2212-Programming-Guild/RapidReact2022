@@ -53,7 +53,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
     }
 
     /**
-     * @return a command that turns the robot until it
+     * @return a command that turns the robot until the limelight sees the hub
      */
     private DriveArcade seekCargo() {
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () -> (hasCargoTarget() &&
