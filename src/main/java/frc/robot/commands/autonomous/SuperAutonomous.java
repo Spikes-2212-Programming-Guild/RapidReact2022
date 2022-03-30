@@ -12,8 +12,8 @@ import java.util.function.Supplier;
 public class SuperAutonomous extends SequentialCommandGroup {
 
     private static final RootNamespace rootNamespace = new RootNamespace("super auto");
-    private static final Supplier<Double> SEEK_ROTATE_VALUE = rootNamespace.addConstantDouble("seek rotate value", 0.4);
-    private static final Supplier<Double> SEEK_ROTATE_TOLERANCE = rootNamespace.addConstantDouble("seek rotate tolerance", 18);
+    private static final Supplier<Double> SEEK_HUB_ROTATE_VALUE = rootNamespace.addConstantDouble("seek rotate value", 0.4);
+    private static final Supplier<Double> SEEK_HUB_TOLERANCE = rootNamespace.addConstantDouble("seek rotate tolerance", 18);
 
     private final Drivetrain drivetrain;
 
@@ -23,8 +23,8 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     private Command seekHub() {
         Limelight limelight = drivetrain.getLimelight();
-        return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE).withInterrupt(() ->
-                -SEEK_ROTATE_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTarget() &&
-                limelight.getHorizontalOffsetFromTarget() <= SEEK_ROTATE_TOLERANCE.get());
+        return new DriveArcade(drivetrain, () -> 0.0, SEEK_HUB_ROTATE_VALUE).withInterrupt(() ->
+                -SEEK_HUB_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTarget() &&
+                limelight.getHorizontalOffsetFromTarget() <= SEEK_HUB_TOLERANCE.get());
     }
 }
