@@ -28,9 +28,4 @@ public class AimToHub extends DriveArcadeWithPID {
     public void initialize() {
         limelight.setPipeline(LIMELIGHT_PIPELINE);
     }
-
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
-    }
 }
