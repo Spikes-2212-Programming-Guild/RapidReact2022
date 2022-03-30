@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.MoveToCargo;
+import frc.robot.commands.MoveToCargoWithIntake;
 
 /**
  * Controls the roller part of the intake subsystem.
@@ -32,7 +32,7 @@ public class IntakeRoller extends MotoredGenericSubsystem {
     @Override
     public void configureDashboard() {
         rootNamespace.putData("intake roller", new MoveGenericSubsystem(this, MIN_SPEED));
-        rootNamespace.putBoolean("oriented to cargo", () -> Math.abs(MoveToCargo.getCargoX() - MoveToCargo.SETPOINT) <=
+        rootNamespace.putBoolean("oriented to cargo", () -> Math.abs(MoveToCargoWithIntake.getCargoX() - MoveToCargoWithIntake.SETPOINT) <=
                 Drivetrain.getInstance().getCameraPIDSettings().getTolerance());
     }
 }
