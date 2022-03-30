@@ -102,12 +102,12 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         rootNamespace.putBoolean("is in auto", true);
         drivetrain.resetPigeon();
-        new GyroAutonomous().schedule();
-//        new YeetAndRetreat().schedule();
+//        new GyroAutonomous().schedule();
+        new YeetAndRetreat().schedule();
 //        new SimpleSix().schedule();
     }
 
-    /**
+    /**6
      * This function is called periodically during autonomous.
      */
     @Override
