@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
 //        new SimpleSix().schedule();
     }
 
-    /**6
+    /**
      * This function is called periodically during autonomous.
      */
     @Override
