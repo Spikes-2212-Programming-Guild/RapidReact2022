@@ -39,14 +39,14 @@ public class SuperAutonomous extends SequentialCommandGroup {
     }
 
     private DriveArcade seekCargo() {
-        return new DriveArcade(drivetrain, () -> 0.0, () -> 0.0, () -> (hasTarget() &&
+        return new DriveArcade(drivetrain, () -> 0.0, () -> 0.0, () -> (hasCargoTarget() &&
                 Math.abs(MoveToCargo.getCargoX() - MoveToCargo.SETPOINT) <= SEEK_CARGO_TOLERANCE));
     }
 
     /**
      * @return whether the image processing camera has a target
      */
-    private boolean hasTarget() {
+    private boolean hasCargoTarget() {
         try {
             RootNamespace imageProcess = new RootNamespace("Image Processing");
             Namespace contourInfo = imageProcess.addChild("contour 0");
