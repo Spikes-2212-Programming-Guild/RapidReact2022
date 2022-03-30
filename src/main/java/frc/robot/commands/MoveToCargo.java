@@ -5,6 +5,7 @@ import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.IntakeToTransfer;
 
 import java.util.function.Supplier;
 
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
  */
 public class MoveToCargo extends DriveArcadeWithPID {
 
-    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.55;
+    public static final Supplier<Double> CARGO_MOVE_VALUE = () -> 0.7;
     public static final double SETPOINT = 10.0;
     public static final double MOVE_TO_CARGO_TIMEOUT = 4.2212;
 
@@ -34,5 +35,10 @@ public class MoveToCargo extends DriveArcadeWithPID {
         } catch (Exception e) {
             return SETPOINT;
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return super.isFinished() || IntakeToTransfer.getInstance().getLimit();
     }
 }

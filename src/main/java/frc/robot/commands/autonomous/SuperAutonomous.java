@@ -19,8 +19,6 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     public static final double FIRST_RELEASE_CARGO_TIMEOUT = 1;
 
-    public static final Supplier<Double> MOVE_TO_CARGO_SPEED = () -> 0.7;
-
     public static final double INTAKE_FIRST_CARGO_TIMEOUT = 2.5;
     public static final double INTAKE_SECOND_CARGO_TIMEOUT = 2;
 
@@ -40,10 +38,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
     public SuperAutonomous() {
         this.drivetrain = Drivetrain.getInstance();
         addCommands(
-                new ParallelCommandGroup(
-                        new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get())),
-                        new ReleaseCargo().withTimeout(FIRST_RELEASE_CARGO_TIMEOUT)
-                ),
+                releaseCargoAndLatch(),
                 moveToCargoWithIntake().withTimeout(INTAKE_FIRST_CARGO_TIMEOUT),
                 seekCargo().withTimeout(SEEK_CARGO_TIMEOUT),
                 moveToCargoWithIntake().withTimeout(INTAKE_SECOND_CARGO_TIMEOUT),
@@ -54,13 +49,17 @@ public class SuperAutonomous extends SequentialCommandGroup {
         );
     }
 
+    private ParallelCommandGroup releaseCargoAndLatch() {
+        return new ParallelCommandGroup(
+                new InstantCommand(() -> IntakePlacer.getInstance().setServoAngle(IntakePlacer.SERVO_TARGET_ANGLE.get())),
+                new ReleaseCargo().withTimeout(FIRST_RELEASE_CARGO_TIMEOUT)
+        );
+    }
+
     private ParallelCommandGroup moveToCargoWithIntake() {
         return new ParallelCommandGroup(
                 new IntakeCargo(false),
-                new SequentialCommandGroup(
-                        new MoveToCargo(drivetrain, MOVE_TO_CARGO_SPEED),
-                        new DriveArcade(drivetrain, MOVE_TO_CARGO_SPEED, () -> 0.0)
-                ).withInterrupt(IntakeToTransfer.getInstance()::getLimit));
+                new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
     }
 
     private DriveTankWithPID returnByEncoders() {
