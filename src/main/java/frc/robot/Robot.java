@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
     private ClimberWinch climberWinch;
 
     private RootNamespace rootNamespace;
+    private SendableChooser<Command> autoChooser;
 
     @Override
     public void robotInit() {
@@ -40,6 +41,7 @@ public class Robot extends TimedRobot {
         getSubsystemInstances();
         configureDashboards();
         namespaceSetup();
+        autoChooserSetup();
     }
 
     @Override
@@ -61,6 +63,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         rootNamespace.putBoolean("is in auto", true);
         drivetrain.resetPigeon();
+        autoChooser.getSelected().schedule();
+        autoChooser.close();
     }
 
     @Override
@@ -118,6 +122,14 @@ public class Robot extends TimedRobot {
         rootNamespace.putData("move to cargo", new MoveToCargo(drivetrain, MoveToCargo.CARGO_MOVE_VALUE));
         rootNamespace.putBoolean("is in auto", false);
         rootNamespace.putNumber("Move To Cargo Source", MoveToCargo::getCargoX);
+    }
+
+    private void autoChooserSetup() {
+        autoChooser = new SendableChooser<>();
+        autoChooser.setDefaultOption("yeet and retreat", new YeetAndRetreat());
+        autoChooser.addOption("gyro autonomous", new GyroAutonomous());
+        autoChooser.addOption("simple six", new SimpleSix());
+        autoChooser.addOption("super autonomous", new SuperAutonomous());
     }
 
     private void periodic() {
