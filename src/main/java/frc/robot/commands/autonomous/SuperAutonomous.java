@@ -7,9 +7,7 @@ import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.IntakePlacer;
-import frc.robot.subsystems.IntakeToTransfer;
+import frc.robot.subsystems.*;
 
 import java.util.function.Supplier;
 
