@@ -34,11 +34,12 @@ public class SuperAutonomous extends SequentialCommandGroup {
     }
 
     /**
+     * seekHub
      * @return a command that turns the robot until the angle between the limelight and target is small enough
      */
-    private Command seekHub() {
+    private Command sycab() {
         Limelight limelight = drivetrain.getLimelight();
-        return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () ->
+        return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () -> limelight.isOnTarget() &&
                 Math.abs(limelight.getHorizontalOffsetFromTargetInDegrees()) <= SEEK_HUB_TOLERANCE.get());
     }
 
@@ -49,9 +50,10 @@ public class SuperAutonomous extends SequentialCommandGroup {
     }
 
     /**
+     * seekCargo
      * @return a command that turns the robot until the limelight sees the hub
      */
-    private DriveArcade seekCargo() {
+    private DriveArcade sycargo() {
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () -> (hasCargoTarget() &&
                 Math.abs(MoveToCargo.getCargoX() - MoveToCargo.SETPOINT) <= SEEK_CARGO_TOLERANCE));
     }
