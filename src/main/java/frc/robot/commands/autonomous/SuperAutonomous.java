@@ -119,8 +119,8 @@ public class SuperAutonomous extends SequentialCommandGroup {
 
     private DriveArcadeWithPID aimToHub() {
         Limelight limelight = drivetrain.getLimelight();
-        return new DriveArcadeWithPID(drivetrain, limelight::getHorizontalOffsetFromTargetInPixels, () -> 0.0, () -> AIM_TO_HUB_MOVE_VALUE,
-                drivetrain.getCameraPIDSettings());
+        return new DriveArcadeWithPID(drivetrain, limelight::getHorizontalOffsetFromTargetInPixels,
+                () -> 0.0, () -> AIM_TO_HUB_MOVE_VALUE, drivetrain.getCameraPIDSettings());
     }
 
     /**
