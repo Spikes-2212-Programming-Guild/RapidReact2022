@@ -22,9 +22,9 @@ public class SimpleSix extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                         new IntakeCargo(false),
-                        new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)
+                        new DriveArcade(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE, 0.0)
                                 .withInterrupt(IntakeToTransfer.getInstance()::getLimit)
-                ).withTimeout(MoveToCargo.MOVE_TO_CARGO_TIMEOUT),
+                ).withTimeout(GyroAutonomous.MOVE_TO_CARGO_TIMEOUT),
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
                 new ReleaseCargo().withTimeout(RELEASE_CARGO_TIMEOUT),
                 new DriveArcade(drivetrain, RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE)
