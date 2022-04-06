@@ -9,7 +9,7 @@ import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.DriveUntilHitHub;
-import frc.robot.commands.MoveToCargo;
+import frc.robot.commands.MoveToCargoWithIntake;
 import frc.robot.commands.ReleaseCargo;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.IntakePlacer;
@@ -104,8 +104,8 @@ public class SuperAutonomous extends SequentialCommandGroup {
     private Command sycab() {
         Limelight limelight = drivetrain.getLimelight();
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE).withInterrupt(() ->
-                -SEEK_HUB_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTarget() &&
-                limelight.getHorizontalOffsetFromTarget() <= SEEK_HUB_TOLERANCE.get());
+                -SEEK_HUB_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTargetInDegrees() &&
+                limelight.getHorizontalOffsetFromTargetInDegrees() <= SEEK_HUB_TOLERANCE.get());
     }
 
     /**
@@ -114,7 +114,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
      */
     private DriveArcade sycargo() {
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () -> (hasCargoTarget() &&
-                Math.abs(MoveToCargo.getCargoX() - MoveToCargo.SETPOINT) <= SEEK_CARGO_TOLERANCE));
+                Math.abs(MoveToCargoWithIntake.getCargoX() - MoveToCargoWithIntake.SETPOINT) <= SEEK_CARGO_TOLERANCE));
     }
 
     private DriveArcadeWithPID aimToHub() {
