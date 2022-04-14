@@ -2,13 +2,15 @@ package frc.robot.commands.autonomous;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
-import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.Limelight;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import frc.robot.commands.DriveUntilHitHub;
+import frc.robot.commands.MoveToCargoWithIntake;
+import frc.robot.commands.ReleaseCargo;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.IntakePlacer;
 
 import java.util.function.Supplier;
 
@@ -34,10 +36,10 @@ public class SuperAutonomous extends SequentialCommandGroup {
     public static final double INTAKE_FIRST_CARGO_TIMEOUT = 2.5;
     public static final double INTAKE_SECOND_CARGO_TIMEOUT = 2;
 
-    public static final double SEEK_CARGO_TOLERANCE = 90;
+    public static final double SEEK_CARGO_TOLERANCE = 40;
     public static final double SEEK_CARGO_TIMEOUT = 1;
 
-    public static final double RETURN_HALFWAY_TIMEOUT = 1;
+    public static final double RETURN_HALFWAY_TIMEOUT = 2;
 
     public static final double SEEK_HUB_TIMEOUT = 1;
 
@@ -64,11 +66,22 @@ public class SuperAutonomous extends SequentialCommandGroup {
                 new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE)
                         .withTimeout(INTAKE_FIRST_CARGO_TIMEOUT),
                 seekCargo().withTimeout(SEEK_CARGO_TIMEOUT),
-                new InstantCommand(() -> secondCargoStartTime = Timer.getFPGATimestamp()),
+
+                new InstantCommand(() -> {
+                    secondCargoStartTime = Timer.getFPGATimestamp();
+                    rootNamespace.putNumber("start time", secondCargoStartTime);
+                }),
+
+
                 new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE)
                         .withTimeout(INTAKE_SECOND_CARGO_TIMEOUT),
-                new InstantCommand(() -> secondCargoFinishTime = Timer.getFPGATimestamp()),
-                returnByHalf(),
+
+                new InstantCommand(() -> {
+                    secondCargoFinishTime = Timer.getFPGATimestamp();
+                    rootNamespace.putNumber("end time", secondCargoFinishTime);
+                }),
+
+                returnByHalf().withTimeout(RETURN_HALFWAY_TIMEOUT),
                 seekHub().withTimeout(SEEK_HUB_TIMEOUT),
                 aimToHub(),
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
@@ -84,14 +97,14 @@ public class SuperAutonomous extends SequentialCommandGroup {
     }
 
     private ParallelRaceGroup returnByHalf() {
-        return new DriveArcade(drivetrain, () -> -MoveToCargoWithIntake.CARGO_MOVE_VALUE, () -> 0.0).withTimeout(
-                (secondCargoFinishTime - secondCargoStartTime) / 2);
+        return new DriveArcade(drivetrain, () -> -MoveToCargoWithIntake.CARGO_MOVE_VALUE, () -> 0.0).withTimeout((
+                (secondCargoFinishTime - secondCargoStartTime) / 2) + 1);
     }
 
     private Command seekHub() {
         Limelight limelight = drivetrain.getLimelight();
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE).withInterrupt(() ->
-                Math.abs(limelight.getHorizontalOffsetFromTarget()) <= SEEK_CARGO_TOLERANCE);
+                Math.abs(limelight.getHorizontalOffsetFromTarget()) <= SEEK_HUB_TOLERANCE.get());
     }
 
     private DriveArcade seekCargo() {
