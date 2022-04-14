@@ -21,19 +21,12 @@ public class Robot extends TimedRobot {
 
     private OI oi;
     private Drivetrain drivetrain;
-    private IntakeToTransfer intakeToTransfer;
-    private Transfer transfer;
-    private IntakePlacer intakePlacer;
-    private IntakeRoller intakeRoller;
-    private ClimberWinch climberWinch;
 
     private RootNamespace rootNamespace;
     private SendableChooser<Command> autoChooser;
 
     @Override
     public void robotInit() {
-        oi = new OI();
-
         CameraServer.startAutomaticCapture();
         CvSink cvSink = CameraServer.getVideo();
         CvSource outputStream = CameraServer.putVideo("back camera", 720, 1280);
@@ -61,10 +54,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        rootNamespace.putBoolean("is in auto", true);
-        drivetrain.resetPigeon();
-        autoChooser.getSelected().schedule();
-        autoChooser.close();
+//        rootNamespace.putBoolean("is in auto", true);
+//        drivetrain.resetPigeon();
+//        autoChooser.getSelected().schedule();
+//        autoChooser.close();
     }
 
     @Override
@@ -73,13 +66,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        rootNamespace.putBoolean("is in auto", false);
+//        rootNamespace.putBoolean("is in auto", false);
         drivetrain.resetPigeon();
-        climberWinch.resetEncoder();
-        intakePlacer.setServoAngle(IntakePlacer.SERVO_START_ANGLE.get());
 
-        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
-        drivetrain.setDefaultCommand(driveArcade);
+//        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getRightY, oi::getLeftX);
+//        drivetrain.setDefaultCommand(driveArcade);
+        new SuperAutonomous().schedule();
+
     }
 
     @Override
@@ -97,49 +90,30 @@ public class Robot extends TimedRobot {
 
     private void getSubsystemInstances() {
         drivetrain = Drivetrain.getInstance();
-        intakePlacer = IntakePlacer.getInstance();
-        intakeRoller = IntakeRoller.getInstance();
-        intakeToTransfer = IntakeToTransfer.getInstance();
-        transfer = Transfer.getInstance();
-        climberWinch = ClimberWinch.getInstance();
     }
 
     private void configureDashboards() {
         drivetrain.configureDashboard();
-        intakePlacer.configureDashboard();
-        intakeRoller.configureDashboard();
-        intakeToTransfer.configureDashboard();
-        transfer.configureDashboard();
-        climberWinch.configureDashboard();
     }
 
     private void namespaceSetup() {
         rootNamespace = new RootNamespace("robot namespace");
-        rootNamespace.putData("intake cargo", new IntakeCargo(false));
-        rootNamespace.putData("release cargo", new ReleaseCargo());
         rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
         rootNamespace.putData("move to cargo", new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE));
         rootNamespace.putBoolean("is in auto", false);
         rootNamespace.putNumber("move to cargo source", MoveToCargoWithIntake::getCargoX);
+        rootNamespace.putData("driveArcade", new DriveArcade(drivetrain, 0.6, 0));
     }
 
     private void autoChooserSetup() {
         autoChooser = new SendableChooser<>();
-        autoChooser.setDefaultOption("yeet and retreat", new YeetAndRetreat());
-        autoChooser.addOption("gyro autonomous", new GyroAutonomous());
-        autoChooser.addOption("simple six", new SimpleSix());
         autoChooser.addOption("super autonomous", new SuperAutonomous());
         rootNamespace.putData("auto chooser", autoChooser);
     }
 
     private void periodic() {
         drivetrain.periodic();
-        intakePlacer.periodic();
-        intakeRoller.periodic();
-        intakeToTransfer.periodic();
-        transfer.periodic();
-        climberWinch.periodic();
         rootNamespace.update();
     }
 }

@@ -28,14 +28,14 @@ public class DriveUntilHitHub extends SequentialCommandGroup {
         super(
                 new DriveArcade(drivetrain, MOVEMENT_SPEED, () -> 0.0) {
                     @Override
-                    public void end(boolean interrupted) {}
+                    public void end(boolean interrupted) {
+                    }
                 }.withTimeout(GET_OVER_STALL_TIMEOUT.get()),
                 new DriveArcade(drivetrain, MOVEMENT_SPEED, () -> 0.0) {
                     @Override
                     public boolean isFinished() {
                         Drivetrain drivetrain = (Drivetrain) tankDrivetrain;
-                        return Math.abs(drivetrain.getRightTalon().getStatorCurrent()) > STALL_CURRENT.get() &&
-                                Math.abs(drivetrain.getLeftTalon().getStatorCurrent()) > STALL_CURRENT.get();
+                        return Math.abs(drivetrain.talon.getStatorCurrent()) > STALL_CURRENT.get();
                     }
                 }
         );
