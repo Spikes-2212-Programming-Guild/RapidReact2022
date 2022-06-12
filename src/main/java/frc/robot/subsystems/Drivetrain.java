@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
-import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.drivetrains.commands.DriveTank;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
@@ -11,7 +10,6 @@ import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.BustedMotorControllerGroup;
 import com.spikes2212.util.Limelight;
 import com.spikes2212.util.PigeonWrapper;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
@@ -36,6 +34,7 @@ public class Drivetrain extends TankDrivetrain {
 
     private final PigeonWrapper pigeon;
     private final WPI_TalonSRX leftTalon, rightTalon;
+    private final Limelight limelight;
 
     private final Supplier<Double> kPGyro = gyroPIDNamespace.addConstantDouble("kP", 0.017);
     private final Supplier<Double> kIGyro = gyroPIDNamespace.addConstantDouble("kI", 0.0028);
@@ -72,18 +71,20 @@ public class Drivetrain extends TankDrivetrain {
                     ),
                     pigeonTalon,
                     pigeonTalon,
-                    rightTalon
+                    rightTalon,
+                    new Limelight()
             );
         }
         return instance;
     }
 
     private Drivetrain(MotorControllerGroup leftMotors, MotorControllerGroup rightMotors, WPI_TalonSRX pigeonTalon,
-                       WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon) {
+                       WPI_TalonSRX leftTalon, WPI_TalonSRX rightTalon, Limelight limelight) {
         super("drivetrain", leftMotors, rightMotors);
         this.pigeon = new PigeonWrapper(pigeonTalon);
         this.leftTalon = leftTalon;
         this.rightTalon = rightTalon;
+        this.limelight = limelight;
         this.pidSettingsGyro = new PIDSettings(this.kPGyro, this.kIGyro, this.kDGyro, this.toleranceGyro,
                 this.waitTimeGyro);
         this.pidSettingsCamera = new PIDSettings(this.kPCamera, this.kICamera, this.kDCamera,
@@ -93,11 +94,6 @@ public class Drivetrain extends TankDrivetrain {
 
     public void resetPigeon() {
         pigeon.reset();
-    }
-
-    @Override
-    public void periodic() {
-        rootNamespace.update();
     }
 
     public double getYaw() {
@@ -127,14 +123,14 @@ public class Drivetrain extends TankDrivetrain {
         return ffSettings;
     }
 
-    // @todo: make real method
     public Limelight getLimelight() {
-        return null;
+        return limelight;
     }
 
     /**
      * Initializes namespaces and adds sensor data to dashboard.
      */
+    @Override
     public void configureDashboard() {
         gyroNamespace.putNumber("yaw", this::getYaw);
         gyroNamespace.putData("reset pigeon", new InstantCommand(this::resetPigeon) {
@@ -145,7 +141,5 @@ public class Drivetrain extends TankDrivetrain {
         });
         rootNamespace.putNumber("right talon current", rightTalon::getStatorCurrent);
         rootNamespace.putNumber("left talon current", leftTalon::getStatorCurrent);
-
-        rootNamespace.putData("drive forward", new DriveTank(this, 1, 1));
     }
 }
