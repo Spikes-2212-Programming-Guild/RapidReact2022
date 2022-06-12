@@ -13,7 +13,7 @@ public class MoveIntakePlacerDown extends CommandBase {
     private final IntakePlacer intakePlacer;
     private final boolean ignoreLimit;
     private double startTime;
-    private final double TIMEOUT = 0.4;
+    private final double TIMEOUT = 0.6;
 
     /**
      * @param ignoreLimit Represents whether the command should end once the latch has been opened, or wait until the
