@@ -72,13 +72,13 @@ public class SuperAutonomous extends SequentialCommandGroup {
                 releaseCargoAndLatch(),
                 new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE)
                         .withTimeout(INTAKE_FIRST_CARGO_TIMEOUT),
-                sycargo().withTimeout(SEEK_CARGO_TIMEOUT),
+                syCargo().withTimeout(SEEK_CARGO_TIMEOUT),
                 new InstantCommand(() -> secondCargoStartTime = Timer.getFPGATimestamp()),
                 new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE)
                         .withTimeout(INTAKE_SECOND_CARGO_TIMEOUT),
                 new InstantCommand(() -> secondCargoFinishTime = Timer.getFPGATimestamp()),
                 returnByHalf().withTimeout(RETURN_HALFWAY_TIMEOUT),
-                sycab().withTimeout(SEEK_HUB_TIMEOUT),
+                seekHub().withTimeout(SEEK_HUB_TIMEOUT),
                 aimToHub(),
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
                 new ReleaseCargo().withTimeout(SECOND_RELEASE_CARGO_TIMEOUT)
@@ -98,10 +98,9 @@ public class SuperAutonomous extends SequentialCommandGroup {
     }
 
     /**
-     * seekHub
      * @return a command that turns the robot until the angle between the limelight and target is small enough
      */
-    private Command sycab() {
+    private Command seekHub() {
         Limelight limelight = drivetrain.getLimelight();
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE).withInterrupt(() ->
                 -SEEK_HUB_TOLERANCE.get() <= limelight.getHorizontalOffsetFromTargetInDegrees() &&
@@ -112,7 +111,7 @@ public class SuperAutonomous extends SequentialCommandGroup {
      * seekCargo
      * @return a command that turns the robot until the limelight sees the hub
      */
-    private DriveArcade sycargo() {
+    private DriveArcade syCargo() {
         return new DriveArcade(drivetrain, () -> 0.0, SEEK_ROTATE_VALUE, () -> (hasCargoTarget() &&
                 Math.abs(MoveToCargoWithIntake.getCargoX() - MoveToCargoWithIntake.SETPOINT) <= SEEK_CARGO_TOLERANCE));
     }
