@@ -4,7 +4,6 @@ import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.IntakeToTransfer;
 
@@ -20,6 +19,11 @@ public class MoveToCargoWithIntake extends ParallelCommandGroup {
         super(new IntakeCargo(false),
                 new DriveArcadeWithPID(drivetrain, MoveToCargoWithIntake::getCargoX, SETPOINT, speed,
                         drivetrain.getCameraPIDSettings()));
+    }
+
+    @Override
+    public boolean isFinished() {
+        return super.isFinished() || IntakeToTransfer.getInstance().getLimit();
     }
 
     /**
@@ -47,10 +51,5 @@ public class MoveToCargoWithIntake extends ParallelCommandGroup {
     private static Namespace getImageProcessingNamespace() {
         RootNamespace imageProcess = new RootNamespace("Image Processing");
         return imageProcess.addChild("contour 0");
-    }
-
-    @Override
-    public boolean isFinished() {
-        return super.isFinished() || IntakeToTransfer.getInstance().getLimit();
     }
 }

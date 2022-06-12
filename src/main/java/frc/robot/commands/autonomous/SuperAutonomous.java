@@ -42,10 +42,10 @@ public class SuperAutonomous extends SequentialCommandGroup {
     public static final double INTAKE_FIRST_CARGO_TIMEOUT = 2.5;
     public static final double INTAKE_SECOND_CARGO_TIMEOUT = 2;
 
-    public static final double SEEK_CARGO_TOLERANCE = 90;
+    public static final double SEEK_CARGO_TOLERANCE = 40;
     public static final double SEEK_CARGO_TIMEOUT = 1;
 
-    public static final double RETURN_HALFWAY_TIMEOUT = 1;
+    public static final double RETURN_HALFWAY_TIMEOUT = 2;
 
     public static final double SEEK_HUB_TIMEOUT = 1;
 
