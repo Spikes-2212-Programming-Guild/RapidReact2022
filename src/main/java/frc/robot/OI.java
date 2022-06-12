@@ -36,6 +36,7 @@ public class OI /* GEVALD */ {
         IntakeToTransfer intakeToTransfer = IntakeToTransfer.getInstance();
         Transfer transfer = Transfer.getInstance();
         ClimberWinch climberWinch = ClimberWinch.getInstance();
+        IntakePlacer intakePlacer = IntakePlacer.getInstance();
 
         JoystickButton trigger = new JoystickButton(right, 1);
         trigger.whileHeld(new ReleaseCargo());
