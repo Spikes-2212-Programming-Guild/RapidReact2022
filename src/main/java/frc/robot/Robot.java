@@ -67,6 +67,9 @@ public class Robot extends TimedRobot {
         autoChooser.close();
     }
 
+    /**
+     * This function is called periodically during autonomous.
+     */
     @Override
     public void autonomousPeriodic() {
     }
