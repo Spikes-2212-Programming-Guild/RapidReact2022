@@ -141,6 +141,5 @@ public class Drivetrain extends TankDrivetrain {
         });
         rootNamespace.putNumber("right talon current", rightTalon::getStatorCurrent);
         rootNamespace.putNumber("left talon current", leftTalon::getStatorCurrent);
-        rootNamespace.putData("drive forward", new DriveTank(this, 1, 1));
     }
 }
