@@ -3,10 +3,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
+import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap;
+import frc.robot.commands.MoveIntakePlacerUp;
+
+import java.util.function.Supplier;
 
 /**
  * Controls the position of the {@code IntakeRoller}.
@@ -15,10 +19,12 @@ import frc.robot.RobotMap;
  */
 public class IntakePlacer extends MotoredGenericSubsystem {
 
-    public static final double MAX_SPEED = 0.5;
-    public static final double MIN_SPEED = -0.1;
-    public static final double SERVO_START_ANGLE = 110;
-    public static final double SERVO_TARGET_ANGLE = 0;
+    public static final double MAX_SPEED = 0.6;
+    public static final double MIN_SPEED = -0.3;
+    public static final double ACTIVE_DROP_SPEED = -0.04;
+    private static final RootNamespace servoNamespace = new RootNamespace("Servo");
+    public static final Supplier<Double> SERVO_START_ANGLE = servoNamespace.addConstantDouble("start angle", 0);
+    public static final Supplier<Double> SERVO_TARGET_ANGLE = servoNamespace.addConstantDouble("target angle", 180);
 
     private static IntakePlacer instance;
 
@@ -60,15 +66,17 @@ public class IntakePlacer extends MotoredGenericSubsystem {
      */
     @Override
     public boolean canMove(double speed) {
-        return !(isDown() && speed < 0) && !(isUp() && speed > 0);
+        return !(isDown() && speed < 0);// && !(isUp() && speed > 0);
     }
 
     @Override
     public void configureDashboard() {
         rootNamespace.putData("move intake down", new MoveGenericSubsystem(this, MIN_SPEED));
-        rootNamespace.putData("move intake up", new MoveGenericSubsystem(this, MAX_SPEED));
-        rootNamespace.putData("move servo", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE)));
-        rootNamespace.putData("reset servo", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE)));
+        rootNamespace.putData("move intake up", new MoveIntakePlacerUp());
+        rootNamespace.putData("move servo to target", new InstantCommand(() -> setServoAngle(SERVO_TARGET_ANGLE.get())));
+        rootNamespace.putData("move servo to start", new InstantCommand(() -> setServoAngle(SERVO_START_ANGLE.get())));
+        rootNamespace.putBoolean("down limit", this::isDown);
+        rootNamespace.putBoolean("up limit", this::isUp);
     }
 
     public void setServoAngle(double angle) {
@@ -76,7 +84,7 @@ public class IntakePlacer extends MotoredGenericSubsystem {
     }
 
     public boolean isUp() {
-        return upperLimit.get();
+        return !upperLimit.get();
     }
 
     public boolean isDown() {

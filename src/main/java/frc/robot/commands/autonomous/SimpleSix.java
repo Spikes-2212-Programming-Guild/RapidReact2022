@@ -17,13 +17,14 @@ public class SimpleSix extends SequentialCommandGroup {
     public static final double DRIVE_UNTIL_HIT_HUB_TIMEOUT = 3;
     public static final double RELEASE_CARGO_TIMEOUT = 3;
 
-    public SimpleSix(Drivetrain drivetrain) {
-        super(
+    public SimpleSix() {
+        Drivetrain drivetrain = Drivetrain.getInstance();
+        addCommands(
                 new ParallelCommandGroup(
-                        new IntakeCargo(),
-                        new DriveArcade(drivetrain, MoveToCargo.CARGO_MOVE_VALUE, () -> 0.0)
+                        new IntakeCargo(false),
+                        new DriveArcade(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE, 0.0)
                                 .withInterrupt(IntakeToTransfer.getInstance()::getLimit)
-                ).withTimeout(MoveToCargo.MOVE_TO_CARGO_TIMEOUT),
+                ).withTimeout(GyroAutonomous.MOVE_TO_CARGO_TIMEOUT),
                 new DriveUntilHitHub(drivetrain).withTimeout(DRIVE_UNTIL_HIT_HUB_TIMEOUT),
                 new ReleaseCargo().withTimeout(RELEASE_CARGO_TIMEOUT),
                 new DriveArcade(drivetrain, RETREAT_DRIVE_SPEED, RETREAT_DRIVE_ROTATE)

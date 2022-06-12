@@ -19,16 +19,12 @@ public class RobotMap {
         int TRANSFER_STRAP_VICTOR_1 = 8;
         int TRANSFER_STRAP_VICTOR_2 = 9;
 
-        int CLIMBER_WINCH_SPARK_MAX_1 = 12;
+        int CLIMBER_WINCH_SPARK_MAX_1 = 10;
         int CLIMBER_WINCH_SPARK_MAX_2 = 11;
+
     }
 
     public interface DIO {
-
-        int DRIVETRAIN_LEFT_ENCODER_POS = 4;
-        int DRIVETRAIN_LEFT_ENCODER_NEG = 5;
-        int DRIVETRAIN_RIGHT_ENCODER_POS = 6;
-        int DRIVETRAIN_RIGHT_ENCODER_NEG = 7;
 
         int INTAKE_PLACER_UPPER_LIMIT = 0;
         int INTAKE_PLACER_LOWER_LIMIT = 1;
@@ -40,6 +36,6 @@ public class RobotMap {
 
     public interface PWM {
 
-        int INTAKE_PLACER_SERVO = 5;
+        int INTAKE_PLACER_SERVO = 4;
     }
 }

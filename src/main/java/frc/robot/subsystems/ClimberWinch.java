@@ -18,14 +18,17 @@ import java.util.function.Supplier;
  */
 public class ClimberWinch extends MotoredGenericSubsystem {
 
-    public static final double UP_SPEED = 0.25;
-    public static final double DOWN_SPEED = -0.5;
+    public static final double UP_SPEED = -0.7;
+    public static final double DOWN_SPEED = 0.7;
 
+    //@todo calibrate needed values
     public final Supplier<Double> ENCODER_UP_LIMIT =
-            rootNamespace.addConstantDouble("encoder up limit", 90);
+            rootNamespace.addConstantDouble("encoder up limit", 65);
     public final Supplier<Double> ENCODER_DOWN_LIMIT =
-            rootNamespace.addConstantDouble("encoder down limit", -30);
+            rootNamespace.addConstantDouble("encoder down limit", 2);
 
+    private final CANSparkMax left;
+    private final CANSparkMax right;
     private final Namespace pidNamespace = rootNamespace.addChild("pid");
     private final Supplier<Double> kP = pidNamespace.addConstantDouble("kP", 1);
     private final Supplier<Double> kI = pidNamespace.addConstantDouble("kI", 0);
@@ -55,16 +58,22 @@ public class ClimberWinch extends MotoredGenericSubsystem {
     }
 
     private ClimberWinch(CANSparkMax leftWinch, CANSparkMax rightWinch) {
-        super(DOWN_SPEED, UP_SPEED, "climber winch", leftWinch, rightWinch);
-        leftWinch.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        rightWinch.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        encoder = rightWinch.getEncoder();
+        super(UP_SPEED, DOWN_SPEED, "climber winch", leftWinch, rightWinch);
+        left = leftWinch;
+        right = rightWinch;
+        left.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        right.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        encoder = left.getEncoder();
     }
 
     @Override
     public boolean canMove(double speed) {
-        return (speed > 0 && encoder.getPosition() < ENCODER_UP_LIMIT.get()) ||
-                (speed < 0 && encoder.getPosition() > ENCODER_DOWN_LIMIT.get());
+        return (speed < 0 && encoder.getPosition() > ENCODER_UP_LIMIT.get()) ||
+                (speed > 0 && encoder.getPosition() < ENCODER_DOWN_LIMIT.get());
+    }
+
+    public void moveUsingApply(double speed) {
+        apply(speed);
     }
 
     public void resetEncoder() {
@@ -73,6 +82,18 @@ public class ClimberWinch extends MotoredGenericSubsystem {
 
     @Override
     public void configureDashboard() {
+        rootNamespace.putData("close forever", new MoveGenericSubsystem(this, DOWN_SPEED) {
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
+        rootNamespace.putData("open forever", new MoveGenericSubsystem(this, UP_SPEED) {
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+        });
         rootNamespace.putData("close telescopic", new MoveGenericSubsystem(this, DOWN_SPEED));
         rootNamespace.putData("open telescopic", new MoveGenericSubsystem(this, UP_SPEED));
         rootNamespace.putData("reset encoder", new InstantCommand(this::resetEncoder));
