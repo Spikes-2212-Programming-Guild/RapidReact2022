@@ -9,6 +9,7 @@ import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.BustedMotorControllerGroup;
+import com.spikes2212.util.Limelight;
 import com.spikes2212.util.PigeonWrapper;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -124,6 +125,11 @@ public class Drivetrain extends TankDrivetrain {
 
     public FeedForwardSettings getFFSettings() {
         return ffSettings;
+    }
+
+    // @todo: make real method
+    public Limelight getLimelight() {
+        return null;
     }
 
     /**
