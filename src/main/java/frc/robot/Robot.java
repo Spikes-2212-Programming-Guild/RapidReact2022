@@ -118,13 +118,7 @@ public class Robot extends TimedRobot {
 
     private void namespaceSetup() {
         rootNamespace = new RootNamespace("robot namespace");
-        rootNamespace.putData("intake cargo", new IntakeCargo(false));
-        rootNamespace.putData("release cargo", new ReleaseCargo());
-        rootNamespace.putData("drive forward", new DriveArcade(drivetrain, 0.5, 0));
-        rootNamespace.putData("drive backward", new DriveArcade(drivetrain, -0.5, 0));
-        rootNamespace.putData("move to cargo", new MoveToCargoWithIntake(drivetrain, MoveToCargoWithIntake.CARGO_MOVE_VALUE));
         rootNamespace.putBoolean("is in auto", false);
-        rootNamespace.putNumber("move to cargo source", MoveToCargoWithIntake::getCargoX);
     }
 
     private void autoChooserSetup() {
