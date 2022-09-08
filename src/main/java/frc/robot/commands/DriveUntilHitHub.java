@@ -8,7 +8,7 @@ import frc.robot.subsystems.Drivetrain;
 import java.util.function.Supplier;
 
 /**
- * Drives the robot forward until it hits the hub. Robot needs to be pre aligned to the hub.
+ * Drives the robot backwards until it hits the hub. Robot needs to be pre aligned to the hub.
  */
 public class DriveUntilHitHub extends SequentialCommandGroup {
 
