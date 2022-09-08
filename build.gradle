@@ -2,7 +2,7 @@ import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
 
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2022.3.1"
+    id "edu.wpi.first.GradleRIO" version "2022.4.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -49,9 +49,6 @@ def includeDesktopSupport = false
 
 
 repositories {
-    maven {
-        url "https://jitpack.io"
-    }
     mavenCentral()
 }
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
@@ -75,8 +72,6 @@ dependencies {
     simulationRelease wpi.sim.enableRelease()
 
     testImplementation 'junit:junit:4.13.2'
-    implementation 'com.github.Spikes-2212-Programming-Guild:SpikesLib2:master-SNAPSHOT'
-
 }
 
 // Simulation configuration (e.g. environment variables).
